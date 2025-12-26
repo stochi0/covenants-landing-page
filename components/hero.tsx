@@ -8,7 +8,7 @@ export function Hero() {
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 mb-8 text-xs font-medium bg-muted rounded-full">
             <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-            Serving 100+ Network Partners
+            100+ Network Partners
           </div>
           
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
