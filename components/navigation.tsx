@@ -8,7 +8,7 @@ export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-border">
+    <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
@@ -39,7 +39,7 @@ export function Navigation() {
             </Link>
             <Link
               href="#contact"
-              className="text-sm px-4 py-2 bg-foreground text-background rounded-full hover:bg-foreground/90 transition-colors"
+              className="text-sm px-4 py-2 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
             >
               Get Started
             </Link>
@@ -81,7 +81,7 @@ export function Navigation() {
             </Link>
             <Link
               href="#contact"
-              className="block text-sm px-4 py-2 bg-foreground text-background rounded-full hover:bg-foreground/90 transition-colors text-center"
+              className="block text-sm px-4 py-2 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors text-center"
               onClick={() => setIsOpen(false)}
             >
               Get Started

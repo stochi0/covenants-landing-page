@@ -64,9 +64,9 @@ export function Services() {
           {services.map((service, index) => (
             <div
               key={index}
-              className="group p-8 border border-border rounded-2xl hover:border-foreground/20 hover:shadow-lg transition-all"
+              className="group p-8 border border-border rounded-2xl hover:border-primary/30 hover:shadow-lg transition-all"
             >
-              <div className="w-12 h-12 bg-muted rounded-xl flex items-center justify-center mb-6 group-hover:bg-foreground group-hover:text-background transition-colors">
+              <div className="w-12 h-12 bg-muted rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                 <service.icon className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
@@ -77,7 +77,7 @@ export function Services() {
                     key={featureIndex}
                     className="flex items-center text-sm text-muted-foreground"
                   >
-                    <span className="w-1 h-1 bg-foreground rounded-full mr-3" />
+                    <span className="w-1 h-1 bg-primary rounded-full mr-3" />
                     {feature}
                   </li>
                 ))}

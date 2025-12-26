@@ -54,7 +54,7 @@ export function Products() {
         </div>
 
         <div className="mt-12 text-center">
-          <button className="px-6 py-3 border border-border rounded-full hover:bg-muted transition-colors">
+          <button className="px-6 py-3 border border-border rounded-full hover:bg-accent transition-colors">
             View Full Catalog
           </button>
         </div>

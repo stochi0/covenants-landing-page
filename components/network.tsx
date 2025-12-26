@@ -17,7 +17,7 @@ export function Network() {
               Powered by a Global Network
             </h2>
             <p className="text-lg text-muted-foreground mb-8">
-              We've built relationships with 100+ manufacturing partners worldwide, 
+              We&apos;ve built relationships with 100+ manufacturing partners worldwide, 
               providing you with unparalleled access to capacity, capability, and expertise.
             </p>
             <div className="grid grid-cols-2 gap-4">
@@ -26,8 +26,8 @@ export function Network() {
                   key={index}
                   className="flex items-start gap-2"
                 >
-                  <div className="w-5 h-5 rounded-full bg-foreground/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <div className="w-2 h-2 rounded-full bg-foreground" />
+                  <div className="w-5 h-5 rounded-full bg-primary/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <div className="w-2 h-2 rounded-full bg-primary" />
                   </div>
                   <span className="text-sm">{capability}</span>
                 </div>
