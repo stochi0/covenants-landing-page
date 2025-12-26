@@ -1,10 +1,14 @@
 import { Navigation } from "@/components/navigation";
 import { Hero } from "@/components/hero";
 import { Stats } from "@/components/stats";
-import { Services } from "@/components/services";
-import { Products } from "@/components/products";
-import { Network } from "@/components/network";
-import { CTA } from "@/components/cta";
+import { Intersect } from "@/components/intersect";
+import { ResearchAndDevelopment } from "@/components/research-and-development";
+import { ManufacturingCapabilities } from "@/components/manufacturing-capabilities";
+import { AtomsPlatform } from "@/components/atoms-platform";
+import { Industries } from "@/components/industries";
+import { Investors } from "@/components/investors";
+import { Resources } from "@/components/resources";
+import { PartnerWithUs } from "@/components/partner-with-us";
 import { Footer } from "@/components/footer";
 
 export default function Home() {
@@ -14,10 +18,14 @@ export default function Home() {
       <main>
         <Hero />
         <Stats />
-        <Services />
-        <Products />
-        <Network />
-        <CTA />
+        <Intersect />
+        <ResearchAndDevelopment />
+        <ManufacturingCapabilities />
+        <AtomsPlatform />
+        <Industries />
+        <Investors />
+        <Resources />
+        <PartnerWithUs />
       </main>
       <Footer />
     </div>

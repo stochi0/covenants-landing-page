@@ -20,28 +20,40 @@ export function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             <Link
-              href="#services"
+              href="#rd"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
-              Services
+              R&amp;D
             </Link>
             <Link
-              href="#products"
+              href="#manufacturing"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
-              Products
+              Manufacturing
             </Link>
             <Link
-              href="#network"
+              href="#atoms"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
-              Network
+              ATOMS
             </Link>
             <Link
-              href="#contact"
+              href="#industries"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Industries
+            </Link>
+            <Link
+              href="#resources"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Resources
+            </Link>
+            <Link
+              href="#partner"
               className="text-sm px-4 py-2 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
             >
-              Get Started
+              Get in touch
             </Link>
           </div>
 
@@ -59,32 +71,46 @@ export function Navigation() {
         {isOpen && (
           <div className="md:hidden py-4 space-y-4">
             <Link
-              href="#services"
+              href="#rd"
               className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
               onClick={() => setIsOpen(false)}
             >
-              Services
+              R&amp;D
             </Link>
             <Link
-              href="#products"
+              href="#manufacturing"
               className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
               onClick={() => setIsOpen(false)}
             >
-              Products
+              Manufacturing
             </Link>
             <Link
-              href="#network"
+              href="#atoms"
               className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
               onClick={() => setIsOpen(false)}
             >
-              Network
+              ATOMS
             </Link>
             <Link
-              href="#contact"
+              href="#industries"
+              className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              Industries
+            </Link>
+            <Link
+              href="#resources"
+              className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              Resources
+            </Link>
+            <Link
+              href="#partner"
               className="block text-sm px-4 py-2 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors text-center"
               onClick={() => setIsOpen(false)}
             >
-              Get Started
+              Get in touch
             </Link>
           </div>
         )}
