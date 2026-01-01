@@ -8,7 +8,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-12 gap-10 mb-12">
           <div className="lg:col-span-4">
-            <h3 className="font-semibold text-lg mb-3">Covenants PharmaChem LLP.</h3>
+            <h3 className="font-semibold text-lg mb-3">Covenants PharmaChem LLP</h3>
             <p className="text-sm text-muted-foreground mb-5">
               Expanding horizons in APIs, intermediates &amp; specialty chemicals—powered by our
               network, expertise and technology.
@@ -141,8 +141,7 @@ export function Footer() {
 
         <div className="pt-8 border-t border-border">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-sm text-muted-foreground">
-            <p>© {new Date().getFullYear()} Covenants PharmaChem LLP. All rights reserved.</p>
-            <div className="text-xs">Powered by Odoo - The #1 Open Source eCommerce</div>
+            <p>© {new Date().getFullYear()} Covenants PharmaChem LLP All rights reserved.</p>
           </div>
         </div>
       </div>

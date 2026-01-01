@@ -13,7 +13,7 @@ export function Navigation() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link href="/" className="text-xl font-semibold tracking-tight">
-              Covenants PharmaChem LLP.
+              Covenants PharmaChem LLP
             </Link>
           </div>
 
