@@ -13,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Covenants PharmaChem - APIs, Intermediates & Specialty Chemicals",
-  description: "Your trusted supply chain partner for pharmaceutical chemicals. Leveraging our network, expertise, and technology to drive sustainable growth.",
+  title: "Covenants PharmaChem LLP. - APIs, Intermediates & Specialty Chemicals",
+  description:
+    "Expanding horizons in APIs, intermediates & specialty chemicals. Covenants promises to become your trusted supply chain partner—leveraging our network, expertise and technology to drive sustainable growth.",
 };
 
 export default function RootLayout({

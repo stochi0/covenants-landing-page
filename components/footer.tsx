@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Linkedin } from "lucide-react";
+import { Linkedin, MessageCircle } from "lucide-react";
+import { CONTACT } from "@/lib/contact";
 
 export function Footer() {
   return (
@@ -7,27 +8,41 @@ export function Footer() {
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-12 gap-10 mb-12">
           <div className="lg:col-span-4">
-            <h3 className="font-semibold text-lg mb-3">Covenants PharmaChem</h3>
+            <h3 className="font-semibold text-lg mb-3">Covenants PharmaChem LLP.</h3>
             <p className="text-sm text-muted-foreground mb-5">
-              Integrating scientific research, precision manufacturing, and digital technology to
-              redefine specialty chemicals.
+              Expanding horizons in APIs, intermediates &amp; specialty chemicals—powered by our
+              network, expertise and technology.
             </p>
 
-            <div className="text-sm font-medium mb-2">Certified</div>
-            <div className="flex flex-wrap gap-2 mb-6">
-              {["ISO 9001:2015", "ISO 14001:2015", "ISO 45001:2018", "ISO 27001:2022"].map((c) => (
-                <span
-                  key={c}
-                  className="px-3 py-1 text-xs font-medium rounded-full border border-border bg-muted/30"
+            <div className="text-sm font-medium mb-2">Address</div>
+            <div className="text-sm text-muted-foreground mb-5">
+              {CONTACT.address}
+            </div>
+
+            <div className="text-sm font-medium mb-2">Contact</div>
+            <div className="text-sm text-muted-foreground mb-6">
+              <div>
+                <Link href={CONTACT.telHrefs[0]} className="hover:text-foreground transition-colors">
+                  {CONTACT.phones[0]}
+                </Link>{" "}
+                /{" "}
+                <Link href={CONTACT.telHrefs[1]} className="hover:text-foreground transition-colors">
+                  {CONTACT.phones[1]}
+                </Link>
+              </div>
+              <div>
+                <Link
+                  href={`mailto:${CONTACT.email}`}
+                  className="hover:text-foreground transition-colors"
                 >
-                  {c}
-                </span>
-              ))}
+                  {CONTACT.email}
+                </Link>
+              </div>
             </div>
 
             <div className="flex gap-4">
               <Link
-                href="https://www.linkedin.com/company/covenants-pharmachem"
+                href={CONTACT.linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full border border-border flex items-center justify-center hover:bg-muted transition-colors"
@@ -36,46 +51,29 @@ export function Footer() {
                 <Linkedin className="w-4 h-4" />
               </Link>
               <Link
-                href="mailto:info@scimplify.com"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors self-center"
+                href={CONTACT.whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full border border-border flex items-center justify-center hover:bg-muted transition-colors"
+                aria-label="WhatsApp"
               >
-                info@scimplify.com
+                <MessageCircle className="w-4 h-4" />
               </Link>
             </div>
           </div>
 
           <div className="lg:col-span-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             <div>
-              <h4 className="font-medium mb-4">Industries</h4>
+              <h4 className="font-medium mb-4">Company</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
-                  <Link href="#industries" className="hover:text-foreground transition-colors">
-                    Pharmaceutical
+                  <Link href="#about" className="hover:text-foreground transition-colors">
+                    About us
                   </Link>
                 </li>
                 <li>
-                  <Link href="#industries" className="hover:text-foreground transition-colors">
-                    Agrochemicals
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#industries" className="hover:text-foreground transition-colors">
-                    Flavors &amp; Fragrances
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#industries" className="hover:text-foreground transition-colors">
-                    Industrial Chemicals
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#industries" className="hover:text-foreground transition-colors">
-                    Beauty &amp; Personal Care
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#industries" className="hover:text-foreground transition-colors">
-                    Food &amp; Nutrition
+                  <Link href="#why" className="hover:text-foreground transition-colors">
+                    Why Covenants?
                   </Link>
                 </li>
               </ul>
@@ -85,45 +83,55 @@ export function Footer() {
               <h4 className="font-medium mb-4">Services</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
-                  <Link href="#manufacturing" className="hover:text-foreground transition-colors">
-                    CMO
+                  <Link href="#services" className="hover:text-foreground transition-colors">
+                    Services through network partners
                   </Link>
                 </li>
                 <li>
-                  <Link href="#rd" className="hover:text-foreground transition-colors">
-                    CRO
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-medium mb-4">Resources</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>
-                  <Link href="#resources" className="hover:text-foreground transition-colors">
-                    Blogs
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#resources" className="hover:text-foreground transition-colors">
-                    Events
+                  <Link href="#scm" className="hover:text-foreground transition-colors">
+                    SCM services
                   </Link>
                 </li>
               </ul>
             </div>
 
             <div>
-              <h4 className="font-medium mb-4">Platform</h4>
+              <h4 className="font-medium mb-4">Products</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
-                  <Link href="#atoms" className="hover:text-foreground transition-colors">
-                    ATOMS
+                  <Link href="#products" className="hover:text-foreground transition-colors">
+                    API
                   </Link>
                 </li>
                 <li>
-                  <Link href="#partner" className="hover:text-foreground transition-colors">
-                    Partner with us
+                  <Link href="#products" className="hover:text-foreground transition-colors">
+                    Intermediate
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#products" className="hover:text-foreground transition-colors">
+                    Speciality chemicals
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#products" className="hover:text-foreground transition-colors">
+                    Impurities
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-medium mb-4">Contact</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li>
+                  <Link href="#contact" className="hover:text-foreground transition-colors">
+                    Contact us
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#contact" className="hover:text-foreground transition-colors">
+                    Let us connect!
                   </Link>
                 </li>
               </ul>
@@ -133,11 +141,8 @@ export function Footer() {
 
         <div className="pt-8 border-t border-border">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-sm text-muted-foreground">
-            <p>© 2025 Covenants PharmaChem. All rights reserved.</p>
-            <div className="text-xs">
-              <div>COCREATE GLOBAL TECHNOLOGIES PRIVATE LIMITED (CIN: U21009KA2023PTC179006)</div>
-              <div>2nd Floor, FFK Tower, 445, 17th Cross Rd, Sector 4, HSR Layout, Bengaluru, Karnataka 560102</div>
-            </div>
+            <p>© {new Date().getFullYear()} Covenants PharmaChem LLP. All rights reserved.</p>
+            <div className="text-xs">Powered by Odoo - The #1 Open Source eCommerce</div>
           </div>
         </div>
       </div>

@@ -13,47 +13,47 @@ export function Navigation() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link href="/" className="text-xl font-semibold tracking-tight">
-              Covenants PharmaChem
+              Covenants PharmaChem LLP.
             </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             <Link
-              href="#rd"
+              href="#about"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
-              R&amp;D
+              About us
             </Link>
             <Link
-              href="#manufacturing"
+              href="#services"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
-              Manufacturing
+              Services
             </Link>
             <Link
-              href="#atoms"
+              href="#products"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
-              ATOMS
+              Products
             </Link>
             <Link
-              href="#industries"
+              href="#why"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
-              Industries
+              Why Covenants?
             </Link>
             <Link
-              href="#resources"
+              href="#contact"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
-              Resources
+              Contact us
             </Link>
             <Link
-              href="#partner"
+              href="#contact"
               className="text-sm px-4 py-2 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
             >
-              Get in touch
+              Let us connect!
             </Link>
           </div>
 
@@ -71,46 +71,46 @@ export function Navigation() {
         {isOpen && (
           <div className="md:hidden py-4 space-y-4">
             <Link
-              href="#rd"
+              href="#about"
               className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
               onClick={() => setIsOpen(false)}
             >
-              R&amp;D
+              About us
             </Link>
             <Link
-              href="#manufacturing"
+              href="#services"
               className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
               onClick={() => setIsOpen(false)}
             >
-              Manufacturing
+              Services
             </Link>
             <Link
-              href="#atoms"
+              href="#products"
               className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
               onClick={() => setIsOpen(false)}
             >
-              ATOMS
+              Products
             </Link>
             <Link
-              href="#industries"
+              href="#why"
               className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
               onClick={() => setIsOpen(false)}
             >
-              Industries
+              Why Covenants?
             </Link>
             <Link
-              href="#resources"
+              href="#contact"
               className="block text-sm text-muted-foreground hover:text-foreground transition-colors"
               onClick={() => setIsOpen(false)}
             >
-              Resources
+              Contact us
             </Link>
             <Link
-              href="#partner"
+              href="#contact"
               className="block text-sm px-4 py-2 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors text-center"
               onClick={() => setIsOpen(false)}
             >
-              Get in touch
+              Let us connect!
             </Link>
           </div>
         )}

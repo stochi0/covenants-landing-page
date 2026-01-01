@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useMemo, useState } from "react";
+import { CONTACT } from "@/lib/contact";
 
 export function PartnerWithUs() {
   const [form, setForm] = useState({
@@ -27,40 +27,37 @@ export function PartnerWithUs() {
       form.message,
     ].join("\n");
 
-    return `mailto:info@scimplify.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    return `mailto:${CONTACT.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }, [form]);
 
   return (
-    <section id="partner" className="py-24 px-4 sm:px-6 lg:px-8">
+    <section id="contact" className="py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="relative overflow-hidden rounded-3xl bg-card text-card-foreground border border-border p-10 sm:p-12 lg:p-16">
           <div className="relative z-10 grid lg:grid-cols-2 gap-12">
             <div>
               <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-                Find Your Perfect Chemical Solution
+                Let us connect !
               </h2>
               <p className="text-lg text-muted-foreground mb-8">
-                Simplifying your supply chain experience—share what you’re looking for and we’ll
-                guide you to the right product or partner.
+                Share what you’re looking for—services, products, or SCM support—and we’ll connect
+                you with the right solution through our network.
               </p>
 
               <div className="space-y-4">
                 {[
                   {
-                    title: "Expert Guidance",
-                    description: "Backed by 10+ patents and decades of experience.",
+                    title: "Services Through Network Partners",
+                    description:
+                      "Contract manufacturing, development, scale-up, analytics, impurity synthesis, and FTE support.",
                   },
                   {
-                    title: "Customized Solutions",
-                    description: "Tailored support for your unique needs.",
+                    title: "SCM services",
+                    description: "End to End Supply Chain Services tailored to your business needs.",
                   },
                   {
-                    title: "Global Reach",
-                    description: "Delivering to 15+ countries.",
-                  },
-                  {
-                    title: "Extensive products range",
-                    description: "With over 3000 specialty chemicals in diverse industries.",
+                    title: "Product Offerings",
+                    description: "API, Intermediate, Speciality chemicals, and Impurities.",
                   },
                 ].map((item) => (
                   <div
@@ -83,37 +80,37 @@ export function PartnerWithUs() {
                   window.location.href = mailtoHref;
                 }}
               >
-                <label className="grid gap-2">
+                <label className="grid gap-2 min-w-0">
                   <span className="text-xs font-medium text-muted-foreground">Name*</span>
                   <input
                     required
                     name="name"
-                    className="h-11 px-4 rounded-xl border border-input bg-background"
+                    className="h-11 w-full px-4 rounded-xl border border-input bg-background"
                     placeholder="Your name"
                     value={form.name}
                     onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
                   />
                 </label>
 
-                <label className="grid gap-2">
+                <label className="grid gap-2 min-w-0">
                   <span className="text-xs font-medium text-muted-foreground">Work Email*</span>
                   <input
                     required
                     name="email"
                     type="email"
-                    className="h-11 px-4 rounded-xl border border-input bg-background"
+                    className="h-11 w-full px-4 rounded-xl border border-input bg-background"
                     placeholder="name@company.com"
                     value={form.email}
                     onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
                   />
                 </label>
 
-                <label className="grid gap-2">
+                <label className="grid gap-2 min-w-0">
                   <span className="text-xs font-medium text-muted-foreground">Country*</span>
                   <select
                     required
                     name="country"
-                    className="h-11 px-4 rounded-xl border border-input bg-background"
+                    className="h-11 w-full px-4 rounded-xl border border-input bg-background"
                     value={form.country}
                     onChange={(e) => setForm((p) => ({ ...p, country: e.target.value }))}
                   >
@@ -127,54 +124,55 @@ export function PartnerWithUs() {
                   </select>
                 </label>
 
-                <label className="grid gap-2">
+                <label className="grid gap-2 min-w-0">
                   <span className="text-xs font-medium text-muted-foreground">Company Name*</span>
                   <input
                     required
                     name="company"
-                    className="h-11 px-4 rounded-xl border border-input bg-background"
+                    className="h-11 w-full px-4 rounded-xl border border-input bg-background"
                     placeholder="Company"
                     value={form.company}
                     onChange={(e) => setForm((p) => ({ ...p, company: e.target.value }))}
                   />
                 </label>
 
-                <label className="grid gap-2">
+                <label className="grid gap-2 min-w-0">
                   <span className="text-xs font-medium text-muted-foreground">Phone number*</span>
                   <input
                     required
                     name="phone"
-                    className="h-11 px-4 rounded-xl border border-input bg-background"
+                    className="h-11 w-full px-4 rounded-xl border border-input bg-background"
                     placeholder="+91 ..."
                     value={form.phone}
                     onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
                   />
                 </label>
 
-                <label className="grid gap-2">
+                <label className="grid gap-2 min-w-0">
                   <span className="text-xs font-medium text-muted-foreground">Looking For</span>
                   <select
                     name="lookingFor"
-                    className="h-11 px-4 rounded-xl border border-input bg-background"
+                    className="h-11 w-full px-4 rounded-xl border border-input bg-background"
                     value={form.lookingFor}
                     onChange={(e) =>
                       setForm((p) => ({ ...p, lookingFor: e.target.value }))
                     }
                   >
                     <option value="Products">Products</option>
-                    <option value="Chemistries">Chemistries</option>
-                    <option value="R&D">R&amp;D</option>
-                    <option value="Manufacturing">Manufacturing</option>
-                    <option value="ATOMS">ATOMS</option>
+                    <option value="Services Through Network Partners">
+                      Services Through Network Partners
+                    </option>
+                    <option value="SCM services">SCM services</option>
+                    <option value="General">General</option>
                   </select>
                 </label>
 
-                <label className="grid gap-2 sm:col-span-2">
+                <label className="grid gap-2 sm:col-span-2 min-w-0">
                   <span className="text-xs font-medium text-muted-foreground">Message</span>
                   <textarea
                     name="message"
                     rows={5}
-                    className="p-4 rounded-xl border border-input bg-background resize-none"
+                    className="w-full p-4 rounded-xl border border-input bg-background resize-none"
                     placeholder="Tell us what you need..."
                     value={form.message}
                     onChange={(e) => setForm((p) => ({ ...p, message: e.target.value }))}
@@ -187,16 +185,6 @@ export function PartnerWithUs() {
                 >
                   Submit
                 </button>
-
-                <div className="sm:col-span-2 text-xs text-muted-foreground">
-                  Prefer email?{" "}
-                  <Link
-                    href="mailto:info@scimplify.com"
-                    className="underline underline-offset-4 hover:text-foreground transition-colors"
-                  >
-                    info@scimplify.com
-                  </Link>
-                </div>
               </form>
             </div>
           </div>

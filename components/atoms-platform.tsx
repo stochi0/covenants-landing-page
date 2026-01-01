@@ -4,34 +4,38 @@ import Link from "next/link";
 export function AtomsPlatform() {
   const features = [
     {
-      title: "Seamless collaboration",
-      description: "Collaborate efficiently with suppliers through integrated contracts.",
+      title: "API",
+      description: "Active Pharmaceutical Ingredients (API)",
     },
     {
-      title: "Real-time tracking",
-      description: "Gain end-to-end visibility with real-time order tracking.",
+      title: "Intermediate",
+      description: "Key synthesis intermediates across multiple routes",
     },
     {
-      title: "Automated procurement",
-      description: "Streamline processes and eliminate inefficiencies with automation.",
+      title: "Speciality chemicals",
+      description: "Specialty chemicals for diverse applications",
+    },
+    {
+      title: "Impurities",
+      description: "Impurities and related offerings",
     },
   ];
 
   return (
-    <section id="atoms" className="py-24 px-4 sm:px-6 lg:px-8 bg-muted/30">
+    <section id="products" className="py-24 px-4 sm:px-6 lg:px-8 bg-muted/30">
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 mb-6 text-xs font-medium bg-background border border-border rounded-full">
               <span className="w-1.5 h-1.5 bg-primary rounded-full" />
-              Our platform
+              Products Offerings
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-              Access Top Manufacturers of Specialty Chemicals through ATOMS
+              APIs, Intermediates &amp; Specialty Chemicals
             </h2>
             <p className="text-lg text-muted-foreground mb-8">
-              Tap into production capabilities via a trusted partner network, with visibility and
-              automation across the supply chain.
+              Explore our core product offerings across APIs, intermediates, speciality chemicals,
+              and impurities.
             </p>
 
             <div className="space-y-4 mb-10">
@@ -48,16 +52,16 @@ export function AtomsPlatform() {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
-                href="#partner"
+                href="#contact"
                 className="inline-flex items-center justify-center px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
               >
-                Explore more
+                Request a quote
               </Link>
               <Link
-                href="#partner"
+                href="#contact"
                 className="inline-flex items-center justify-center px-6 py-3 border border-border rounded-full hover:bg-accent transition-colors"
               >
-                Find your product
+                Ask about availability
               </Link>
             </div>
           </div>
@@ -66,7 +70,7 @@ export function AtomsPlatform() {
             <div className="rounded-3xl border border-border bg-card overflow-hidden">
               <Image
                 src="/illustrations/atoms.svg"
-                alt="ATOMS platform illustration"
+                alt="Product offerings"
                 width={1200}
                 height={800}
                 className="w-full h-auto"

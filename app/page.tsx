@@ -7,7 +7,6 @@ import { ManufacturingCapabilities } from "@/components/manufacturing-capabiliti
 import { AtomsPlatform } from "@/components/atoms-platform";
 import { Industries } from "@/components/industries";
 import { Investors } from "@/components/investors";
-import { Resources } from "@/components/resources";
 import { PartnerWithUs } from "@/components/partner-with-us";
 import { Footer } from "@/components/footer";
 
@@ -24,7 +23,6 @@ export default function Home() {
         <AtomsPlatform />
         <Industries />
         <Investors />
-        <Resources />
         <PartnerWithUs />
       </main>
       <Footer />

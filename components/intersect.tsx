@@ -8,32 +8,32 @@ export function Intersect() {
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 mb-6 text-xs font-medium bg-muted rounded-full">
               <span className="w-1.5 h-1.5 bg-primary rounded-full" />
-              Intersect
+              Covenants PharmaChem LLP.
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-              Your Trusted Partner from R&amp;D to Large-Scale Manufacturing
+              Network partners capacity &amp; capability
             </h2>
             <p className="text-lg text-muted-foreground mb-8">
-              Leverage research and manufacturing services; seamlessly integrating R&amp;D with
-              commercial manufacturing to navigate complex chemical development with ease.
+              Access the right capabilities faster through our network—covering custom manufacturing,
+              custom research, and product sourcing.
             </p>
             <div className="grid sm:grid-cols-2 gap-4">
               {[
                 {
-                  title: "R&amp;D-first approach",
-                  description: "Move from concept to route design to validation faster.",
+                  title: "Customs Manufacturing",
+                  description: "Contract manufacturing support through our partner network.",
                 },
                 {
-                  title: "Scale with confidence",
-                  description: "From gram-scale to commercial production with quality control.",
+                  title: "Custom Research",
+                  description: "R&amp;D services including methods and impurity synthesis.",
                 },
                 {
-                  title: "Integrated transition",
-                  description: "Make it easier to move from lab to plant with fewer handoffs.",
+                  title: "Products",
+                  description: "APIs, intermediates, speciality chemicals and impurities.",
                 },
                 {
-                  title: "Global execution",
-                  description: "Coordinate partners, documentation, and tracking end-to-end.",
+                  title: "SCM services",
+                  description: "End-to-end supply chain services tailored to your needs.",
                 },
               ].map((item) => (
                 <div
@@ -54,7 +54,7 @@ export function Intersect() {
             <div className="rounded-3xl border border-border bg-card overflow-hidden">
               <Image
                 src="/illustrations/lab.svg"
-                alt="R&D illustration"
+                alt="Network partners capacity & capability"
                 width={1200}
                 height={800}
                 className="w-full h-auto"

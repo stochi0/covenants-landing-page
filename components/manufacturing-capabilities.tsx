@@ -4,33 +4,33 @@ import Link from "next/link";
 export function ManufacturingCapabilities() {
   const highlights = [
     {
-      title: "High-precision manufacturing",
-      description: "From gram-scale to full-scale commercial production.",
+      title: "Sourcing",
+      description: "Supplier discovery and sourcing support through our network.",
     },
     {
-      title: "Diverse chemistry expertise",
-      description: "Scale routes reliably with repeatable processes and controls.",
+      title: "Procurement Cost Optimization",
+      description: "Identify savings opportunities across procurement workflows.",
     },
     {
-      title: "Quality control excellence",
-      description: "Analytical support and documentation aligned to global standards.",
+      title: "Risk Mitigation",
+      description: "Reduce supply risks through proactive planning and execution.",
     },
     {
-      title: "Global standards compliance",
-      description: "Partner network built for audits, quality, and on-time delivery.",
+      title: "Digital Transformation",
+      description: "Enable better visibility and execution across the supply chain.",
     },
   ];
 
   return (
-    <section id="manufacturing" className="py-24 px-4 sm:px-6 lg:px-8">
+    <section id="scm" className="py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-14">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Manufacturing Capabilities
+            SCM services
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Delivering reliable and scalable chemical manufacturing solutions to accelerate your
-            innovation.
+            End to End Supply Chain Services—tailored to help you optimize cost, mitigate risk, and
+            execute reliably.
           </p>
         </div>
 
@@ -47,14 +47,16 @@ export function ManufacturingCapabilities() {
             ))}
             <div className="sm:col-span-2 flex items-center justify-between gap-4 p-6 border border-border rounded-2xl bg-muted/30">
               <div>
-                <div className="text-sm font-semibold">Partner manufacturers</div>
-                <div className="text-sm text-muted-foreground">250+ trusted partners</div>
+                <div className="text-sm font-semibold">Additional SCM support</div>
+                <div className="text-sm text-muted-foreground">
+                  Planning process implementation • ESG • Foreign trade • SCM shared services
+                </div>
               </div>
               <Link
-                href="#partner"
+                href="#contact"
                 className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
               >
-                Explore more
+                Let us connect!
               </Link>
             </div>
           </div>
@@ -63,7 +65,7 @@ export function ManufacturingCapabilities() {
             <div className="rounded-3xl border border-border bg-card overflow-hidden">
               <Image
                 src="/illustrations/factory.svg"
-                alt="Manufacturing illustration"
+                alt="Supply chain services"
                 width={1200}
                 height={800}
                 className="w-full h-auto"

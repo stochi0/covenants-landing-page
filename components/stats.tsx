@@ -1,36 +1,31 @@
 export function Stats() {
   const stats = [
     {
-      value: "4,995",
+      value: "100+",
+      label: "Network Partners",
+      description: "Trusted partner network"
+    },
+    {
+      value: "6000+",
+      label: "KL Capacity",
+      description: "Network manufacturing capacity"
+    },
+    {
+      value: "3500+",
       label: "Products",
-      description: "Across multiple categories"
+      description: "Across key offerings"
     },
     {
-      value: "495",
-      label: "Factories",
-      description: "Partner manufacturing network"
-    },
-    {
-      value: "20",
-      label: "Chemistries",
-      description: "Diverse reaction expertise"
-    },
-    {
-      value: "20",
-      label: "Countries",
-      description: "Global presence"
-    },
-    {
-      value: "35",
-      label: "Scientists",
-      description: "R&D team strength"
+      value: "20+",
+      label: "Chemical Reactions",
+      description: "Diverse reaction capabilities"
     }
   ];
 
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/30">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-10">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
           {stats.map((stat, index) => (
             <div key={index} className="text-center lg:text-left">
               <div className="text-4xl lg:text-5xl font-bold mb-2">{stat.value}</div>
