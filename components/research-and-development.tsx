@@ -79,11 +79,11 @@ export function ResearchAndDevelopment() {
           <div className="relative">
             <div className="rounded-3xl border border-border bg-card overflow-hidden">
               <Image
-                src="/illustrations/lab.svg"
+                src="/images/lab-glassware.jpg"
                 alt="Services through network partners"
-                width={1200}
-                height={800}
-                className="w-full h-auto"
+                width={2000}
+                height={3000}
+                className="w-full h-[360px] sm:h-[420px] object-cover"
               />
             </div>
             <div className="absolute -bottom-6 -right-6 w-44 h-44 bg-primary/10 rounded-full blur-2xl" />

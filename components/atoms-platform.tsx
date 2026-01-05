@@ -69,11 +69,11 @@ export function AtomsPlatform() {
           <div className="relative">
             <div className="rounded-3xl border border-border bg-card overflow-hidden">
               <Image
-                src="/illustrations/atoms.svg"
+                src="/pexels-tara-winstead-7723393.jpg"
                 alt="Product offerings"
                 width={1200}
                 height={800}
-                className="w-full h-auto"
+                className="w-full h-[360px] sm:h-[420px] object-cover"
               />
             </div>
             <div className="absolute -bottom-6 -left-6 w-44 h-44 bg-primary/10 rounded-full blur-2xl" />

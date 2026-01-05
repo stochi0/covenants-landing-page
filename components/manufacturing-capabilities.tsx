@@ -64,11 +64,11 @@ export function ManufacturingCapabilities() {
           <div className="relative">
             <div className="rounded-3xl border border-border bg-card overflow-hidden">
               <Image
-                src="/illustrations/factory.svg"
+                src="/images/pharma-capsules.jpg"
                 alt="Supply chain services"
-                width={1200}
-                height={800}
-                className="w-full h-auto"
+                width={2000}
+                height={1125}
+                className="w-full h-[360px] sm:h-[420px] object-cover"
               />
             </div>
             <div className="absolute -top-6 -left-6 w-44 h-44 bg-primary/10 rounded-full blur-2xl" />
