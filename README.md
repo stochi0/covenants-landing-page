@@ -1,5 +1,35 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Contact form (email) setup
+
+The contact form posts to `POST /api/contact`, which sends:
+
+- An internal email to `info@covenantspc.com`
+- An acknowledgement email to the sender
+
+### Environment variables
+
+Create a `.env.local` in the project root:
+
+```bash
+# Outlook / Microsoft 365 SMTP (recommended values)
+SMTP_HOST=smtp.office365.com
+SMTP_PORT=587
+
+# Use the mailbox credentials for info@covenantspc.com
+SMTP_USER=info@covenantspc.com
+SMTP_PASS=YOUR_PASSWORD_OR_APP_PASSWORD
+
+# Optional overrides
+# CONTACT_TO=info@covenantspc.com
+# MAIL_FROM="Covenants Pharmachem <info@covenantspc.com>"
+```
+
+### Notes for Outlook
+
+- If the mailbox has MFA enabled, you typically need an **App Password** for `SMTP_PASS`.
+- Some tenants disable SMTP AUTH by policy. If sending fails, enable SMTP AUTH for the mailbox/tenant in Microsoft 365 admin settings.
+
 ## Getting Started
 
 First, run the development server:

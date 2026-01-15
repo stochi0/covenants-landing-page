@@ -1,7 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { CONTACT } from "@/lib/contact";
+import { useState } from "react";
 
 export function PartnerWithUs() {
   const [form, setForm] = useState({
@@ -12,23 +11,11 @@ export function PartnerWithUs() {
     phone: "",
     lookingFor: "Products",
     message: "",
+    website: "",
   });
 
-  const mailtoHref = useMemo(() => {
-    const subject = `Partner inquiry: ${form.lookingFor || "General"}`;
-    const body = [
-      `Name: ${form.name}`,
-      `Work Email: ${form.email}`,
-      `Country: ${form.country}`,
-      `Company: ${form.company}`,
-      `Phone: ${form.phone}`,
-      `Looking For: ${form.lookingFor}`,
-      "",
-      form.message,
-    ].join("\n");
-
-    return `mailto:${CONTACT.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  }, [form]);
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [error, setError] = useState<string>("");
 
   return (
     <section id="contact" className="py-24 px-4 sm:px-6 lg:px-8">
@@ -75,11 +62,52 @@ export function PartnerWithUs() {
               <div className="text-sm font-semibold mb-6">Partner With Us</div>
               <form
                 className="grid grid-cols-1 sm:grid-cols-2 gap-4"
-                onSubmit={(e) => {
+                onSubmit={async (e) => {
                   e.preventDefault();
-                  window.location.href = mailtoHref;
+                  setStatus("submitting");
+                  setError("");
+
+                  try {
+                    const res = await fetch("/api/contact", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify(form),
+                    });
+
+                    const data = (await res.json()) as { ok?: boolean; error?: string };
+                    if (!res.ok || !data.ok) {
+                      throw new Error(data?.error || "Something went wrong. Please try again.");
+                    }
+
+                    setStatus("success");
+                    setForm({
+                      name: "",
+                      email: "",
+                      country: "",
+                      company: "",
+                      phone: "",
+                      lookingFor: "Products",
+                      message: "",
+                      website: "",
+                    });
+                  } catch (err) {
+                    setStatus("error");
+                    setError(err instanceof Error ? err.message : "Failed to submit. Please try again.");
+                  }
                 }}
               >
+                {/* Honeypot: hidden from users, used to reduce spam/bot submissions */}
+                <label className="hidden">
+                  <span>Website</span>
+                  <input
+                    tabIndex={-1}
+                    autoComplete="off"
+                    name="website"
+                    value={form.website}
+                    onChange={(e) => setForm((p) => ({ ...p, website: e.target.value }))}
+                  />
+                </label>
+
                 <label className="grid gap-2 min-w-0">
                   <span className="text-xs font-medium text-muted-foreground">Name*</span>
                   <input
@@ -181,10 +209,21 @@ export function PartnerWithUs() {
 
                 <button
                   type="submit"
+                  disabled={status === "submitting"}
                   className="sm:col-span-2 h-11 px-6 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
                 >
-                  Submit
+                  {status === "submitting" ? "Submitting..." : "Submit"}
                 </button>
+
+                {status === "success" ? (
+                  <div className="sm:col-span-2 text-sm text-green-600">
+                    Thanks! Your message has been sent. We&apos;ve also emailed you an acknowledgement.
+                  </div>
+                ) : null}
+
+                {status === "error" ? (
+                  <div className="sm:col-span-2 text-sm text-red-600">{error}</div>
+                ) : null}
               </form>
             </div>
           </div>
