@@ -321,19 +321,27 @@ export function LandingPage() {
               </div>
             </div>
 
-            {/* Hero Stats */}
+            {/* Hero Image & Stats */}
             <div className="relative">
-              <Card className="border-border/50 bg-card/80 backdrop-blur-sm overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5" />
-                <CardContent className="relative p-8">
-                  <div className="grid grid-cols-2 gap-8">
+              {/* Lab Image with Overlay */}
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+                <img 
+                  src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&q=80" 
+                  alt="Pharmaceutical laboratory with glassware" 
+                  className="w-full h-[320px] object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+                
+                {/* Stats Overlay */}
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <div className="grid grid-cols-2 gap-4">
                     <StatCard value="100+" label="Network Partners" sublabel="Trusted partner network" delay={100} />
                     <StatCard value="6000+" label="KL Capacity" sublabel="Network manufacturing capacity" delay={200} />
                     <StatCard value="3500+" label="Products" sublabel="Across key offerings" delay={300} />
                     <StatCard value="20+" label="Chemical Reactions" sublabel="Diverse reaction capabilities" delay={400} />
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
               
               {/* Decorative elements */}
               <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full blur-2xl" />
@@ -343,8 +351,17 @@ export function LandingPage() {
         </section>
 
         {/* Network Partners Section */}
-        <section id="services" className="relative bg-muted/30 py-16 md:py-24">
-          <div className="max-w-7xl mx-auto px-6">
+        <section id="services" className="relative bg-muted/30 py-16 md:py-24 overflow-hidden">
+          {/* Background Image */}
+          <div className="absolute inset-0 opacity-[0.03]">
+            <img 
+              src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=1920&q=80" 
+              alt="" 
+              className="w-full h-full object-cover"
+            />
+          </div>
+          
+          <div className="relative max-w-7xl mx-auto px-6">
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 text-accent text-sm font-medium mb-4">
                 <Network className="w-4 h-4" />
@@ -474,41 +491,87 @@ export function LandingPage() {
                 </div>
               </div>
 
-              <Card className="border-border/50 bg-gradient-to-br from-primary/5 to-accent/5 overflow-hidden">
-                <CardContent className="p-8">
-                  <h3 className="font-semibold text-lg text-foreground mb-6">Additional SCM Support</h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="p-4 rounded-xl bg-background border border-border/50">
-                      <FileStack className="w-6 h-6 text-primary mb-2" />
-                      <p className="text-sm font-medium text-foreground">Planning Process Implementation</p>
+              <div className="space-y-6">
+                {/* SCM Image */}
+                <div className="relative rounded-2xl overflow-hidden shadow-lg">
+                  <img 
+                    src="https://images.unsplash.com/photo-1563213126-a4273aed2016?w=800&q=80" 
+                    alt="Pharmaceutical manufacturing facility" 
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+                </div>
+                
+                <Card className="border-border/50 bg-gradient-to-br from-primary/5 to-accent/5 overflow-hidden">
+                  <CardContent className="p-6">
+                    <h3 className="font-semibold text-lg text-foreground mb-4">Additional SCM Support</h3>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="p-3 rounded-xl bg-background border border-border/50">
+                        <FileStack className="w-5 h-5 text-primary mb-1.5" />
+                        <p className="text-xs font-medium text-foreground">Planning Process Implementation</p>
+                      </div>
+                      <div className="p-3 rounded-xl bg-background border border-border/50">
+                        <Leaf className="w-5 h-5 text-accent mb-1.5" />
+                        <p className="text-xs font-medium text-foreground">ESG</p>
+                      </div>
+                      <div className="p-3 rounded-xl bg-background border border-border/50">
+                        <Globe className="w-5 h-5 text-primary mb-1.5" />
+                        <p className="text-xs font-medium text-foreground">Foreign Trade</p>
+                      </div>
+                      <div className="p-3 rounded-xl bg-background border border-border/50">
+                        <Users className="w-5 h-5 text-accent mb-1.5" />
+                        <p className="text-xs font-medium text-foreground">SCM Shared Services</p>
+                      </div>
                     </div>
-                    <div className="p-4 rounded-xl bg-background border border-border/50">
-                      <Leaf className="w-6 h-6 text-accent mb-2" />
-                      <p className="text-sm font-medium text-foreground">ESG</p>
-                    </div>
-                    <div className="p-4 rounded-xl bg-background border border-border/50">
-                      <Globe className="w-6 h-6 text-primary mb-2" />
-                      <p className="text-sm font-medium text-foreground">Foreign Trade</p>
-                    </div>
-                    <div className="p-4 rounded-xl bg-background border border-border/50">
-                      <Users className="w-6 h-6 text-accent mb-2" />
-                      <p className="text-sm font-medium text-foreground">SCM Shared Services</p>
-                    </div>
-                  </div>
-                  
-                  <Button className="w-full mt-6" onClick={() => scrollToSection('contact')}>
-                    Let's Connect
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </CardContent>
-              </Card>
+                    
+                    <Button className="w-full mt-4" onClick={() => scrollToSection('contact')}>
+                      Let's Connect
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
         </section>
 
         {/* Products Section */}
-        <section id="products" className="relative bg-muted/30 py-16 md:py-24">
-          <div className="max-w-7xl mx-auto px-6">
+        <section id="products" className="relative bg-muted/30 py-16 md:py-24 overflow-hidden">
+          {/* Background Image Pattern */}
+          <div className="absolute inset-0 opacity-[0.04]">
+            <img 
+              src="https://images.unsplash.com/photo-1585435557343-3b092031a831?w=1920&q=80" 
+              alt="" 
+              className="w-full h-full object-cover"
+            />
+          </div>
+          
+          <div className="relative max-w-7xl mx-auto px-6">
+            {/* Product Images Row */}
+            <div className="flex justify-center gap-4 mb-8">
+              <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden shadow-lg border-2 border-primary/20">
+                <img 
+                  src="https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=200&q=80" 
+                  alt="Chemical compounds" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden shadow-lg border-2 border-accent/20 -mt-4">
+                <img 
+                  src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=200&q=80" 
+                  alt="Lab equipment" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden shadow-lg border-2 border-primary/20">
+                <img 
+                  src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=200&q=80" 
+                  alt="Pharmaceutical production" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+            
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
                 <Package className="w-4 h-4" />
@@ -564,13 +627,29 @@ export function LandingPage() {
         {/* About Us Section */}
         <section id="about" className="relative py-16 md:py-24">
           <div className="max-w-7xl mx-auto px-6">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-4">
-                About Us
-              </h2>
-              <p className="text-muted-foreground max-w-3xl mx-auto text-lg">
-                We are a team of passionate professionals committed to creating value for all stakeholders. By leveraging our extensive network, deep expertise, and cutting-edge technology, we drive sustainable growth and innovation.
-              </p>
+            {/* About Header with Image */}
+            <div className="grid lg:grid-cols-2 gap-12 items-center mb-12">
+              <div>
+                <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-4">
+                  About Us
+                </h2>
+                <p className="text-muted-foreground text-lg leading-relaxed">
+                  We are a team of passionate professionals committed to creating value for all stakeholders. By leveraging our extensive network, deep expertise, and cutting-edge technology, we drive sustainable growth and innovation.
+                </p>
+              </div>
+              
+              <div className="relative">
+                <div className="rounded-2xl overflow-hidden shadow-xl">
+                  <img 
+                    src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=800&q=80" 
+                    alt="Scientific research and development" 
+                    className="w-full h-64 object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent mix-blend-multiply" />
+                </div>
+                {/* Decorative element */}
+                <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-gradient-to-br from-accent/30 to-primary/30 rounded-full blur-2xl -z-10" />
+              </div>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -726,8 +805,18 @@ export function LandingPage() {
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="relative py-16 md:py-24">
-          <div className="max-w-7xl mx-auto px-6">
+        <section id="contact" className="relative py-16 md:py-24 overflow-hidden">
+          {/* Background Image with Overlay */}
+          <div className="absolute inset-0">
+            <img 
+              src="https://images.unsplash.com/photo-1579154204601-01588f351e67?w=1920&q=80" 
+              alt="" 
+              className="w-full h-full object-cover opacity-[0.04]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
+          </div>
+          
+          <div className="relative max-w-7xl mx-auto px-6">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-4">
                 Let's Connect!
