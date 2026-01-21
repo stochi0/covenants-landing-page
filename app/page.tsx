@@ -1,8 +1,11 @@
-import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Separator } from '@/components/ui/separator';
+'use client'
+
+import { useState } from 'react'
+import Image from 'next/image'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Separator } from '@/components/ui/separator'
 import {
   FlaskConical,
   ArrowRight,
@@ -30,13 +33,13 @@ import {
   BarChart3,
   Menu,
   X,
-} from 'lucide-react';
+} from 'lucide-react'
 
 interface StatCardProps {
-  value: string;
-  label: string;
-  sublabel: string;
-  delay?: number;
+  value: string
+  label: string
+  sublabel: string
+  delay?: number
 }
 
 function StatCard({ value, label, sublabel, delay = 0 }: StatCardProps) {
@@ -49,24 +52,24 @@ function StatCard({ value, label, sublabel, delay = 0 }: StatCardProps) {
       <div className="text-sm font-semibold text-foreground mt-1">{label}</div>
       <div className="text-xs text-muted-foreground">{sublabel}</div>
     </div>
-  );
+  )
 }
 
 interface ServiceCardProps {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  delay?: number;
+  icon: React.ReactNode
+  title: string
+  description: string
+  delay?: number
 }
 
 function ServiceCard({ icon, title, description, delay = 0 }: ServiceCardProps) {
   return (
     <Card 
-      className="group hover:shadow-lg transition-all duration-300 border-border/50 bg-card animate-fade-in-up cursor-pointer"
+      className="group hover:shadow-lg transition-all duration-300 border-border/50 bg-card animate-fade-in-up cursor-pointer relative overflow-hidden"
       style={{ animationDelay: `${delay}ms`, animationFillMode: 'both' }}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />
-      <CardContent className="p-6">
+      <CardContent className="p-6 relative">
         <div className="p-3 rounded-xl bg-primary/10 text-primary w-fit mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
           {icon}
         </div>
@@ -74,14 +77,14 @@ function ServiceCard({ icon, title, description, delay = 0 }: ServiceCardProps) 
         <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 interface FeatureCardProps {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  delay?: number;
+  icon: React.ReactNode
+  title: string
+  description: string
+  delay?: number
 }
 
 function FeatureCard({ icon, title, description, delay = 0 }: FeatureCardProps) {
@@ -98,24 +101,24 @@ function FeatureCard({ icon, title, description, delay = 0 }: FeatureCardProps) 
         <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
       </div>
     </div>
-  );
+  )
 }
 
 interface ProductCategoryProps {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  delay?: number;
+  icon: React.ReactNode
+  title: string
+  description: string
+  delay?: number
 }
 
 function ProductCategory({ icon, title, description, delay = 0 }: ProductCategoryProps) {
   return (
     <Card 
-      className="group hover:shadow-lg transition-all duration-300 border-border/50 bg-card animate-fade-in-up overflow-hidden"
+      className="group hover:shadow-lg transition-all duration-300 border-border/50 bg-card animate-fade-in-up overflow-hidden relative"
       style={{ animationDelay: `${delay}ms`, animationFillMode: 'both' }}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-accent/[0.03] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      <CardContent className="p-6 flex flex-col items-center text-center">
+      <CardContent className="p-6 flex flex-col items-center text-center relative">
         <div className="p-4 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 text-primary mb-4 group-hover:scale-110 transition-transform duration-300">
           {icon}
         </div>
@@ -123,11 +126,11 @@ function ProductCategory({ icon, title, description, delay = 0 }: ProductCategor
         <p className="text-sm text-muted-foreground">{description}</p>
       </CardContent>
     </Card>
-  );
+  )
 }
 
-export function LandingPage() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+export default function Home() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -136,26 +139,25 @@ export function LandingPage() {
     phone: '',
     lookingFor: '',
     message: '',
-  });
+  })
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
+    const element = document.getElementById(id)
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: 'smooth' })
     }
-    setMobileMenuOpen(false);
-  };
+    setMobileMenuOpen(false)
+  }
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  };
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
-    alert('Thank you for your interest! We will connect with you soon.');
-  };
+    e.preventDefault()
+    console.log('Form submitted:', formData)
+    alert('Thank you for your interest! We will connect with you soon.')
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -223,7 +225,7 @@ export function LandingPage() {
                 onClick={() => scrollToSection('contact')}
                 className="hidden sm:flex"
               >
-                Let's Connect
+                Let&apos;s Connect
                 <ArrowRight className="w-4 h-4" />
               </Button>
               
@@ -280,7 +282,7 @@ export function LandingPage() {
                 onClick={() => scrollToSection('contact')}
                 className="w-full mt-2"
               >
-                Let's Connect
+                Let&apos;s Connect
                 <ArrowRight className="w-4 h-4" />
               </Button>
             </nav>
@@ -312,7 +314,7 @@ export function LandingPage() {
               
               <div className="flex flex-wrap gap-4 pt-2">
                 <Button size="lg" onClick={() => scrollToSection('contact')}>
-                  Let's Connect
+                  Let&apos;s Connect
                   <ArrowRight className="w-4 h-4" />
                 </Button>
                 <Button size="lg" variant="outline" onClick={() => scrollToSection('products')}>
@@ -325,10 +327,13 @@ export function LandingPage() {
             <div className="relative">
               {/* Lab Image with Overlay */}
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <img 
+                <Image 
                   src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&q=80" 
                   alt="Pharmaceutical laboratory with glassware" 
+                  width={800}
+                  height={320}
                   className="w-full h-[320px] object-cover"
+                  priority
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
                 
@@ -354,10 +359,11 @@ export function LandingPage() {
         <section id="services" className="relative bg-muted/30 py-16 md:py-24 overflow-hidden">
           {/* Background Image */}
           <div className="absolute inset-0 opacity-[0.03]">
-            <img 
+            <Image 
               src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=1920&q=80" 
               alt="" 
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
             />
           </div>
           
@@ -493,11 +499,12 @@ export function LandingPage() {
 
               <div className="space-y-6">
                 {/* SCM Image */}
-                <div className="relative rounded-2xl overflow-hidden shadow-lg">
-                  <img 
+                <div className="relative rounded-2xl overflow-hidden shadow-lg h-48">
+                  <Image 
                     src="https://images.unsplash.com/photo-1563213126-a4273aed2016?w=800&q=80" 
                     alt="Pharmaceutical manufacturing facility" 
-                    className="w-full h-48 object-cover"
+                    fill
+                    className="object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
                 </div>
@@ -525,7 +532,7 @@ export function LandingPage() {
                     </div>
                     
                     <Button className="w-full mt-4" onClick={() => scrollToSection('contact')}>
-                      Let's Connect
+                      Let&apos;s Connect
                       <ArrowRight className="w-4 h-4" />
                     </Button>
                   </CardContent>
@@ -539,35 +546,39 @@ export function LandingPage() {
         <section id="products" className="relative bg-muted/30 py-16 md:py-24 overflow-hidden">
           {/* Background Image Pattern */}
           <div className="absolute inset-0 opacity-[0.04]">
-            <img 
+            <Image 
               src="https://images.unsplash.com/photo-1585435557343-3b092031a831?w=1920&q=80" 
               alt="" 
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
             />
           </div>
           
           <div className="relative max-w-7xl mx-auto px-6">
             {/* Product Images Row */}
             <div className="flex justify-center gap-4 mb-8">
-              <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden shadow-lg border-2 border-primary/20">
-                <img 
+              <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden shadow-lg border-2 border-primary/20 relative">
+                <Image 
                   src="https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=200&q=80" 
                   alt="Chemical compounds" 
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
                 />
               </div>
-              <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden shadow-lg border-2 border-accent/20 -mt-4">
-                <img 
+              <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden shadow-lg border-2 border-accent/20 -mt-4 relative">
+                <Image 
                   src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=200&q=80" 
                   alt="Lab equipment" 
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
                 />
               </div>
-              <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden shadow-lg border-2 border-primary/20">
-                <img 
+              <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden shadow-lg border-2 border-primary/20 relative">
+                <Image 
                   src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=200&q=80" 
                   alt="Pharmaceutical production" 
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
                 />
               </div>
             </div>
@@ -639,11 +650,12 @@ export function LandingPage() {
               </div>
               
               <div className="relative">
-                <div className="rounded-2xl overflow-hidden shadow-xl">
-                  <img 
+                <div className="rounded-2xl overflow-hidden shadow-xl relative h-64">
+                  <Image 
                     src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=800&q=80" 
                     alt="Scientific research and development" 
-                    className="w-full h-64 object-cover"
+                    fill
+                    className="object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent mix-blend-multiply" />
                 </div>
@@ -808,10 +820,11 @@ export function LandingPage() {
         <section id="contact" className="relative py-16 md:py-24 overflow-hidden">
           {/* Background Image with Overlay */}
           <div className="absolute inset-0">
-            <img 
+            <Image 
               src="https://images.unsplash.com/photo-1579154204601-01588f351e67?w=1920&q=80" 
               alt="" 
-              className="w-full h-full object-cover opacity-[0.04]"
+              fill
+              className="object-cover opacity-[0.04]"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
           </div>
@@ -819,10 +832,10 @@ export function LandingPage() {
           <div className="relative max-w-7xl mx-auto px-6">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-4">
-                Let's Connect!
+                Let&apos;s Connect!
               </h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                Share what you're looking for—services, products, or SCM support—and we'll connect you with the right solution through our network.
+                Share what you&apos;re looking for—services, products, or SCM support—and we&apos;ll connect you with the right solution through our network.
               </p>
             </div>
 
@@ -865,7 +878,7 @@ export function LandingPage() {
             </div>
 
             {/* Contact Form */}
-            <Card className="border-border/50 bg-card max-w-2xl mx-auto overflow-hidden">
+            <Card className="border-border/50 bg-card max-w-2xl mx-auto overflow-hidden relative">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5" />
               <CardHeader className="relative">
                 <CardTitle className="text-xl">Partner With Us</CardTitle>
@@ -943,7 +956,7 @@ export function LandingPage() {
                         name="lookingFor"
                         value={formData.lookingFor}
                         onChange={handleFormChange}
-                        className="w-full h-9 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring"
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                       >
                         <option value="">Select an option</option>
                         <option value="custom-manufacturing">Custom Manufacturing</option>
@@ -965,7 +978,7 @@ export function LandingPage() {
                       onChange={handleFormChange}
                       rows={4}
                       placeholder="Tell us about your requirements..."
-                      className="w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring resize-none"
+                      className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 resize-none"
                     />
                   </div>
 
@@ -1087,13 +1100,13 @@ export function LandingPage() {
                 Contact Us
               </button>
               <button type="button" onClick={() => scrollToSection('contact')} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Let's Connect!
+                Let&apos;s Connect!
               </button>
             </div>
           </div>
         </div>
       </footer>
     </div>
-  );
+  )
 }
 
