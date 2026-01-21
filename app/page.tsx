@@ -182,17 +182,14 @@ export default function Home() {
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg shadow-primary/25">
-                  <FlaskConical className="w-5 h-5 text-white" />
-                </div>
-                <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-accent animate-pulse-soft" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-foreground tracking-tight">Covenants</h1>
-                <p className="text-xs text-muted-foreground">PharmaChem LLP</p>
-              </div>
+            <div className="flex items-center">
+              <Image 
+                src="/covenants-logo.png" 
+                alt="Covenants Logo" 
+                width={140} 
+                height={56} 
+                className="h-14 w-auto object-contain"
+              />
             </div>
 
             {/* Desktop Navigation */}
@@ -1014,9 +1011,6 @@ export default function Home() {
             {/* Company Info - Left Side */}
             <div className="lg:w-[380px] shrink-0">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg shadow-primary/25">
-                  <FlaskConical className="w-5 h-5 text-white" />
-                </div>
                 <h3 className="font-bold text-foreground">Covenants PharmaChem LLP</h3>
               </div>
               <p className="text-sm text-muted-foreground mb-4">
