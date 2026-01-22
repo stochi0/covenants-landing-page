@@ -196,6 +196,13 @@ export default function Home() {
             <nav className="hidden lg:flex items-center gap-1">
               <button
                 type="button"
+                onClick={() => scrollToSection('products')}
+                className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
+              >
+                Products
+              </button>
+              <button
+                type="button"
                 onClick={() => scrollToSection('services')}
                 className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
               >
@@ -208,13 +215,14 @@ export default function Home() {
               >
                 SCM Services
               </button>
-              <button
-                type="button"
-                onClick={() => scrollToSection('products')}
+              <a
+                href="https://capillia.vercel.app"
+                target="_blank"
+                rel="noreferrer"
                 className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
               >
-                Products
-              </button>
+                Capillia
+              </a>
               <button
                 type="button"
                 onClick={() => scrollToSection('about')}
@@ -256,6 +264,13 @@ export default function Home() {
             <nav className="lg:hidden mt-4 pb-4 space-y-1 border-t border-border pt-4">
               <button
                 type="button"
+                onClick={() => scrollToSection('products')}
+                className="w-full text-left px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
+              >
+                Products
+              </button>
+              <button
+                type="button"
                 onClick={() => scrollToSection('services')}
                 className="w-full text-left px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
               >
@@ -268,13 +283,14 @@ export default function Home() {
               >
                 SCM Services
               </button>
-              <button
-                type="button"
-                onClick={() => scrollToSection('products')}
-                className="w-full text-left px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
+              <a
+                href="https://capillia.vercel.app"
+                target="_blank"
+                rel="noreferrer"
+                className="block w-full text-left px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
               >
-                Products
-              </button>
+                Capillia
+              </a>
               <button
                 type="button"
                 onClick={() => scrollToSection('about')}
