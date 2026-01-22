@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -24,6 +24,7 @@ import {
   Handshake,
   Network,
   ChevronRight,
+  ChevronDown,
   Mail,
   Phone,
   MapPin,
@@ -34,6 +35,7 @@ import {
   Menu,
   X,
   Linkedin,
+  Sparkles,
 } from 'lucide-react'
 
 // WhatsApp icon component
@@ -145,6 +147,9 @@ function ProductCategory({ icon, title, description, delay = 0 }: ProductCategor
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [offeringsOpen, setOfferingsOpen] = useState(false)
+  const [mobileOfferingsOpen, setMobileOfferingsOpen] = useState(false)
+  const offeringsRef = useRef<HTMLDivElement>(null)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -155,12 +160,25 @@ export default function Home() {
     message: '',
   })
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (offeringsRef.current && !offeringsRef.current.contains(event.target as Node)) {
+        setOfferingsOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
     }
     setMobileMenuOpen(false)
+    setOfferingsOpen(false)
+    setMobileOfferingsOpen(false)
   }
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -194,27 +212,151 @@ export default function Home() {
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-1">
-              <button
-                type="button"
-                onClick={() => scrollToSection('services')}
+              {/* Our Offerings Mega Menu */}
+              <div ref={offeringsRef} className="relative">
+                <button
+                  type="button"
+                  onClick={() => setOfferingsOpen(!offeringsOpen)}
+                  className={`flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                    offeringsOpen 
+                      ? 'text-primary bg-primary/10' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                  }`}
+                >
+                  <Sparkles className="w-4 h-4" />
+                  Our Offerings
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${offeringsOpen ? 'rotate-180' : ''}`} />
+                </button>
+                
+                {/* Mega Menu Dropdown */}
+                {offeringsOpen && (
+                  <div className="absolute top-full left-0 mt-2 w-[580px] bg-card border border-border rounded-2xl shadow-xl overflow-hidden animate-fade-in-up z-50">
+                    <div className="p-6">
+                      <div className="grid grid-cols-2 gap-6">
+                        {/* Services Column */}
+                        <div className="space-y-4">
+                          <div className="flex items-center gap-2 pb-2 border-b border-border">
+                            <div className="p-1.5 rounded-lg bg-accent/10">
+                              <Cog className="w-4 h-4 text-accent" />
+                            </div>
+                            <span className="font-semibold text-foreground">Services</span>
+                          </div>
+                          
+                          <button
+                            type="button"
+                            onClick={() => scrollToSection('services')}
+                            className="group w-full text-left p-3 rounded-xl hover:bg-muted/50 transition-all duration-200"
+                          >
+                            <div className="flex items-start gap-3">
+                              <div className="p-2 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                                <Network className="w-5 h-5" />
+                              </div>
+                              <div>
+                                <div className="font-medium text-foreground group-hover:text-primary transition-colors">
+                                  Services Through Network Partners
+                                </div>
+                                <p className="text-xs text-muted-foreground mt-0.5">
+                                  Custom manufacturing, research & development
+                                </p>
+                              </div>
+                            </div>
+                          </button>
+                          
+                          <button
+                            type="button"
+                            onClick={() => scrollToSection('scm')}
+                            className="group w-full text-left p-3 rounded-xl hover:bg-muted/50 transition-all duration-200"
+                          >
+                            <div className="flex items-start gap-3">
+                              <div className="p-2 rounded-lg bg-accent/10 text-accent group-hover:bg-accent group-hover:text-accent-foreground transition-colors">
+                                <Truck className="w-5 h-5" />
+                              </div>
+                              <div>
+                                <div className="font-medium text-foreground group-hover:text-accent transition-colors">
+                                  SCM Services
+                                </div>
+                                <p className="text-xs text-muted-foreground mt-0.5">
+                                  End-to-end supply chain solutions
+                                </p>
+                              </div>
+                            </div>
+                          </button>
+                        </div>
+                        
+                        {/* Products Column */}
+                        <div className="space-y-4">
+                          <div className="flex items-center gap-2 pb-2 border-b border-border">
+                            <div className="p-1.5 rounded-lg bg-primary/10">
+                              <Package className="w-4 h-4 text-primary" />
+                            </div>
+                            <span className="font-semibold text-foreground">Products</span>
+                          </div>
+                          
+                          <button
+                            type="button"
+                            onClick={() => scrollToSection('products')}
+                            className="group w-full text-left p-3 rounded-xl hover:bg-muted/50 transition-all duration-200"
+                          >
+                            <div className="flex items-start gap-3">
+                              <div className="p-2 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                                <FlaskConical className="w-5 h-5" />
+                              </div>
+                              <div>
+                                <div className="font-medium text-foreground group-hover:text-primary transition-colors">
+                                  APIs & Intermediates
+                                </div>
+                                <p className="text-xs text-muted-foreground mt-0.5">
+                                  Active pharmaceutical ingredients
+                                </p>
+                              </div>
+                            </div>
+                          </button>
+                          
+                          <button
+                            type="button"
+                            onClick={() => scrollToSection('products')}
+                            className="group w-full text-left p-3 rounded-xl hover:bg-muted/50 transition-all duration-200"
+                          >
+                            <div className="flex items-start gap-3">
+                              <div className="p-2 rounded-lg bg-accent/10 text-accent group-hover:bg-accent group-hover:text-accent-foreground transition-colors">
+                                <TestTubes className="w-5 h-5" />
+                              </div>
+                              <div>
+                                <div className="font-medium text-foreground group-hover:text-accent transition-colors">
+                                  Specialty Chemicals & Impurities
+                                </div>
+                                <p className="text-xs text-muted-foreground mt-0.5">
+                                  Specialty chemicals for diverse applications
+                                </p>
+                              </div>
+                            </div>
+                          </button>
+                        </div>
+                      </div>
+                      
+                      {/* Bottom CTA */}
+                      <div className="mt-6 pt-4 border-t border-border flex items-center justify-between">
+                        <p className="text-sm text-muted-foreground">
+                          Can&apos;t find what you need?
+                        </p>
+                        <Button size="sm" onClick={() => scrollToSection('contact')}>
+                          Contact Us
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              <a
+                href="https://capillia.vercel.app"
+                target="_blank"
+                rel="noreferrer"
                 className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
               >
-                Services
-              </button>
-              <button
-                type="button"
-                onClick={() => scrollToSection('scm')}
-                className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
-              >
-                SCM Services
-              </button>
-              <button
-                type="button"
-                onClick={() => scrollToSection('products')}
-                className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
-              >
-                Products
-              </button>
+                Capillia
+              </a>
               <button
                 type="button"
                 onClick={() => scrollToSection('about')}
@@ -254,27 +396,79 @@ export default function Home() {
           {/* Mobile Navigation */}
           {mobileMenuOpen && (
             <nav className="lg:hidden mt-4 pb-4 space-y-1 border-t border-border pt-4">
-              <button
-                type="button"
-                onClick={() => scrollToSection('services')}
-                className="w-full text-left px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
+              {/* Our Offerings Accordion */}
+              <div className="space-y-1">
+                <button
+                  type="button"
+                  onClick={() => setMobileOfferingsOpen(!mobileOfferingsOpen)}
+                  className={`w-full flex items-center justify-between px-4 py-2.5 text-sm font-medium rounded-lg transition-all ${
+                    mobileOfferingsOpen
+                      ? 'text-primary bg-primary/10'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                  }`}
+                >
+                  <span className="flex items-center gap-2">
+                    <Sparkles className="w-4 h-4" />
+                    Our Offerings
+                  </span>
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${mobileOfferingsOpen ? 'rotate-180' : ''}`} />
+                </button>
+                
+                {mobileOfferingsOpen && (
+                  <div className="ml-4 pl-4 border-l-2 border-primary/20 space-y-1 animate-fade-in-up">
+                    {/* Services Section */}
+                    <div className="pt-2 pb-1">
+                      <span className="px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Services</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => scrollToSection('services')}
+                      className="w-full text-left px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors flex items-center gap-2"
+                    >
+                      <Network className="w-4 h-4 text-primary" />
+                      Services Through Network Partners
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => scrollToSection('scm')}
+                      className="w-full text-left px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors flex items-center gap-2"
+                    >
+                      <Truck className="w-4 h-4 text-accent" />
+                      SCM Services
+                    </button>
+                    
+                    {/* Products Section */}
+                    <div className="pt-3 pb-1">
+                      <span className="px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Products</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => scrollToSection('products')}
+                      className="w-full text-left px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors flex items-center gap-2"
+                    >
+                      <FlaskConical className="w-4 h-4 text-primary" />
+                      APIs & Intermediates
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => scrollToSection('products')}
+                      className="w-full text-left px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors flex items-center gap-2"
+                    >
+                      <TestTubes className="w-4 h-4 text-accent" />
+                      Specialty Chemicals & Impurities
+                    </button>
+                  </div>
+                )}
+              </div>
+              
+              <a
+                href="https://capillia.vercel.app"
+                target="_blank"
+                rel="noreferrer"
+                className="block w-full text-left px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
               >
-                Services
-              </button>
-              <button
-                type="button"
-                onClick={() => scrollToSection('scm')}
-                className="w-full text-left px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
-              >
-                SCM Services
-              </button>
-              <button
-                type="button"
-                onClick={() => scrollToSection('products')}
-                className="w-full text-left px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
-              >
-                Products
-              </button>
+                Capillia
+              </a>
               <button
                 type="button"
                 onClick={() => scrollToSection('about')}
@@ -304,7 +498,7 @@ export default function Home() {
       {/* Main Content */}
       <main className="relative z-10">
         {/* Hero Section */}
-        <section className="relative max-w-7xl mx-auto px-6 py-16 md:py-24">
+        <section className="relative max-w-7xl mx-auto px-6 pt-6 pb-16 md:pt-8 md:pb-24">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium">
