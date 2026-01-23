@@ -110,3 +110,115 @@ html {
   scroll-behavior: smooth;
 }
 
+/* ===== Hero Section Animations ===== */
+
+/* Smooth fade in from below */
+@keyframes hero-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Image reveal with scale */
+@keyframes hero-image-reveal {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Slide up for overlapping elements */
+@keyframes hero-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide down for top elements */
+@keyframes hero-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Float in from side */
+@keyframes hero-float-in {
+  from {
+    opacity: 0;
+    transform: translateX(20px) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+  }
+}
+
+/* Base hero animation class */
+.hero-fade-in {
+  opacity: 0;
+  animation: hero-fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-image-reveal {
+  opacity: 0;
+  animation: hero-image-reveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-slide-up {
+  opacity: 0;
+  animation: hero-slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-slide-down {
+  opacity: 0;
+  animation: hero-slide-down 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hero-float-in {
+  opacity: 0;
+  animation: hero-float-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Staggered delay classes */
+.hero-delay-1 { animation-delay: 0.1s; }
+.hero-delay-2 { animation-delay: 0.2s; }
+.hero-delay-3 { animation-delay: 0.35s; }
+.hero-delay-4 { animation-delay: 0.5s; }
+.hero-delay-5 { animation-delay: 0.65s; }
+.hero-delay-6 { animation-delay: 0.8s; }
+
+/* Legacy animation support */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+

@@ -56,17 +56,23 @@ interface StatCardProps {
   label: string
   sublabel: string
   delay?: number
+  icon?: React.ReactNode
 }
 
-function StatCard({ value, label, sublabel, delay = 0 }: StatCardProps) {
+function StatCard({ value, label, sublabel, delay = 0, icon }: StatCardProps) {
   return (
     <div 
-      className="text-center animate-fade-in-up"
+      className="group relative animate-fade-in-up"
       style={{ animationDelay: `${delay}ms`, animationFillMode: 'both' }}
     >
-      <div className="text-4xl md:text-5xl font-bold text-primary font-mono tracking-tight">{value}</div>
-      <div className="text-sm font-semibold text-foreground mt-1">{label}</div>
-      <div className="text-xs text-muted-foreground">{sublabel}</div>
+      <div className="relative p-4 rounded-2xl bg-gradient-to-br from-card via-card to-primary/5 border border-border/50 shadow-sm hover:shadow-lg transition-all duration-500 hover:-translate-y-1">
+        <div className="absolute -top-2 -right-2 w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300">
+          {icon}
+        </div>
+        <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-mono tracking-tight">{value}</div>
+        <div className="text-sm font-semibold text-foreground mt-1">{label}</div>
+        <div className="text-xs text-muted-foreground">{sublabel}</div>
+      </div>
     </div>
   )
 }
@@ -498,64 +504,141 @@ export default function Home() {
       {/* Main Content */}
       <main className="relative z-10">
         {/* Hero Section */}
-        <section className="relative max-w-7xl mx-auto px-6 pt-6 pb-16 md:pt-8 md:pb-24">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium">
+        <section className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-12 sm:pt-10 sm:pb-16 md:pt-12 md:pb-20 lg:pt-16 lg:pb-24">
+          {/* Subtle Background Gradient */}
+          <div className="absolute inset-0 -z-10 overflow-hidden">
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-primary/8 via-accent/4 to-transparent rounded-full blur-3xl translate-x-1/4 -translate-y-1/4" />
+            <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-to-tr from-accent/6 via-primary/3 to-transparent rounded-full blur-3xl -translate-x-1/4 translate-y-1/4" />
+          </div>
+          
+          <div className="relative flex flex-col lg:grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 xl:gap-16 items-center">
+            {/* Text Content */}
+            <div className="space-y-5 sm:space-y-6 text-center lg:text-left order-2 lg:order-1">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium hero-fade-in">
                 <FlaskConical className="w-4 h-4" />
                 <span>Covenants PharmaChem LLP</span>
               </div>
               
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground tracking-tight leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold text-foreground tracking-tight leading-[1.1] hero-fade-in hero-delay-1">
                 Expanding Horizons in{' '}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
                   APIs, Intermediates & Specialty Chemicals
                 </span>
               </h1>
               
-              <p className="text-lg text-muted-foreground leading-relaxed max-w-xl">
+              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-xl mx-auto lg:mx-0 hero-fade-in hero-delay-2">
                 Covenants promises to become your trusted supply chain partner. We strive to exceed expectations through innovative, tailored solutions—creating value for all our stakeholders by leveraging our network, expertise and technology to drive sustainable growth.
               </p>
               
-              <div className="flex flex-wrap gap-4 pt-2">
-                <Button size="lg" onClick={() => scrollToSection('contact')}>
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2 justify-center lg:justify-start hero-fade-in hero-delay-3">
+                <Button size="lg" onClick={() => scrollToSection('contact')} className="w-full sm:w-auto">
                   Let&apos;s Connect
                   <ArrowRight className="w-4 h-4" />
                 </Button>
-                <Button size="lg" variant="outline" onClick={() => scrollToSection('products')}>
+                <Button size="lg" variant="outline" onClick={() => scrollToSection('products')} className="w-full sm:w-auto">
                   Explore Offerings
                 </Button>
               </div>
+              
+              {/* Stats - Mobile & Tablet (Below buttons) */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 pt-4 lg:hidden hero-fade-in hero-delay-4">
+                <div className="text-center p-3 sm:p-4 rounded-xl bg-card/80 backdrop-blur-sm border border-border/50">
+                  <div className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-mono">100+</div>
+                  <div className="text-xs font-medium text-muted-foreground mt-0.5">Partners</div>
+                </div>
+                <div className="text-center p-3 sm:p-4 rounded-xl bg-card/80 backdrop-blur-sm border border-border/50">
+                  <div className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-mono">6000+</div>
+                  <div className="text-xs font-medium text-muted-foreground mt-0.5">KL Capacity</div>
+                </div>
+                <div className="text-center p-3 sm:p-4 rounded-xl bg-card/80 backdrop-blur-sm border border-border/50">
+                  <div className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-mono">3500+</div>
+                  <div className="text-xs font-medium text-muted-foreground mt-0.5">Products</div>
+                </div>
+                <div className="text-center p-3 sm:p-4 rounded-xl bg-card/80 backdrop-blur-sm border border-border/50">
+                  <div className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-mono">20+</div>
+                  <div className="text-xs font-medium text-muted-foreground mt-0.5">Reactions</div>
+                </div>
+              </div>
             </div>
 
-            {/* Hero Image & Stats */}
-            <div className="relative">
-              {/* Lab Image with Overlay */}
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+            {/* Hero Image Section */}
+            <div className="relative w-full order-1 lg:order-2 hero-fade-in hero-delay-2">
+              {/* Main Featured Image */}
+              <div className="relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl hero-image-reveal">
                 <Image 
-                  src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&q=80" 
-                  alt="Pharmaceutical laboratory with glassware" 
-                  width={800}
-                  height={320}
-                  className="w-full h-[320px] object-cover"
+                  src="https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=800&q=85" 
+                  alt="Modern pharmaceutical laboratory with professional equipment" 
+                  fill
+                  className="object-cover"
                   priority
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 50vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+                {/* Subtle gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-background/20 via-transparent to-transparent" />
                 
-                {/* Stats Overlay */}
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <div className="grid grid-cols-2 gap-4">
-                    <StatCard value="100+" label="Network Partners" sublabel="Trusted partner network" delay={100} />
-                    <StatCard value="6000+" label="KL Capacity" sublabel="Network manufacturing capacity" delay={200} />
-                    <StatCard value="3500+" label="Products" sublabel="Across key offerings" delay={300} />
-                    <StatCard value="20+" label="Chemical Reactions" sublabel="Diverse reaction capabilities" delay={400} />
+                {/* Floating accent card - Top Right */}
+                <div className="absolute top-3 right-3 sm:top-4 sm:right-4 p-2.5 sm:p-3 rounded-xl bg-white/90 dark:bg-card/90 backdrop-blur-md shadow-lg border border-white/20 hero-float-in hero-delay-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <FlaskConical className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+                    </div>
+                    <div className="hidden sm:block">
+                      <div className="text-xs font-semibold text-foreground">Quality Assured</div>
+                      <div className="text-[10px] text-muted-foreground">ISO Certified</div>
+                    </div>
                   </div>
                 </div>
               </div>
               
-              {/* Decorative elements */}
-              <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full blur-2xl" />
-              <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-gradient-to-br from-accent/20 to-primary/20 rounded-full blur-2xl" />
+              {/* Secondary Image - Bottom Left Overlap */}
+              <div className="absolute -bottom-4 -left-2 sm:-bottom-6 sm:-left-4 w-[40%] sm:w-[35%] aspect-square rounded-xl sm:rounded-2xl overflow-hidden shadow-xl border-4 border-background hero-slide-up hero-delay-4">
+                <Image 
+                  src="https://images.unsplash.com/photo-1579154204601-01588f351e67?w=400&q=80" 
+                  alt="Chemical compound molecules" 
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 40vw, 20vw"
+                />
+              </div>
+              
+              {/* Tertiary Image - Top Left Overlap */}
+              <div className="absolute -top-3 -left-3 sm:-top-4 sm:-left-4 w-[28%] sm:w-[25%] aspect-[3/4] rounded-xl sm:rounded-2xl overflow-hidden shadow-lg border-4 border-background hero-slide-down hero-delay-5 hidden sm:block">
+                <Image 
+                  src="https://images.unsplash.com/photo-1518152006812-edab29b069ac?w=300&q=80" 
+                  alt="Laboratory test tubes" 
+                  fill
+                  className="object-cover"
+                  sizes="15vw"
+                />
+              </div>
+              
+              {/* Stats Card - Desktop Only (Bottom Right) */}
+              <div className="absolute -bottom-6 -right-2 sm:-right-4 lg:-right-6 hidden lg:block hero-slide-up hero-delay-5">
+                <div className="bg-card/95 backdrop-blur-md rounded-2xl shadow-xl border border-border/50 p-4 xl:p-5">
+                  <div className="grid grid-cols-2 gap-3 xl:gap-4">
+                    <div className="text-center px-3 xl:px-4">
+                      <div className="text-2xl xl:text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-mono">100+</div>
+                      <div className="text-xs font-medium text-muted-foreground">Partners</div>
+                    </div>
+                    <div className="text-center px-3 xl:px-4">
+                      <div className="text-2xl xl:text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-mono">6000+</div>
+                      <div className="text-xs font-medium text-muted-foreground">KL Capacity</div>
+                    </div>
+                    <div className="text-center px-3 xl:px-4">
+                      <div className="text-2xl xl:text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-mono">3500+</div>
+                      <div className="text-xs font-medium text-muted-foreground">Products</div>
+                    </div>
+                    <div className="text-center px-3 xl:px-4">
+                      <div className="text-2xl xl:text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-mono">20+</div>
+                      <div className="text-xs font-medium text-muted-foreground">Reactions</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Decorative elements - Very subtle */}
+              <div className="absolute top-1/2 -right-8 w-16 h-16 border border-primary/10 rounded-full hidden xl:block" />
+              <div className="absolute -bottom-8 left-1/3 w-12 h-12 border border-accent/10 rounded-full hidden xl:block" />
             </div>
           </div>
         </section>
