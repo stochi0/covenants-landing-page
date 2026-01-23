@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -29,8 +29,13 @@ import {
   Package,
   Atom,
   ArrowRight,
+  Loader2,
+  Hash,
+  Type,
+  ChevronDown,
+  AlertCircle,
 } from 'lucide-react'
-import { products, searchProducts, categoryInfo, type Product } from '@/lib/products-data'
+import { searchProductsPaginated, categoryInfo, type Product, type SearchType, type PaginatedResponse } from '@/lib/products-data'
 import { RFQModal } from './rfq-modal'
 
 type Category = 'api' | 'impurity' | 'intermediate' | 'chemical'
@@ -42,21 +47,121 @@ const categoryIcons: Record<Category, React.ReactNode> = {
   chemical: <Layers className="w-4 h-4" />,
 }
 
+const PAGE_SIZE = 20
+
 interface ProductSearchProps {
   open: boolean
   onOpenChange: (open: boolean) => void
 }
 
 export function ProductSearch({ open, onOpenChange }: ProductSearchProps) {
+  // Search state
   const [searchQuery, setSearchQuery] = useState('')
+  const [searchType, setSearchType] = useState<SearchType>('name')
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([])
+  
+  // Results state
+  const [products, setProducts] = useState<Product[]>([])
+  const [totalCount, setTotalCount] = useState(0)
+  const [hasMore, setHasMore] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [isLoading, setIsLoading] = useState(false)
+  const [isLoadingMore, setIsLoadingMore] = useState(false)
+  const [hasSearched, setHasSearched] = useState(false)
+  
+  // Selection state
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([])
   const [rfqOpen, setRfqOpen] = useState(false)
+  
+  // Refs
+  const searchInputRef = useRef<HTMLInputElement>(null)
+  const scrollAreaRef = useRef<HTMLDivElement>(null)
+  const debounceRef = useRef<NodeJS.Timeout | null>(null)
 
-  // Filter and search products
-  const filteredProducts = useMemo(() => {
-    return searchProducts(searchQuery, selectedCategories)
-  }, [searchQuery, selectedCategories])
+  // Reset when dialog opens
+  useEffect(() => {
+    if (open) {
+      setTimeout(() => {
+        searchInputRef.current?.focus()
+      }, 100)
+    } else {
+      // Reset state when closing
+      setSearchQuery('')
+      setProducts([])
+      setTotalCount(0)
+      setHasMore(false)
+      setCurrentPage(1)
+      setHasSearched(false)
+    }
+  }, [open])
+
+  // Perform search
+  const performSearch = useCallback(async (query: string, type: SearchType, categories: Category[], page: number, append: boolean = false) => {
+    // Don't search if no query and no category filter
+    if (!query.trim() && categories.length === 0) {
+      setProducts([])
+      setTotalCount(0)
+      setHasMore(false)
+      setHasSearched(false)
+      return
+    }
+
+    if (append) {
+      setIsLoadingMore(true)
+    } else {
+      setIsLoading(true)
+    }
+
+    try {
+      const response = await searchProductsPaginated({
+        query,
+        searchType: type,
+        categories,
+        page,
+        pageSize: PAGE_SIZE,
+      })
+
+      if (append) {
+        setProducts(prev => [...prev, ...response.products])
+      } else {
+        setProducts(response.products)
+      }
+      
+      setTotalCount(response.total)
+      setHasMore(response.hasMore)
+      setCurrentPage(page)
+      setHasSearched(true)
+    } catch (error) {
+      console.error('Search failed:', error)
+    } finally {
+      setIsLoading(false)
+      setIsLoadingMore(false)
+    }
+  }, [])
+
+  // Debounced search on query change
+  useEffect(() => {
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current)
+    }
+
+    debounceRef.current = setTimeout(() => {
+      performSearch(searchQuery, searchType, selectedCategories, 1, false)
+    }, 300)
+
+    return () => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current)
+      }
+    }
+  }, [searchQuery, searchType, selectedCategories, performSearch])
+
+  // Load more handler
+  const handleLoadMore = useCallback(() => {
+    if (!isLoadingMore && hasMore) {
+      performSearch(searchQuery, searchType, selectedCategories, currentPage + 1, true)
+    }
+  }, [isLoadingMore, hasMore, searchQuery, searchType, selectedCategories, currentPage, performSearch])
 
   // Toggle category filter
   const toggleCategory = useCallback((category: Category) => {
@@ -113,20 +218,58 @@ export function ProductSearch({ open, onOpenChange }: ProductSearchProps) {
                   <Package className="w-5 h-5 text-primary" />
                 </div>
                 <DialogTitle className="text-xl">Product Catalog</DialogTitle>
+                <Badge variant="secondary" className="text-xs">
+                  500+ Products
+                </Badge>
               </div>
               <DialogDescription className="text-muted-foreground">
-                Search our extensive catalog of APIs, intermediates, specialty chemicals, and impurities.
+                Search by CAS number or product name to find exactly what you need.
               </DialogDescription>
             </DialogHeader>
 
+            {/* Search Type Tabs */}
+            <div className="mt-4 flex items-center gap-2 p-1 bg-muted/50 rounded-lg w-fit">
+              <button
+                onClick={() => setSearchType('name')}
+                className={`
+                  flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all
+                  ${searchType === 'name' 
+                    ? 'bg-background text-foreground shadow-sm' 
+                    : 'text-muted-foreground hover:text-foreground'
+                  }
+                `}
+              >
+                <Type className="w-4 h-4" />
+                Product Name
+              </button>
+              <button
+                onClick={() => setSearchType('cas')}
+                className={`
+                  flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all
+                  ${searchType === 'cas' 
+                    ? 'bg-background text-foreground shadow-sm' 
+                    : 'text-muted-foreground hover:text-foreground'
+                  }
+                `}
+              >
+                <Hash className="w-4 h-4" />
+                CAS Number
+              </button>
+            </div>
+
             {/* Search Bar */}
-            <div className="mt-4 relative">
+            <div className="mt-3 relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
-                placeholder="Search by product name, CAS number, or synonym..."
+                ref={searchInputRef}
+                placeholder={searchType === 'cas' 
+                  ? "Enter CAS number (e.g., 1115-70-4)..." 
+                  : "Search by product name or synonym..."
+                }
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 h-11 bg-background/80 border-border/50 focus:border-primary/50"
+                className="pl-10 h-11 bg-background/80 border-border/50 focus:border-primary/50 font-mono"
+                style={{ fontFamily: searchType === 'cas' ? 'var(--font-jetbrains), monospace' : 'inherit' }}
               />
               {searchQuery && (
                 <button
@@ -139,7 +282,7 @@ export function ProductSearch({ open, onOpenChange }: ProductSearchProps) {
             </div>
 
             {/* Category Filters */}
-            <div className="mt-4 flex flex-wrap items-center gap-2">
+            <div className="mt-3 flex flex-wrap items-center gap-2">
               <div className="flex items-center gap-1.5 text-sm text-muted-foreground mr-2">
                 <Filter className="w-3.5 h-3.5" />
                 <span>Filter:</span>
@@ -180,24 +323,31 @@ export function ProductSearch({ open, onOpenChange }: ProductSearchProps) {
           {/* Results */}
           <div className="flex flex-col md:flex-row h-[50vh] min-h-[400px]">
             {/* Product List */}
-            <div className="flex-1 border-r border-border overflow-hidden">
-              <div className="px-4 py-2 bg-muted/30 border-b border-border flex items-center justify-between">
+            <div className="flex-1 border-r border-border overflow-hidden flex flex-col">
+              <div className="px-4 py-2 bg-muted/30 border-b border-border flex items-center justify-between shrink-0">
                 <span className="text-xs text-muted-foreground">
-                  {filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''} found
+                  {hasSearched ? (
+                    <>
+                      {totalCount} result{totalCount !== 1 ? 's' : ''} found
+                      {products.length < totalCount && ` • Showing ${products.length}`}
+                    </>
+                  ) : (
+                    'Enter a search term or select a category'
+                  )}
                 </span>
-                {filteredProducts.length > 0 && (
+                {products.length > 0 && (
                   <button
                     onClick={() => {
-                      const allSelected = filteredProducts.every((p) =>
+                      const allSelected = products.every((p) =>
                         selectedProducts.some((sp) => sp.id === p.id)
                       )
                       if (allSelected) {
                         setSelectedProducts((prev) =>
-                          prev.filter((p) => !filteredProducts.some((fp) => fp.id === p.id))
+                          prev.filter((p) => !products.some((fp) => fp.id === p.id))
                         )
                       } else {
                         setSelectedProducts((prev) => {
-                          const newProducts = filteredProducts.filter(
+                          const newProducts = products.filter(
                             (fp) => !prev.some((p) => p.id === fp.id)
                           )
                           return [...prev, ...newProducts]
@@ -206,37 +356,85 @@ export function ProductSearch({ open, onOpenChange }: ProductSearchProps) {
                     }}
                     className="text-xs text-primary hover:text-primary/80 transition-colors font-medium"
                   >
-                    {filteredProducts.every((p) =>
+                    {products.every((p) =>
                       selectedProducts.some((sp) => sp.id === p.id)
                     )
-                      ? 'Deselect all'
-                      : 'Select all'}
+                      ? 'Deselect visible'
+                      : 'Select visible'}
                   </button>
                 )}
               </div>
 
-              <ScrollArea className="h-[calc(100%-36px)]">
+              <ScrollArea className="flex-1" ref={scrollAreaRef}>
                 <div className="p-3 space-y-2">
-                  {filteredProducts.length === 0 ? (
+                  {/* Loading state */}
+                  {isLoading && (
+                    <div className="flex flex-col items-center justify-center py-12 text-center">
+                      <Loader2 className="w-8 h-8 text-primary animate-spin mb-4" />
+                      <p className="text-muted-foreground font-medium">Searching products...</p>
+                    </div>
+                  )}
+
+                  {/* Empty state - No search */}
+                  {!isLoading && !hasSearched && (
                     <div className="flex flex-col items-center justify-center py-12 text-center">
                       <div className="p-4 rounded-full bg-muted/50 mb-4">
                         <Search className="w-8 h-8 text-muted-foreground/50" />
+                      </div>
+                      <p className="text-muted-foreground font-medium">Start your search</p>
+                      <p className="text-sm text-muted-foreground/70 mt-1 max-w-xs">
+                        Enter a {searchType === 'cas' ? 'CAS number' : 'product name'} or select a category to browse products
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Empty state - No results */}
+                  {!isLoading && hasSearched && products.length === 0 && (
+                    <div className="flex flex-col items-center justify-center py-12 text-center">
+                      <div className="p-4 rounded-full bg-muted/50 mb-4">
+                        <AlertCircle className="w-8 h-8 text-muted-foreground/50" />
                       </div>
                       <p className="text-muted-foreground font-medium">No products found</p>
                       <p className="text-sm text-muted-foreground/70 mt-1">
                         Try adjusting your search or filters
                       </p>
                     </div>
-                  ) : (
-                    filteredProducts.map((product, index) => (
-                      <ProductCard
-                        key={product.id}
-                        product={product}
-                        isSelected={isProductSelected(product)}
-                        onToggle={() => toggleProductSelection(product)}
-                        delay={index * 30}
-                      />
-                    ))
+                  )}
+
+                  {/* Product list */}
+                  {!isLoading && products.map((product, index) => (
+                    <ProductCard
+                      key={product.id}
+                      product={product}
+                      isSelected={isProductSelected(product)}
+                      onToggle={() => toggleProductSelection(product)}
+                      searchType={searchType}
+                      searchQuery={searchQuery}
+                    />
+                  ))}
+
+                  {/* Load more button */}
+                  {!isLoading && hasMore && (
+                    <div className="pt-2 pb-4">
+                      <Button
+                        variant="outline"
+                        onClick={handleLoadMore}
+                        disabled={isLoadingMore}
+                        className="w-full"
+                      >
+                        {isLoadingMore ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            Loading more...
+                          </>
+                        ) : (
+                          <>
+                            <ChevronDown className="w-4 h-4" />
+                            Load more ({totalCount - products.length} remaining)
+                          </>
+                        )}
+                      </Button>
+                    </div>
                   )}
                 </div>
               </ScrollArea>
@@ -244,7 +442,7 @@ export function ProductSearch({ open, onOpenChange }: ProductSearchProps) {
 
             {/* Selected Products Panel */}
             <div className="w-full md:w-72 bg-muted/20 flex flex-col">
-              <div className="px-4 py-3 bg-muted/30 border-b border-border">
+              <div className="px-4 py-3 bg-muted/30 border-b border-border shrink-0">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <ShoppingCart className="w-4 h-4 text-primary" />
@@ -295,7 +493,7 @@ export function ProductSearch({ open, onOpenChange }: ProductSearchProps) {
               </ScrollArea>
 
               {/* Action Buttons */}
-              <div className="p-4 border-t border-border bg-background/50 space-y-2">
+              <div className="p-4 border-t border-border bg-background/50 space-y-2 shrink-0">
                 {selectedProducts.length > 0 && (
                   <button
                     onClick={clearSelections}
@@ -338,11 +536,26 @@ interface ProductCardProps {
   product: Product
   isSelected: boolean
   onToggle: () => void
-  delay?: number
+  searchType: SearchType
+  searchQuery: string
 }
 
-function ProductCard({ product, isSelected, onToggle, delay = 0 }: ProductCardProps) {
+function ProductCard({ product, isSelected, onToggle, searchType, searchQuery }: ProductCardProps) {
   const info = categoryInfo[product.category]
+
+  // Highlight matching text
+  const highlightMatch = (text: string, query: string) => {
+    if (!query.trim()) return text
+    const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi')
+    const parts = text.split(regex)
+    return parts.map((part, i) => 
+      regex.test(part) ? (
+        <mark key={i} className="bg-accent/30 text-accent-foreground rounded px-0.5">
+          {part}
+        </mark>
+      ) : part
+    )
+  }
 
   return (
     <div
@@ -355,9 +568,6 @@ function ProductCard({ product, isSelected, onToggle, delay = 0 }: ProductCardPr
             : 'bg-card border-border/50 hover:border-primary/20 hover:bg-muted/30'
         }
       `}
-      style={{
-        animationDelay: `${delay}ms`,
-      }}
     >
       {/* Checkbox */}
       <div className="pt-0.5" onClick={(e) => e.stopPropagation()}>
@@ -371,7 +581,7 @@ function ProductCard({ product, isSelected, onToggle, delay = 0 }: ProductCardPr
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between gap-2 mb-1">
           <h3 className="font-medium text-sm text-foreground leading-tight group-hover:text-primary transition-colors">
-            {product.name}
+            {searchType === 'name' ? highlightMatch(product.name, searchQuery) : product.name}
           </h3>
           <Badge variant={product.category as 'api' | 'impurity' | 'intermediate' | 'chemical'} className="shrink-0">
             {categoryIcons[product.category]}
@@ -380,8 +590,8 @@ function ProductCard({ product, isSelected, onToggle, delay = 0 }: ProductCardPr
         </div>
 
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
-          <span className="font-mono bg-muted/50 px-1.5 py-0.5 rounded">
-            CAS: {product.casNumber}
+          <span className={`font-mono bg-muted/50 px-1.5 py-0.5 rounded ${searchType === 'cas' ? 'ring-1 ring-primary/30' : ''}`}>
+            CAS: {searchType === 'cas' ? highlightMatch(product.casNumber, searchQuery) : product.casNumber}
           </span>
           {product.purity && (
             <span className="flex items-center gap-1">
@@ -421,4 +631,3 @@ function ProductCard({ product, isSelected, onToggle, delay = 0 }: ProductCardPr
     </div>
   )
 }
-

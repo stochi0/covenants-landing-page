@@ -14,8 +14,29 @@ export interface Product {
   inStock: boolean
 }
 
-// Mock Product Data - Realistic pharmaceutical products
-export const products: Product[] = [
+// Search types
+export type SearchType = 'name' | 'cas'
+
+// Paginated response
+export interface PaginatedResponse {
+  products: Product[]
+  total: number
+  page: number
+  pageSize: number
+  hasMore: boolean
+}
+
+// Search params
+export interface SearchParams {
+  query: string
+  searchType: SearchType
+  categories: string[]
+  page: number
+  pageSize: number
+}
+
+// Base product templates for generating large dataset
+const baseProducts: Product[] = [
   // APIs
   {
     id: 'api-001',
@@ -129,259 +150,226 @@ export const products: Product[] = [
     synonyms: ['Crestor', 'ZD4522'],
     inStock: true,
   },
-  
-  // Intermediates
   {
-    id: 'int-001',
-    name: 'Ethyl 3-Oxo-4-phenylbutanoate',
-    casNumber: '5413-05-8',
-    category: 'intermediate',
-    molecularFormula: 'C12H14O3',
-    molecularWeight: 206.24,
+    id: 'api-009',
+    name: 'Simvastatin',
+    casNumber: '79902-63-9',
+    category: 'api',
+    molecularFormula: 'C25H38O5',
+    molecularWeight: 418.57,
     purity: '≥98.0%',
-    description: 'Key intermediate in pharmaceutical synthesis',
-    synonyms: ['BMK Glycidate', 'Ethyl phenylacetylacetate'],
+    grade: 'USP/EP',
+    therapeuticArea: 'Cardiovascular',
+    description: 'HMG-CoA reductase inhibitor for cholesterol',
+    synonyms: ['Zocor', 'Synvinolin'],
     inStock: true,
   },
   {
-    id: 'int-002',
-    name: '2-Chloro-5-nitrobenzoic acid',
-    casNumber: '2516-96-3',
-    category: 'intermediate',
-    molecularFormula: 'C7H4ClNO4',
-    molecularWeight: 201.56,
+    id: 'api-010',
+    name: 'Gabapentin',
+    casNumber: '60142-96-3',
+    category: 'api',
+    molecularFormula: 'C9H17NO2',
+    molecularWeight: 171.24,
     purity: '≥99.0%',
-    description: 'Intermediate for anti-inflammatory drugs synthesis',
-    synonyms: ['CNBA'],
-    inStock: true,
-  },
-  {
-    id: 'int-003',
-    name: '4-Amino-3,5-dichlorophenol',
-    casNumber: '5765-72-0',
-    category: 'intermediate',
-    molecularFormula: 'C6H5Cl2NO',
-    molecularWeight: 178.02,
-    purity: '≥98.0%',
-    description: 'Building block for agrochemicals and pharmaceuticals',
-    synonyms: ['ADCP'],
-    inStock: true,
-  },
-  {
-    id: 'int-004',
-    name: 'N-Methyl-4-piperidone',
-    casNumber: '1445-73-4',
-    category: 'intermediate',
-    molecularFormula: 'C6H11NO',
-    molecularWeight: 113.16,
-    purity: '≥99.0%',
-    description: 'Versatile intermediate for opioid synthesis',
-    synonyms: ['NMP', '1-Methyl-4-piperidone'],
-    inStock: false,
-  },
-  {
-    id: 'int-005',
-    name: '3,4-Dihydroxybenzaldehyde',
-    casNumber: '139-85-5',
-    category: 'intermediate',
-    molecularFormula: 'C7H6O3',
-    molecularWeight: 138.12,
-    purity: '≥98.0%',
-    description: 'Key intermediate for L-DOPA and catecholamine synthesis',
-    synonyms: ['Protocatechualdehyde', '3,4-DHBA'],
-    inStock: true,
-  },
-  {
-    id: 'int-006',
-    name: '2-Amino-5-chlorobenzophenone',
-    casNumber: '719-59-5',
-    category: 'intermediate',
-    molecularFormula: 'C13H10ClNO',
-    molecularWeight: 231.68,
-    purity: '≥98.5%',
-    description: 'Intermediate for benzodiazepine synthesis',
-    synonyms: ['ACBP'],
-    inStock: true,
-  },
-  
-  // Impurities
-  {
-    id: 'imp-001',
-    name: 'Atorvastatin Lactone',
-    casNumber: '125971-95-1',
-    category: 'impurity',
-    molecularFormula: 'C33H35FN2O4',
-    molecularWeight: 542.64,
-    purity: '≥95.0%',
-    grade: 'Reference Standard',
-    description: 'Process-related impurity of Atorvastatin',
-    synonyms: ['Atorvastatin Impurity A', 'ATL'],
-    inStock: true,
-  },
-  {
-    id: 'imp-002',
-    name: 'Omeprazole Sulfone',
-    casNumber: '88546-55-8',
-    category: 'impurity',
-    molecularFormula: 'C17H19N3O4S',
-    molecularWeight: 361.42,
-    purity: '≥98.0%',
-    grade: 'Reference Standard',
-    description: 'Metabolite and impurity of Omeprazole',
-    synonyms: ['Omeprazole Impurity B'],
-    inStock: true,
-  },
-  {
-    id: 'imp-003',
-    name: 'N-Nitroso Dimethylamine',
-    casNumber: '62-75-9',
-    category: 'impurity',
-    molecularFormula: 'C2H6N2O',
-    molecularWeight: 74.08,
-    purity: '≥99.0%',
-    grade: 'Reference Standard',
-    description: 'Nitrosamine impurity marker compound',
-    synonyms: ['NDMA', 'DMN'],
-    inStock: true,
-  },
-  {
-    id: 'imp-004',
-    name: 'Metformin Related Compound A',
-    casNumber: '1115-70-4',
-    category: 'impurity',
-    molecularFormula: 'C4H11N5',
-    molecularWeight: 129.17,
-    purity: '≥95.0%',
-    grade: 'Reference Standard',
-    description: 'Degradation impurity of Metformin',
-    synonyms: ['Metformin Impurity A', 'Cyanoguanidine'],
-    inStock: true,
-  },
-  {
-    id: 'imp-005',
-    name: 'Amlodipine Impurity D',
-    casNumber: '88150-47-4',
-    category: 'impurity',
-    molecularFormula: 'C20H25ClN2O5',
-    molecularWeight: 408.88,
-    purity: '≥95.0%',
-    grade: 'Reference Standard',
-    description: 'Synthesis-related impurity of Amlodipine',
-    synonyms: ['Dehydro Amlodipine'],
-    inStock: false,
-  },
-  {
-    id: 'imp-006',
-    name: 'Losartan N2-Glucuronide',
-    casNumber: '114798-26-4',
-    category: 'impurity',
-    molecularFormula: 'C28H32ClN6O8',
-    molecularWeight: 618.04,
-    purity: '≥95.0%',
-    grade: 'Reference Standard',
-    description: 'Major metabolite of Losartan',
-    synonyms: ['Losartan Metabolite I'],
-    inStock: true,
-  },
-  
-  // Specialty Chemicals
-  {
-    id: 'chem-001',
-    name: 'Polyethylene Glycol 400',
-    casNumber: '25322-68-3',
-    category: 'chemical',
-    molecularFormula: 'H(OCH2CH2)nOH',
-    molecularWeight: 400,
-    purity: 'NF',
-    description: 'Excipient and solubilizer for pharmaceutical formulations',
-    synonyms: ['PEG 400', 'Macrogol 400'],
-    inStock: true,
-  },
-  {
-    id: 'chem-002',
-    name: 'Hydroxypropyl Methylcellulose',
-    casNumber: '9004-65-3',
-    category: 'chemical',
-    molecularFormula: 'Variable',
-    molecularWeight: 10000,
-    purity: 'USP/NF',
-    description: 'Film-forming agent and controlled-release matrix',
-    synonyms: ['HPMC', 'Hypromellose'],
-    inStock: true,
-  },
-  {
-    id: 'chem-003',
-    name: 'Magnesium Stearate',
-    casNumber: '557-04-0',
-    category: 'chemical',
-    molecularFormula: 'C36H70MgO4',
-    molecularWeight: 591.27,
-    purity: 'NF/EP',
-    description: 'Lubricant for tablet and capsule manufacturing',
-    synonyms: ['Magnesium Octadecanoate'],
-    inStock: true,
-  },
-  {
-    id: 'chem-004',
-    name: 'Microcrystalline Cellulose',
-    casNumber: '9004-34-6',
-    category: 'chemical',
-    molecularFormula: '(C6H10O5)n',
-    molecularWeight: 36000,
-    purity: 'NF/EP',
-    description: 'Binder and diluent in solid dosage forms',
-    synonyms: ['MCC', 'Avicel'],
-    inStock: true,
-  },
-  {
-    id: 'chem-005',
-    name: 'Croscarmellose Sodium',
-    casNumber: '74811-65-7',
-    category: 'chemical',
-    molecularFormula: 'Variable',
-    molecularWeight: 90000,
-    purity: 'NF',
-    description: 'Super-disintegrant for tablets and capsules',
-    synonyms: ['Ac-Di-Sol', 'Modified Cellulose Gum'],
-    inStock: true,
-  },
-  {
-    id: 'chem-006',
-    name: 'Silicon Dioxide Colloidal',
-    casNumber: '7631-86-9',
-    category: 'chemical',
-    molecularFormula: 'SiO2',
-    molecularWeight: 60.08,
-    purity: 'NF/EP',
-    description: 'Glidant and anticaking agent',
-    synonyms: ['Aerosil', 'Cab-O-Sil', 'Fumed Silica'],
-    inStock: true,
-  },
-  {
-    id: 'chem-007',
-    name: 'Povidone K30',
-    casNumber: '9003-39-8',
-    category: 'chemical',
-    molecularFormula: '(C6H9NO)n',
-    molecularWeight: 40000,
-    purity: 'USP/NF',
-    description: 'Binder and solubilizer for pharmaceutical use',
-    synonyms: ['PVP K30', 'Polyvinylpyrrolidone'],
-    inStock: false,
-  },
-  {
-    id: 'chem-008',
-    name: 'Sodium Lauryl Sulfate',
-    casNumber: '151-21-3',
-    category: 'chemical',
-    molecularFormula: 'C12H25NaO4S',
-    molecularWeight: 288.38,
-    purity: 'NF',
-    description: 'Surfactant and emulsifier',
-    synonyms: ['SLS', 'Sodium Dodecyl Sulfate'],
+    grade: 'USP',
+    therapeuticArea: 'Neurological',
+    description: 'Anticonvulsant for epilepsy and neuropathic pain',
+    synonyms: ['Neurontin', 'Gralise'],
     inStock: true,
   },
 ]
+
+// Additional API names for generation
+const apiNames = [
+  'Acetaminophen', 'Ibuprofen', 'Aspirin', 'Naproxen', 'Diclofenac',
+  'Celecoxib', 'Meloxicam', 'Piroxicam', 'Indomethacin', 'Ketorolac',
+  'Tramadol', 'Codeine', 'Morphine', 'Oxycodone', 'Hydrocodone',
+  'Fentanyl', 'Buprenorphine', 'Naloxone', 'Naltrexone', 'Methadone',
+  'Alprazolam', 'Lorazepam', 'Diazepam', 'Clonazepam', 'Midazolam',
+  'Zolpidem', 'Eszopiclone', 'Ramelteon', 'Suvorexant', 'Lemborexant',
+  'Sertraline', 'Fluoxetine', 'Paroxetine', 'Citalopram', 'Escitalopram',
+  'Venlafaxine', 'Duloxetine', 'Bupropion', 'Mirtazapine', 'Trazodone',
+  'Quetiapine', 'Risperidone', 'Olanzapine', 'Aripiprazole', 'Ziprasidone',
+  'Haloperidol', 'Chlorpromazine', 'Clozapine', 'Paliperidone', 'Lurasidone',
+  'Levothyroxine', 'Liothyronine', 'Methimazole', 'Propylthiouracil', 'Carbimazole',
+  'Prednisone', 'Prednisolone', 'Dexamethasone', 'Hydrocortisone', 'Methylprednisolone',
+  'Insulin Glargine', 'Insulin Lispro', 'Insulin Aspart', 'Glipizide', 'Glyburide',
+  'Pioglitazone', 'Rosiglitazone', 'Sitagliptin', 'Saxagliptin', 'Linagliptin',
+  'Canagliflozin', 'Dapagliflozin', 'Empagliflozin', 'Liraglutide', 'Semaglutide',
+]
+
+// Intermediate names for generation
+const intermediateNames = [
+  '4-Aminophenol', '2-Chlorobenzoic Acid', '3-Nitroaniline', 'Benzyl Chloride',
+  'Ethyl Acetoacetate', 'Diethyl Malonate', 'Phenylacetic Acid', 'Mandelic Acid',
+  '4-Hydroxybenzaldehyde', 'Vanillin', 'Guaiacol', 'Catechol', 'Resorcinol',
+  'Hydroquinone', 'Pyrogallol', '4-Chloroacetophenone', '2-Bromobenzoic Acid',
+  '3-Chloropropionic Acid', 'Glycine Ethyl Ester', 'Alanine Methyl Ester',
+  'Piperidine', 'Pyrrolidine', 'Morpholine', 'Piperazine', 'Thiomorpholine',
+  'Benzimidazole', 'Indole', 'Quinoline', 'Isoquinoline', 'Pyridine',
+  'Imidazole', 'Triazole', 'Tetrazole', 'Pyrazole', 'Oxazole',
+  'Thiazole', 'Furan', 'Thiophene', 'Pyrrole', 'Indazole',
+  'Benzofuran', 'Benzothiophene', 'Carbazole', 'Acridine', 'Phenazine',
+]
+
+// Impurity names for generation  
+const impurityNames = [
+  'N-Oxide', 'Sulfoxide', 'Sulfone', 'Lactone', 'Lactam',
+  'Dimer', 'Trimer', 'Epoxide', 'Hydroxy', 'Dehydro',
+  'Nor', 'Desmethyl', 'Didesmethyl', 'Carboxy', 'Glucuronide',
+  'Sulfate', 'N-Acetyl', 'O-Acetyl', 'Methyl Ester', 'Ethyl Ester',
+  'Ring-opened', 'Cyclized', 'Rearranged', 'Isomer', 'Enantiomer',
+  'Related Compound A', 'Related Compound B', 'Related Compound C', 'Related Compound D', 'Related Compound E',
+  'Process Impurity 1', 'Process Impurity 2', 'Degradant A', 'Degradant B', 'Degradant C',
+]
+
+// Chemical/Excipient names for generation
+const chemicalNames = [
+  'Lactose Monohydrate', 'Mannitol', 'Sorbitol', 'Xylitol', 'Maltitol',
+  'Starch', 'Pregelatinized Starch', 'Corn Starch', 'Potato Starch', 'Rice Starch',
+  'Cellulose', 'Methylcellulose', 'Ethylcellulose', 'Carboxymethylcellulose', 'Hydroxyethylcellulose',
+  'Gelatin', 'Collagen', 'Albumin', 'Casein', 'Zein',
+  'Polyvinyl Alcohol', 'Polyvinyl Acetate', 'Polylactic Acid', 'Polyglycolic Acid', 'PLGA',
+  'Silica', 'Talc', 'Kaolin', 'Bentonite', 'Montmorillonite',
+  'Calcium Carbonate', 'Calcium Phosphate', 'Calcium Sulfate', 'Sodium Bicarbonate', 'Potassium Chloride',
+  'Citric Acid', 'Tartaric Acid', 'Malic Acid', 'Fumaric Acid', 'Succinic Acid',
+  'Sodium Stearate', 'Calcium Stearate', 'Zinc Stearate', 'Glyceryl Monostearate', 'Glyceryl Behenate',
+  'Tween 20', 'Tween 80', 'Span 20', 'Span 80', 'Poloxamer 188',
+]
+
+// Therapeutic areas
+const therapeuticAreas = [
+  'Cardiovascular', 'Antidiabetic', 'Gastrointestinal', 'Neurological', 'Respiratory',
+  'Oncology', 'Immunology', 'Infectious Disease', 'Dermatology', 'Ophthalmology',
+  'Hematology', 'Endocrinology', 'Rheumatology', 'Nephrology', 'Psychiatry',
+]
+
+// Generate CAS number
+function generateCAS(seed: number): string {
+  const part1 = 1000 + (seed * 17) % 89999
+  const part2 = 10 + (seed * 13) % 90
+  const part3 = (seed * 7) % 10
+  return `${part1}-${part2}-${part3}`
+}
+
+// Generate molecular formula
+function generateFormula(seed: number): string {
+  const c = 5 + (seed % 30)
+  const h = 4 + (seed % 40)
+  const n = seed % 5
+  const o = seed % 8
+  const s = seed % 2
+  
+  let formula = `C${c}H${h}`
+  if (n > 0) formula += `N${n}`
+  if (o > 0) formula += `O${o}`
+  if (s > 0) formula += `S`
+  return formula
+}
+
+// Generate large product database (simulating 500 products)
+function generateProducts(): Product[] {
+  const allProducts: Product[] = [...baseProducts]
+  let productId = 100
+  
+  // Generate APIs
+  apiNames.forEach((name, idx) => {
+    allProducts.push({
+      id: `api-${productId++}`,
+      name: name,
+      casNumber: generateCAS(productId * 3 + idx),
+      category: 'api',
+      molecularFormula: generateFormula(productId + idx),
+      molecularWeight: 150 + (productId * 7) % 800,
+      purity: ['≥98.0%', '≥99.0%', '≥99.5%', '≥97.0%'][idx % 4],
+      grade: ['USP', 'EP', 'USP/EP', 'BP', 'JP'][idx % 5],
+      therapeuticArea: therapeuticAreas[idx % therapeuticAreas.length],
+      description: `Active pharmaceutical ingredient for ${therapeuticAreas[idx % therapeuticAreas.length].toLowerCase()} applications`,
+      synonyms: [`${name} Base`, `${name} Salt`],
+      inStock: idx % 4 !== 0,
+    })
+  })
+  
+  // Generate Intermediates
+  intermediateNames.forEach((name, idx) => {
+    allProducts.push({
+      id: `int-${productId++}`,
+      name: name,
+      casNumber: generateCAS(productId * 5 + idx * 2),
+      category: 'intermediate',
+      molecularFormula: generateFormula(productId + idx * 2),
+      molecularWeight: 80 + (productId * 3) % 400,
+      purity: ['≥95.0%', '≥98.0%', '≥99.0%', '≥97.0%'][idx % 4],
+      description: `Pharmaceutical intermediate for synthesis`,
+      synonyms: [name.replace(/\s/g, '')],
+      inStock: idx % 3 !== 0,
+    })
+  })
+  
+  // Generate Impurities (linked to APIs)
+  const apiList = allProducts.filter(p => p.category === 'api')
+  impurityNames.forEach((suffix, idx) => {
+    const parentApi = apiList[idx % apiList.length]
+    allProducts.push({
+      id: `imp-${productId++}`,
+      name: `${parentApi.name} ${suffix}`,
+      casNumber: generateCAS(productId * 7 + idx * 3),
+      category: 'impurity',
+      molecularFormula: generateFormula(productId + idx * 3),
+      molecularWeight: parentApi.molecularWeight + (idx % 100) - 50,
+      purity: '≥95.0%',
+      grade: 'Reference Standard',
+      description: `Impurity/metabolite of ${parentApi.name}`,
+      synonyms: [`${parentApi.name} Impurity ${String.fromCharCode(65 + idx % 26)}`],
+      inStock: idx % 5 !== 0,
+    })
+  })
+  
+  // Generate Chemicals/Excipients
+  chemicalNames.forEach((name, idx) => {
+    allProducts.push({
+      id: `chem-${productId++}`,
+      name: name,
+      casNumber: generateCAS(productId * 11 + idx * 4),
+      category: 'chemical',
+      molecularFormula: generateFormula(productId + idx * 4),
+      molecularWeight: 50 + (productId * 2) % 500,
+      purity: ['NF', 'EP', 'USP/NF', 'BP'][idx % 4],
+      description: `Pharmaceutical excipient for formulation`,
+      synonyms: [name.split(' ')[0]],
+      inStock: idx % 4 !== 0,
+    })
+  })
+  
+  // Generate more variants to reach ~500 products
+  for (let i = 0; i < 150; i++) {
+    const categories: Array<'api' | 'intermediate' | 'impurity' | 'chemical'> = ['api', 'intermediate', 'impurity', 'chemical']
+    const category = categories[i % 4]
+    const baseNameList = category === 'api' ? apiNames : category === 'intermediate' ? intermediateNames : category === 'impurity' ? impurityNames : chemicalNames
+    const baseName = baseNameList[i % baseNameList.length]
+    
+    allProducts.push({
+      id: `${category.slice(0, 3)}-${productId++}`,
+      name: `${baseName} ${['Sodium', 'Potassium', 'Calcium', 'Hydrochloride', 'Sulfate', 'Mesylate', 'Besylate', 'Tartrate'][i % 8]}`,
+      casNumber: generateCAS(productId * 13 + i * 5),
+      category: category,
+      molecularFormula: generateFormula(productId + i * 5),
+      molecularWeight: 100 + (productId * 4) % 900,
+      purity: ['≥95.0%', '≥98.0%', '≥99.0%', '≥99.5%'][i % 4],
+      grade: category === 'impurity' ? 'Reference Standard' : ['USP', 'EP', 'BP', 'JP', 'NF'][i % 5],
+      therapeuticArea: category === 'api' ? therapeuticAreas[i % therapeuticAreas.length] : undefined,
+      description: `${category === 'api' ? 'Active pharmaceutical ingredient' : category === 'intermediate' ? 'Pharmaceutical intermediate' : category === 'impurity' ? 'Reference standard/impurity' : 'Pharmaceutical excipient'}`,
+      synonyms: [`${baseName}-${i}`],
+      inStock: i % 3 !== 0,
+    })
+  }
+  
+  return allProducts
+}
+
+// Generated products database
+export const products: Product[] = generateProducts()
 
 // Category display info
 export const categoryInfo = {
@@ -411,7 +399,105 @@ export const categoryInfo = {
   },
 }
 
-// Search function
+// Simulated API delay
+const simulateDelay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+
+// Paginated search function (simulates API call)
+export async function searchProductsPaginated(params: SearchParams): Promise<PaginatedResponse> {
+  const { query, searchType, categories, page, pageSize } = params
+  const searchTerm = query.toLowerCase().trim()
+  
+  // Simulate network delay (200-500ms)
+  await simulateDelay(200 + Math.random() * 300)
+  
+  // Filter products
+  const filtered = products.filter((product) => {
+    // Category filter
+    if (categories.length > 0 && !categories.includes(product.category)) {
+      return false
+    }
+    
+    // Empty search with no category filter - require at least something
+    if (!searchTerm && categories.length === 0) {
+      return false
+    }
+    
+    // Empty search with category filter - show all in category
+    if (!searchTerm) {
+      return true
+    }
+    
+    // Search based on type
+    if (searchType === 'cas') {
+      // CAS number search - exact or partial match
+      return product.casNumber.includes(searchTerm)
+    } else {
+      // Name search - search by name and synonyms
+      if (product.name.toLowerCase().includes(searchTerm)) {
+        return true
+      }
+      if (product.synonyms.some((s) => s.toLowerCase().includes(searchTerm))) {
+        return true
+      }
+      return false
+    }
+  })
+  
+  // Sort results - exact matches first, then alphabetically
+  const sorted = filtered.sort((a, b) => {
+    if (searchType === 'cas') {
+      // Exact CAS match comes first
+      const aExact = a.casNumber === searchTerm
+      const bExact = b.casNumber === searchTerm
+      if (aExact && !bExact) return -1
+      if (!aExact && bExact) return 1
+      // Then by CAS number starts with
+      const aStarts = a.casNumber.startsWith(searchTerm)
+      const bStarts = b.casNumber.startsWith(searchTerm)
+      if (aStarts && !bStarts) return -1
+      if (!aStarts && bStarts) return 1
+    } else {
+      // Exact name match comes first
+      const aExact = a.name.toLowerCase() === searchTerm
+      const bExact = b.name.toLowerCase() === searchTerm
+      if (aExact && !bExact) return -1
+      if (!aExact && bExact) return 1
+      // Then by name starts with
+      const aStarts = a.name.toLowerCase().startsWith(searchTerm)
+      const bStarts = b.name.toLowerCase().startsWith(searchTerm)
+      if (aStarts && !bStarts) return -1
+      if (!aStarts && bStarts) return 1
+    }
+    // Finally alphabetically by name
+    return a.name.localeCompare(b.name)
+  })
+  
+  // Paginate
+  const total = sorted.length
+  const startIndex = (page - 1) * pageSize
+  const endIndex = startIndex + pageSize
+  const paginatedProducts = sorted.slice(startIndex, endIndex)
+  
+  return {
+    products: paginatedProducts,
+    total,
+    page,
+    pageSize,
+    hasMore: endIndex < total,
+  }
+}
+
+// Get product by ID (for quick lookup)
+export function getProductById(id: string): Product | undefined {
+  return products.find(p => p.id === id)
+}
+
+// Get products by IDs (for RFQ)
+export function getProductsByIds(ids: string[]): Product[] {
+  return products.filter(p => ids.includes(p.id))
+}
+
+// Legacy search function (for backwards compatibility - don't use for large datasets)
 export function searchProducts(
   query: string,
   categories: string[]
@@ -419,37 +505,26 @@ export function searchProducts(
   const searchTerm = query.toLowerCase().trim()
   
   return products.filter((product) => {
-    // Category filter
     if (categories.length > 0 && !categories.includes(product.category)) {
       return false
     }
     
-    // Empty search returns all (filtered by category)
     if (!searchTerm) {
-      return true
+      return categories.length > 0
     }
     
-    // Search by name
     if (product.name.toLowerCase().includes(searchTerm)) {
       return true
     }
     
-    // Search by CAS number
     if (product.casNumber.includes(searchTerm)) {
       return true
     }
     
-    // Search by synonyms
     if (product.synonyms.some((s) => s.toLowerCase().includes(searchTerm))) {
       return true
     }
     
-    // Search by therapeutic area
-    if (product.therapeuticArea?.toLowerCase().includes(searchTerm)) {
-      return true
-    }
-    
     return false
-  })
+  }).slice(0, 50) // Limit to 50 for safety
 }
-
