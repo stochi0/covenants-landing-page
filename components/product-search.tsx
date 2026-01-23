@@ -27,7 +27,6 @@ import {
   Sparkles,
   Filter,
   Package,
-  Atom,
   ArrowRight,
   Loader2,
   Hash,
@@ -593,39 +592,6 @@ function ProductCard({ product, isSelected, onToggle, searchType, searchQuery }:
           <span className={`font-mono bg-muted/50 px-1.5 py-0.5 rounded ${searchType === 'cas' ? 'ring-1 ring-primary/30' : ''}`}>
             CAS: {searchType === 'cas' ? highlightMatch(product.casNumber, searchQuery) : product.casNumber}
           </span>
-          {product.purity && (
-            <span className="flex items-center gap-1">
-              <Atom className="w-3 h-3" />
-              {product.purity}
-            </span>
-          )}
-          {product.therapeuticArea && (
-            <span className="text-accent">{product.therapeuticArea}</span>
-          )}
-        </div>
-
-        {/* Molecular info on hover/selection */}
-        <div
-          className={`
-            overflow-hidden transition-all duration-200
-            ${isSelected ? 'max-h-20 mt-2 opacity-100' : 'max-h-0 opacity-0'}
-          `}
-        >
-          <div className="text-xs text-muted-foreground pt-2 border-t border-border/50 space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="text-muted-foreground/70">Formula:</span>
-              <span className="font-mono">{product.molecularFormula}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-muted-foreground/70">MW:</span>
-              <span>{product.molecularWeight.toFixed(2)} g/mol</span>
-            </div>
-            {!product.inStock && (
-              <span className="inline-flex items-center text-amber-600 text-xs">
-                Made to order
-              </span>
-            )}
-          </div>
         </div>
       </div>
     </div>
