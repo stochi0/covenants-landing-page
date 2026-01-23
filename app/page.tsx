@@ -352,17 +352,14 @@ export default function Home() {
                 )}
               </div>
 
-              {/* Products Search Button - Premium Design */}
+              {/* Products Search Button */}
               <button
                 type="button"
                 onClick={() => setProductSearchOpen(true)}
-                className="group flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-gradient-to-r from-primary/10 to-accent/10 text-primary hover:from-primary/20 hover:to-accent/20 transition-all duration-300 border border-primary/20 hover:border-primary/40 hover:shadow-sm"
+                className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
               >
-                <Search className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                <Search className="w-4 h-4" />
                 Products
-                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-accent/20 text-accent font-semibold">
-                  NEW
-                </span>
               </button>
               
               <a
@@ -484,15 +481,10 @@ export default function Home() {
                   setProductSearchOpen(true)
                   setMobileMenuOpen(false)
                 }}
-                className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-medium rounded-lg bg-gradient-to-r from-primary/10 to-accent/10 text-primary border border-primary/20"
+                className="w-full text-left px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors flex items-center gap-2"
               >
-                <span className="flex items-center gap-2">
-                  <Search className="w-4 h-4" />
-                  Search Products
-                </span>
-                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-accent/20 text-accent font-semibold">
-                  NEW
-                </span>
+                <Search className="w-4 h-4" />
+                Products
               </button>
               
               <a
