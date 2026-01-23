@@ -69,10 +69,15 @@ const config: Config = {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0.7' },
         },
+        'shimmer': {
+          '0%': { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
+        },
       },
       animation: {
         'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
         'pulse-soft': 'pulse-soft 2s ease-in-out infinite',
+        'shimmer': 'shimmer 2s linear infinite',
       },
     },
   },

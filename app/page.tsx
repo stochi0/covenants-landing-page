@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
+import { ProductSearch } from '@/components/product-search'
 import {
   FlaskConical,
   ArrowRight,
@@ -36,6 +37,7 @@ import {
   X,
   Linkedin,
   Sparkles,
+  Search,
 } from 'lucide-react'
 
 // WhatsApp icon component
@@ -149,6 +151,7 @@ export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [offeringsOpen, setOfferingsOpen] = useState(false)
   const [mobileOfferingsOpen, setMobileOfferingsOpen] = useState(false)
+  const [productSearchOpen, setProductSearchOpen] = useState(false)
   const offeringsRef = useRef<HTMLDivElement>(null)
   const [formData, setFormData] = useState({
     name: '',
@@ -212,6 +215,19 @@ export default function Home() {
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-1">
+              {/* Products Search Button - Premium Design */}
+              <button
+                type="button"
+                onClick={() => setProductSearchOpen(true)}
+                className="group flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-gradient-to-r from-primary/10 to-accent/10 text-primary hover:from-primary/20 hover:to-accent/20 transition-all duration-300 border border-primary/20 hover:border-primary/40 hover:shadow-sm"
+              >
+                <Search className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                Products
+                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-accent/20 text-accent font-semibold">
+                  NEW
+                </span>
+              </button>
+
               {/* Our Offerings Mega Menu */}
               <div ref={offeringsRef} className="relative">
                 <button
@@ -396,6 +412,24 @@ export default function Home() {
           {/* Mobile Navigation */}
           {mobileMenuOpen && (
             <nav className="lg:hidden mt-4 pb-4 space-y-1 border-t border-border pt-4">
+              {/* Products Search Button - Mobile */}
+              <button
+                type="button"
+                onClick={() => {
+                  setProductSearchOpen(true)
+                  setMobileMenuOpen(false)
+                }}
+                className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-medium rounded-lg bg-gradient-to-r from-primary/10 to-accent/10 text-primary border border-primary/20"
+              >
+                <span className="flex items-center gap-2">
+                  <Search className="w-4 h-4" />
+                  Search Products
+                </span>
+                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-accent/20 text-accent font-semibold">
+                  NEW
+                </span>
+              </button>
+              
               {/* Our Offerings Accordion */}
               <div className="space-y-1">
                 <button
@@ -1351,6 +1385,9 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Product Search Modal */}
+      <ProductSearch open={productSearchOpen} onOpenChange={setProductSearchOpen} />
     </div>
   )
 }
