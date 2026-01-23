@@ -366,22 +366,25 @@ export default function Home() {
                 href="https://capillia.vercel.app"
                 target="_blank"
                 rel="noreferrer"
-                className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
+                className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
               >
+                <Globe className="w-4 h-4" />
                 Capillia
               </a>
               <button
                 type="button"
                 onClick={() => scrollToSection('about')}
-                className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
+                className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
               >
+                <Users className="w-4 h-4" />
                 About Us
               </button>
               <button
                 type="button"
                 onClick={() => scrollToSection('why-covenants')}
-                className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
+                className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
               >
+                <Lightbulb className="w-4 h-4" />
                 Why Covenants?
               </button>
             </nav>
@@ -491,22 +494,25 @@ export default function Home() {
                 href="https://capillia.vercel.app"
                 target="_blank"
                 rel="noreferrer"
-                className="block w-full text-left px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
+                className="block w-full text-left px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors flex items-center gap-2"
               >
+                <Globe className="w-4 h-4" />
                 Capillia
               </a>
               <button
                 type="button"
                 onClick={() => scrollToSection('about')}
-                className="w-full text-left px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
+                className="w-full text-left px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors flex items-center gap-2"
               >
+                <Users className="w-4 h-4" />
                 About Us
               </button>
               <button
                 type="button"
                 onClick={() => scrollToSection('why-covenants')}
-                className="w-full text-left px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
+                className="w-full text-left px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors flex items-center gap-2"
               >
+                <Lightbulb className="w-4 h-4" />
                 Why Covenants?
               </button>
               <Button 
