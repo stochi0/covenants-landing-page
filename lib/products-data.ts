@@ -150,7 +150,7 @@ export async function searchProductsPaginated(params: SearchParams): Promise<Pag
     // Search based on type
     if (searchType === 'cas') {
       // CAS number search - exact or partial match
-      return product.casNumber.includes(searchTerm)
+      return product.casNumber.toLowerCase().includes(searchTerm)
     } else {
       // Name search
       return product.name.toLowerCase().includes(searchTerm)
@@ -161,13 +161,13 @@ export async function searchProductsPaginated(params: SearchParams): Promise<Pag
   const sorted = filtered.sort((a, b) => {
     if (searchType === 'cas') {
       // Exact CAS match comes first
-      const aExact = a.casNumber === searchTerm
-      const bExact = b.casNumber === searchTerm
+      const aExact = a.casNumber.toLowerCase() === searchTerm
+      const bExact = b.casNumber.toLowerCase() === searchTerm
       if (aExact && !bExact) return -1
       if (!aExact && bExact) return 1
       // Then by CAS number starts with
-      const aStarts = a.casNumber.startsWith(searchTerm)
-      const bStarts = b.casNumber.startsWith(searchTerm)
+      const aStarts = a.casNumber.toLowerCase().startsWith(searchTerm)
+      const bStarts = b.casNumber.toLowerCase().startsWith(searchTerm)
       if (aStarts && !bStarts) return -1
       if (!aStarts && bStarts) return 1
     } else {
@@ -209,32 +209,4 @@ export function getProductById(id: string): Product | undefined {
 // Get products by IDs (for RFQ)
 export function getProductsByIds(ids: string[]): Product[] {
   return products.filter(p => ids.includes(p.id))
-}
-
-// Legacy search function (for backwards compatibility - don't use for large datasets)
-export function searchProducts(
-  query: string,
-  categories: string[]
-): Product[] {
-  const searchTerm = query.toLowerCase().trim()
-  
-  return products.filter((product) => {
-    if (categories.length > 0 && !categories.includes(product.category)) {
-      return false
-    }
-    
-    if (!searchTerm) {
-      return categories.length > 0
-    }
-    
-    if (product.name.toLowerCase().includes(searchTerm)) {
-      return true
-    }
-    
-    if (product.casNumber.includes(searchTerm)) {
-      return true
-    }
-    
-    return false
-  }).slice(0, 50) // Limit to 50 for safety
 }
