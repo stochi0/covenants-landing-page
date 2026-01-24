@@ -1,73 +1,105 @@
-# React + TypeScript + Vite
+# Covenants PharmaChem Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A Next.js website for Covenants PharmaChem LLP featuring product search, catalog browsing, and RFQ (Request for Quote) functionality.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Framework**: Next.js 15 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: Radix UI + shadcn/ui
+- **Database**: Supabase (PostgreSQL)
+- **Package Manager**: pnpm
 
-## React Compiler
+## Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Prerequisites
 
-## Expanding the ESLint configuration
+- Node.js 18+ 
+- pnpm installed (`npm install -g pnpm`)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Installation
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   pnpm install
+   ```
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+3. Set up environment variables:
+   ```bash
+   cp .env.local.example .env.local
+   ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+4. Configure Supabase:
+   - Create a Supabase project at [supabase.com](https://supabase.com)
+   - Run the migration SQL provided in the project (see migration file)
+   - Get your project URL and anon key from Project Settings > API
+   - Update `.env.local` with your Supabase credentials:
+     ```
+     NEXT_PUBLIC_SUPABASE_URL=your-project-url
+     NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+     ```
+
+5. Run the development server:
+   ```bash
+   pnpm dev
+   ```
+
+6. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+## Database Setup
+
+The project uses Supabase (PostgreSQL) for product data. Run the provided migration SQL in your Supabase SQL editor to create the products table and set up indexes for fast search.
+
+The migration includes:
+- Products table with `product_name`, `cas_number`, and `category` fields
+- Auto-generated product IDs (prod-0001, prod-0002, etc.)
+- Full-text search indexes using pg_trgm extension
+- Sample product data
+
+## Project Structure
+
+```
+├── app/
+│   ├── api/              # API routes
+│   │   └── products/     # Product API endpoints
+│   ├── layout.tsx        # Root layout
+│   └── page.tsx          # Home page
+├── components/           # React components
+│   ├── product-search.tsx # Product search dialog
+│   ├── rfq-modal.tsx     # Request for Quote modal
+│   └── ui/               # shadcn/ui components
+├── lib/
+│   ├── products-data.ts  # Product data API client
+│   ├── supabase.ts       # Supabase client (client-side)
+│   └── supabase-server.ts # Supabase client (server-side)
+└── public/               # Static assets
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## API Endpoints
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- `GET /api/products` - Search products with pagination
+  - Query params: `query`, `searchType` (name|cas), `categories`, `page`, `pageSize`
+- `GET /api/products/[id]` - Get product by ID
+- `POST /api/products/batch` - Get multiple products by IDs
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Features
+
+- 🔍 Product search by name or CAS number
+- 🏷️ Category filtering (API, Impurity, Intermediate, Chemical)
+- 📄 Paginated results
+- 🛒 Product selection for RFQ
+- 📧 Request for Quote form
+- ⚡ Fast search with PostgreSQL indexes
+
+## Build
+
+```bash
+pnpm build
+pnpm start
 ```
+
+## License
+
+Private - Covenants PharmaChem LLP
