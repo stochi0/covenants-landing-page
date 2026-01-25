@@ -91,19 +91,46 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    try {
+      // Prepare products with quantities
+      const productsWithQuantities = selectedProducts.map((p) => {
+        const qty = quantities.find((q) => q.productId === p.id)
+        return {
+          ...p,
+          quantity: qty?.quantity || '',
+          unit: qty?.unit || '',
+        }
+      })
 
-    console.log('RFQ Submitted:', {
-      products: selectedProducts.map((p) => ({
-        ...p,
-        ...quantities.find((q) => q.productId === p.id),
-      })),
-      contact: formData,
-    })
+      // Call RFQ API
+      const response = await fetch('/api/rfq', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          products: productsWithQuantities,
+        }),
+      })
 
-    setIsSubmitting(false)
-    setStep('success')
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || data.details || 'Failed to submit RFQ')
+      }
+
+      // Success
+      setStep('success')
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : 'Failed to submit RFQ. Please try again later.'
+      alert(errorMessage)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const resetAndClose = () => {
