@@ -29,7 +29,6 @@ import {
   Beaker,
   TestTubes,
   Layers,
-  X,
   Loader2,
   AlertCircle,
 } from 'lucide-react'

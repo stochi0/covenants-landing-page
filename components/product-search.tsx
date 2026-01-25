@@ -13,7 +13,6 @@ import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { ControlledCheckbox } from '@/components/ui/checkbox'
-import { Card, CardContent } from '@/components/ui/card'
 import {
   Search,
   FlaskConical,
@@ -34,7 +33,7 @@ import {
   ChevronDown,
   AlertCircle,
 } from 'lucide-react'
-import { searchProductsPaginated, categoryInfo, type Product, type SearchType, type PaginatedResponse } from '@/lib/products-data'
+import { searchProductsPaginated, categoryInfo, type Product, type SearchType } from '@/lib/products-data'
 import { RFQModal } from './rfq-modal'
 
 type Category = 'api' | 'impurity' | 'intermediate' | 'chemical'
@@ -401,7 +400,7 @@ export function ProductSearch({ open, onOpenChange }: ProductSearchProps) {
                   )}
 
                   {/* Product list */}
-                  {!isLoading && products.map((product, index) => (
+                  {!isLoading && products.map((product) => (
                     <ProductCard
                       key={product.id}
                       product={product}
