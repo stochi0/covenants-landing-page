@@ -1,56 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
-
-interface ContactFormData {
-  name: string
-  email: string
-  country: string
-  company: string
-  phone: string
-  lookingFor: string
-  message: string
-}
+import { contactFormSchema } from '@/lib/validation'
 
 export async function POST(request: NextRequest) {
   try {
-    const body: ContactFormData = await request.json()
-    const { name, email, country, company, phone, lookingFor, message } = body
+    const body = await request.json()
 
-    // Validate required fields with specific error messages
-    const missingFields: string[] = []
-    if (!name || name.trim() === '') missingFields.push('name')
-    if (!email || email.trim() === '') missingFields.push('email')
-    if (!country || country.trim() === '') missingFields.push('country')
-    if (!company || company.trim() === '') missingFields.push('company')
-    if (!phone || phone.trim() === '') missingFields.push('phone')
+    // Validate the entire request body with Zod
+    const validationResult = contactFormSchema.safeParse(body)
 
-    if (missingFields.length > 0) {
+    if (!validationResult.success) {
+      const errors = validationResult.error.issues.map((err) => ({
+        field: err.path.join('.'),
+        message: err.message,
+      }))
+
+      // Format error message for better UX
+      const fieldErrors = errors.map((e) => e.field).join(', ')
       return NextResponse.json(
-        { 
-          error: 'Missing required fields',
-          details: `The following fields are required: ${missingFields.join(', ')}`
+        {
+          error: 'Validation failed',
+          details: `The following fields have errors: ${fieldErrors}`,
+          errors,
         },
         { status: 400 }
       )
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        { error: 'Invalid email format' },
-        { status: 400 }
-      )
-    }
-
-    // Validate phone format (basic check)
-    const phoneRegex = /^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,9}$/
-    if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
-      return NextResponse.json(
-        { error: 'Invalid phone number format' },
-        { status: 400 }
-      )
-    }
+    const { name, email, country, company, phone, lookingFor, message } = validationResult.data
 
     // Get SMTP configuration from environment variables
     const smtpPort = parseInt(process.env.SMTP_PORT || '587', 10)

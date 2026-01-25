@@ -34,7 +34,7 @@ import {
 } from 'lucide-react'
 import type { Product } from '@/lib/products-data'
 import { categoryInfo } from '@/lib/products-data'
-import { validateEmail, validatePhone, validateRequired, validateQuantity } from '@/lib/utils'
+import { quantitySchema, rfqContactFormSchema } from '@/lib/validation'
 
 type Category = 'api' | 'impurity' | 'intermediate' | 'chemical'
 
@@ -103,9 +103,9 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
       if (!qty || !qty.quantity) {
         errors[product.id] = 'Quantity is required for this product'
       } else {
-        const validation = validateQuantity(qty.quantity)
-        if (!validation.isValid) {
-          errors[product.id] = validation.error || 'Invalid quantity'
+        const result = quantitySchema.safeParse(qty.quantity)
+        if (!result.success) {
+          errors[product.id] = result.error.issues[0]?.message || 'Invalid quantity'
         }
       }
     })
@@ -115,26 +115,22 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
   }
   
   const validateContactForm = (): boolean => {
-    const errors: Record<string, string> = {}
+    const result = rfqContactFormSchema.safeParse(formData)
     
-    // Validate required fields
-    const nameValidation = validateRequired(formData.name, 'Name')
-    if (!nameValidation.isValid) errors.name = nameValidation.error || 'Name is required'
+    if (!result.success) {
+      const errors: Record<string, string> = {}
+      result.error.issues.forEach((err) => {
+        if (err.path.length > 0) {
+          const field = err.path[0] as string
+          errors[field] = err.message
+        }
+      })
+      setFormErrors(errors)
+      return false
+    }
     
-    const emailValidation = validateEmail(formData.email)
-    if (!emailValidation.isValid) errors.email = emailValidation.error || 'Email is required'
-    
-    const companyValidation = validateRequired(formData.company, 'Company')
-    if (!companyValidation.isValid) errors.company = companyValidation.error || 'Company is required'
-    
-    const phoneValidation = validatePhone(formData.phone)
-    if (!phoneValidation.isValid) errors.phone = phoneValidation.error || 'Phone is required'
-    
-    const countryValidation = validateRequired(formData.country, 'Country')
-    if (!countryValidation.isValid) errors.country = countryValidation.error || 'Country is required'
-    
-    setFormErrors(errors)
-    return Object.keys(errors).length === 0
+    setFormErrors({})
+    return true
   }
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

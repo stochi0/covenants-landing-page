@@ -1,24 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
-
-interface RFQProduct {
-  id: string
-  name: string
-  casNumber: string
-  category: 'api' | 'impurity' | 'intermediate' | 'chemical'
-  quantity?: string
-  unit?: string
-}
-
-interface RFQFormData {
-  name: string
-  email: string
-  company: string
-  phone: string
-  country: string
-  message: string
-  products: RFQProduct[]
-}
+import { rfqFormSchema, rfqProductSchema } from '@/lib/validation'
 
 const categoryLabels: Record<string, string> = {
   api: 'API',
@@ -41,70 +23,47 @@ function escapeHtml(text: string): string {
 
 export async function POST(request: NextRequest) {
   try {
-    const body: RFQFormData = await request.json()
-    const { name, email, company, phone, country, message = '', products } = body
+    const body = await request.json()
 
-    // Validate required fields with specific error messages
-    const missingFields: string[] = []
-    if (!name || name.trim() === '') missingFields.push('name')
-    if (!email || email.trim() === '') missingFields.push('email')
-    if (!company || company.trim() === '') missingFields.push('company')
-    if (!phone || phone.trim() === '') missingFields.push('phone')
-    if (!country || country.trim() === '') missingFields.push('country')
+    // Validate the entire request body with Zod
+    const validationResult = rfqFormSchema.safeParse(body)
 
-    if (missingFields.length > 0) {
+    if (!validationResult.success) {
+      const errors = validationResult.error.issues.map((err) => ({
+        field: err.path.join('.'),
+        message: err.message,
+      }))
+
+      // Format error message for better UX
+      const fieldErrors = errors.map((e) => e.field).join(', ')
       return NextResponse.json(
-        { 
-          error: 'Missing required fields',
-          details: `The following fields are required: ${missingFields.join(', ')}`
+        {
+          error: 'Validation failed',
+          details: `The following fields have errors: ${fieldErrors}`,
+          errors,
         },
         { status: 400 }
       )
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        { error: 'Invalid email format' },
-        { status: 400 }
-      )
-    }
+    const { name, email, company, phone, country, message = '', products } = validationResult.data
 
-    // Validate phone format (basic check)
-    const phoneRegex = /^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,9}$/
-    if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
-      return NextResponse.json(
-        { error: 'Invalid phone number format' },
-        { status: 400 }
-      )
-    }
-
-    if (!products || products.length === 0) {
-      return NextResponse.json(
-        { error: 'No products selected', details: 'Please select at least one product' },
-        { status: 400 }
-      )
-    }
-
-    // Validate product quantities
-    const invalidProducts: string[] = []
+    // Validate each product individually
+    const productValidationErrors: string[] = []
     products.forEach((product, index) => {
-      if (!product.quantity || product.quantity.trim() === '') {
-        invalidProducts.push(`Product ${index + 1} (${product.name || 'Unknown'})`)
-      } else {
-        const qty = parseFloat(product.quantity)
-        if (isNaN(qty) || qty <= 0) {
-          invalidProducts.push(`Product ${index + 1} (${product.name || 'Unknown'})`)
-        }
+      const productResult = rfqProductSchema.safeParse(product)
+      if (!productResult.success) {
+        productValidationErrors.push(
+          `Product ${index + 1} (${product.name || 'Unknown'}): ${productResult.error.issues[0]?.message || 'Invalid product data'}`
+        )
       }
     })
 
-    if (invalidProducts.length > 0) {
+    if (productValidationErrors.length > 0) {
       return NextResponse.json(
-        { 
-          error: 'Invalid product quantities',
-          details: `The following products have invalid quantities: ${invalidProducts.join(', ')}`
+        {
+          error: 'Invalid product data',
+          details: productValidationErrors.join('; '),
         },
         { status: 400 }
       )
