@@ -1,7 +1,5 @@
 # Covenants PharmaChem Website
 
-A Next.js website for Covenants PharmaChem LLP featuring product search, catalog browsing, and RFQ (Request for Quote) functionality.
-
 ## Tech Stack
 
 - **Framework**: Next.js 15 (App Router)
