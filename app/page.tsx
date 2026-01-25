@@ -38,6 +38,9 @@ import {
   Linkedin,
   Sparkles,
   Search,
+  Loader2,
+  CheckCircle,
+  AlertCircle,
 } from 'lucide-react'
 
 // WhatsApp icon component
@@ -162,6 +165,9 @@ export default function Home() {
     lookingFor: '',
     message: '',
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [submitMessage, setSubmitMessage] = useState('')
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -188,10 +194,57 @@ export default function Home() {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Form submitted:', formData)
-    alert('Thank you for your interest! We will connect with you soon.')
+    setIsSubmitting(true)
+    setSubmitStatus('idle')
+    setSubmitMessage('')
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to submit form')
+      }
+
+      // Success
+      setSubmitStatus('success')
+      setSubmitMessage('Thank you for your interest! We will connect with you soon.')
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        country: '',
+        company: '',
+        phone: '',
+        lookingFor: '',
+        message: '',
+      })
+
+      // Reset status after 5 seconds
+      setTimeout(() => {
+        setSubmitStatus('idle')
+        setSubmitMessage('')
+      }, 5000)
+    } catch (error) {
+      setSubmitStatus('error')
+      setSubmitMessage(
+        error instanceof Error 
+          ? error.message 
+          : 'Something went wrong. Please try again later.'
+      )
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -1219,10 +1272,39 @@ export default function Home() {
                     />
                   </div>
 
-                  <Button type="submit" className="w-full" size="lg">
-                    Submit
-                    <ArrowRight className="w-4 h-4" />
+                  <Button 
+                    type="submit" 
+                    className="w-full" 
+                    size="lg"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Submitting...
+                      </>
+                    ) : (
+                      <>
+                        Submit
+                        <ArrowRight className="w-4 h-4" />
+                      </>
+                    )}
                   </Button>
+
+                  {/* Status Messages */}
+                  {submitStatus === 'success' && (
+                    <div className="flex items-center gap-2 p-4 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200">
+                      <CheckCircle className="w-5 h-5 shrink-0" />
+                      <p className="text-sm font-medium">{submitMessage}</p>
+                    </div>
+                  )}
+
+                  {submitStatus === 'error' && (
+                    <div className="flex items-center gap-2 p-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200">
+                      <AlertCircle className="w-5 h-5 shrink-0" />
+                      <p className="text-sm font-medium">{submitMessage}</p>
+                    </div>
+                  )}
                 </form>
               </CardContent>
             </Card>
