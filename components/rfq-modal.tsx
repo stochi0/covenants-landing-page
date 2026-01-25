@@ -195,7 +195,7 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
             const fieldMap: Record<string, string> = {}
             const missingFields = data.details.match(/name|email|company|phone|country/g)
             if (missingFields) {
-              missingFields.forEach((field) => {
+              missingFields.forEach((field: string) => {
                 fieldMap[field] = `${field.charAt(0).toUpperCase() + field.slice(1)} is required`
               })
               setFormErrors(fieldMap)
