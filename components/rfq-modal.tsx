@@ -31,9 +31,11 @@ import {
   Layers,
   X,
   Loader2,
+  AlertCircle,
 } from 'lucide-react'
 import type { Product } from '@/lib/products-data'
 import { categoryInfo } from '@/lib/products-data'
+import { validateEmail, validatePhone, validateRequired, validateQuantity } from '@/lib/utils'
 
 type Category = 'api' | 'impurity' | 'intermediate' | 'chemical'
 
@@ -71,6 +73,8 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
     country: '',
     message: '',
   })
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({})
+  const [quantityErrors, setQuantityErrors] = useState<Record<string, string>>({})
 
   // Update quantities when products change
   if (quantities.length !== selectedProducts.length) {
@@ -81,14 +85,81 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
     setQuantities((prev) =>
       prev.map((q) => (q.productId === productId ? { ...q, [field]: value } : q))
     )
+    
+    // Clear error for this quantity when user starts typing
+    if (field === 'quantity' && quantityErrors[productId]) {
+      setQuantityErrors((prev) => {
+        const newErrors = { ...prev }
+        delete newErrors[productId]
+        return newErrors
+      })
+    }
+  }
+  
+  const validateQuantities = (): boolean => {
+    const errors: Record<string, string> = {}
+    
+    selectedProducts.forEach((product) => {
+      const qty = quantities.find((q) => q.productId === product.id)
+      if (!qty || !qty.quantity) {
+        errors[product.id] = 'Quantity is required for this product'
+      } else {
+        const validation = validateQuantity(qty.quantity)
+        if (!validation.isValid) {
+          errors[product.id] = validation.error || 'Invalid quantity'
+        }
+      }
+    })
+    
+    setQuantityErrors(errors)
+    return Object.keys(errors).length === 0
+  }
+  
+  const validateContactForm = (): boolean => {
+    const errors: Record<string, string> = {}
+    
+    // Validate required fields
+    const nameValidation = validateRequired(formData.name, 'Name')
+    if (!nameValidation.isValid) errors.name = nameValidation.error || 'Name is required'
+    
+    const emailValidation = validateEmail(formData.email)
+    if (!emailValidation.isValid) errors.email = emailValidation.error || 'Email is required'
+    
+    const companyValidation = validateRequired(formData.company, 'Company')
+    if (!companyValidation.isValid) errors.company = companyValidation.error || 'Company is required'
+    
+    const phoneValidation = validatePhone(formData.phone)
+    if (!phoneValidation.isValid) errors.phone = phoneValidation.error || 'Phone is required'
+    
+    const countryValidation = validateRequired(formData.country, 'Country')
+    if (!countryValidation.isValid) errors.country = countryValidation.error || 'Country is required'
+    
+    setFormErrors(errors)
+    return Object.keys(errors).length === 0
   }
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+    
+    // Clear error for this field when user starts typing
+    if (formErrors[name]) {
+      setFormErrors((prev) => {
+        const newErrors = { ...prev }
+        delete newErrors[name]
+        return newErrors
+      })
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    // Validate contact form before submission
+    if (!validateContactForm()) {
+      return
+    }
+    
     setIsSubmitting(true)
 
     try {
@@ -117,6 +188,20 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
       const data = await response.json()
 
       if (!response.ok) {
+        // If there are validation errors from server, try to map them to form fields
+        if (data.details && typeof data.details === 'string') {
+          // Check if it's about missing fields
+          if (data.details.includes('required')) {
+            const fieldMap: Record<string, string> = {}
+            const missingFields = data.details.match(/name|email|company|phone|country/g)
+            if (missingFields) {
+              missingFields.forEach((field) => {
+                fieldMap[field] = `${field.charAt(0).toUpperCase() + field.slice(1)} is required`
+              })
+              setFormErrors(fieldMap)
+            }
+          }
+        }
         throw new Error(data.error || data.details || 'Failed to submit RFQ')
       }
 
@@ -143,6 +228,8 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
       country: '',
       message: '',
     })
+    setFormErrors({})
+    setQuantityErrors({})
     onOpenChange(false)
   }
 
@@ -230,30 +317,38 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                           </div>
 
                           {/* Quantity Input */}
-                          <div className="flex items-center gap-2 shrink-0">
-                            <div className="relative">
-                              <Input
-                                type="number"
-                                min="0"
-                                step="0.1"
-                                placeholder="Qty"
-                                value={quantity?.quantity || ''}
-                                onChange={(e) =>
-                                  updateQuantity(product.id, 'quantity', e.target.value)
-                                }
-                                className="w-24 h-9 text-sm pr-2"
-                              />
+                          <div className="flex flex-col gap-1 shrink-0">
+                            <div className="flex items-center gap-2">
+                              <div className="relative">
+                                <Input
+                                  type="number"
+                                  min="0"
+                                  step="0.1"
+                                  placeholder="Qty"
+                                  value={quantity?.quantity || ''}
+                                  onChange={(e) =>
+                                    updateQuantity(product.id, 'quantity', e.target.value)
+                                  }
+                                  className={`w-24 h-9 text-sm pr-2 ${quantityErrors[product.id] ? 'border-destructive focus-visible:ring-destructive' : ''}`}
+                                />
+                              </div>
+                              <select
+                                value={quantity?.unit || 'kg'}
+                                onChange={(e) => updateQuantity(product.id, 'unit', e.target.value)}
+                                className="h-9 px-2 rounded-md border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                              >
+                                <option value="mg">mg</option>
+                                <option value="g">g</option>
+                                <option value="kg">kg</option>
+                                <option value="mt">MT</option>
+                              </select>
                             </div>
-                            <select
-                              value={quantity?.unit || 'kg'}
-                              onChange={(e) => updateQuantity(product.id, 'unit', e.target.value)}
-                              className="h-9 px-2 rounded-md border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                            >
-                              <option value="mg">mg</option>
-                              <option value="g">g</option>
-                              <option value="kg">kg</option>
-                              <option value="mt">MT</option>
-                            </select>
+                            {quantityErrors[product.id] && (
+                              <p className="text-xs text-destructive flex items-center gap-1">
+                                <AlertCircle className="w-3 h-3" />
+                                {quantityErrors[product.id]}
+                              </p>
+                            )}
                           </div>
                         </div>
                       </CardContent>
@@ -268,7 +363,14 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
               <p className="text-sm text-muted-foreground">
                 {selectedProducts.length} product{selectedProducts.length !== 1 ? 's' : ''} selected
               </p>
-              <Button onClick={() => setStep('contact')} className="group">
+              <Button 
+                onClick={() => {
+                  if (validateQuantities()) {
+                    setStep('contact')
+                  }
+                }} 
+                className="group"
+              >
                 Continue
                 <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-0.5 transition-transform" />
               </Button>
@@ -293,7 +395,14 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                       onChange={handleFormChange}
                       placeholder="Your name"
                       required
+                      className={formErrors.name ? 'border-destructive focus-visible:ring-destructive' : ''}
                     />
+                    {formErrors.name && (
+                      <p className="text-xs text-destructive flex items-center gap-1">
+                        <AlertCircle className="w-3 h-3" />
+                        {formErrors.name}
+                      </p>
+                    )}
                   </div>
                   <div className="space-y-2">
                     <label htmlFor="rfq-email" className="text-sm font-medium text-foreground flex items-center gap-2">
@@ -308,7 +417,14 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                       onChange={handleFormChange}
                       placeholder="you@company.com"
                       required
+                      className={formErrors.email ? 'border-destructive focus-visible:ring-destructive' : ''}
                     />
+                    {formErrors.email && (
+                      <p className="text-xs text-destructive flex items-center gap-1">
+                        <AlertCircle className="w-3 h-3" />
+                        {formErrors.email}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -325,7 +441,14 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                       onChange={handleFormChange}
                       placeholder="Company name"
                       required
+                      className={formErrors.company ? 'border-destructive focus-visible:ring-destructive' : ''}
                     />
+                    {formErrors.company && (
+                      <p className="text-xs text-destructive flex items-center gap-1">
+                        <AlertCircle className="w-3 h-3" />
+                        {formErrors.company}
+                      </p>
+                    )}
                   </div>
                   <div className="space-y-2">
                     <label htmlFor="rfq-phone" className="text-sm font-medium text-foreground flex items-center gap-2">
@@ -340,7 +463,14 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                       onChange={handleFormChange}
                       placeholder="+1 (555) 000-0000"
                       required
+                      className={formErrors.phone ? 'border-destructive focus-visible:ring-destructive' : ''}
                     />
+                    {formErrors.phone && (
+                      <p className="text-xs text-destructive flex items-center gap-1">
+                        <AlertCircle className="w-3 h-3" />
+                        {formErrors.phone}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -356,7 +486,14 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                     onChange={handleFormChange}
                     placeholder="Your country"
                     required
+                    className={formErrors.country ? 'border-destructive focus-visible:ring-destructive' : ''}
                   />
+                  {formErrors.country && (
+                    <p className="text-xs text-destructive flex items-center gap-1">
+                      <AlertCircle className="w-3 h-3" />
+                      {formErrors.country}
+                    </p>
+                  )}
                 </div>
 
                 <div className="space-y-2">

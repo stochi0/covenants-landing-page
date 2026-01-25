@@ -16,10 +16,38 @@ export async function POST(request: NextRequest) {
     const body: ContactFormData = await request.json()
     const { name, email, country, company, phone, lookingFor, message } = body
 
-    // Validate required fields
-    if (!name || !email || !country || !company || !phone) {
+    // Validate required fields with specific error messages
+    const missingFields: string[] = []
+    if (!name || name.trim() === '') missingFields.push('name')
+    if (!email || email.trim() === '') missingFields.push('email')
+    if (!country || country.trim() === '') missingFields.push('country')
+    if (!company || company.trim() === '') missingFields.push('company')
+    if (!phone || phone.trim() === '') missingFields.push('phone')
+
+    if (missingFields.length > 0) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { 
+          error: 'Missing required fields',
+          details: `The following fields are required: ${missingFields.join(', ')}`
+        },
+        { status: 400 }
+      )
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { error: 'Invalid email format' },
+        { status: 400 }
+      )
+    }
+
+    // Validate phone format (basic check)
+    const phoneRegex = /^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,9}$/
+    if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
+      return NextResponse.json(
+        { error: 'Invalid phone number format' },
         { status: 400 }
       )
     }

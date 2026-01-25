@@ -42,6 +42,7 @@ import {
   CheckCircle,
   AlertCircle,
 } from 'lucide-react'
+import { validateEmail, validatePhone, validateRequired } from '@/lib/utils'
 
 // WhatsApp icon component
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -165,6 +166,7 @@ export default function Home() {
     lookingFor: '',
     message: '',
   })
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [submitMessage, setSubmitMessage] = useState('')
@@ -191,11 +193,52 @@ export default function Home() {
   }
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
+    const { name, value } = e.target
+    setFormData(prev => ({ ...prev, [name]: value }))
+    
+    // Clear error for this field when user starts typing
+    if (formErrors[name]) {
+      setFormErrors(prev => {
+        const newErrors = { ...prev }
+        delete newErrors[name]
+        return newErrors
+      })
+    }
+  }
+
+  const validateForm = (): boolean => {
+    const errors: Record<string, string> = {}
+    
+    // Validate required fields
+    const nameValidation = validateRequired(formData.name, 'Name')
+    if (!nameValidation.isValid) errors.name = nameValidation.error || 'Name is required'
+    
+    const emailValidation = validateEmail(formData.email)
+    if (!emailValidation.isValid) errors.email = emailValidation.error || 'Email is required'
+    
+    const countryValidation = validateRequired(formData.country, 'Country')
+    if (!countryValidation.isValid) errors.country = countryValidation.error || 'Country is required'
+    
+    const companyValidation = validateRequired(formData.company, 'Company')
+    if (!companyValidation.isValid) errors.company = companyValidation.error || 'Company is required'
+    
+    const phoneValidation = validatePhone(formData.phone)
+    if (!phoneValidation.isValid) errors.phone = phoneValidation.error || 'Phone is required'
+    
+    setFormErrors(errors)
+    return Object.keys(errors).length === 0
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    // Validate form before submission
+    if (!validateForm()) {
+      setSubmitStatus('error')
+      setSubmitMessage('Please fix the errors in the form before submitting.')
+      return
+    }
+    
     setIsSubmitting(true)
     setSubmitStatus('idle')
     setSubmitMessage('')
@@ -229,6 +272,7 @@ export default function Home() {
         lookingFor: '',
         message: '',
       })
+      setFormErrors({})
 
       // Reset status after 5 seconds
       setTimeout(() => {
@@ -1185,7 +1229,14 @@ export default function Home() {
                         onChange={handleFormChange}
                         placeholder="Your name"
                         required
+                        className={formErrors.name ? 'border-destructive focus-visible:ring-destructive' : ''}
                       />
+                      {formErrors.name && (
+                        <p className="text-sm text-destructive flex items-center gap-1">
+                          <AlertCircle className="w-3.5 h-3.5" />
+                          {formErrors.name}
+                        </p>
+                      )}
                     </div>
                     <div className="space-y-2">
                       <label htmlFor="email" className="text-sm font-medium text-foreground">Work Email*</label>
@@ -1197,7 +1248,14 @@ export default function Home() {
                         onChange={handleFormChange}
                         placeholder="you@company.com"
                         required
+                        className={formErrors.email ? 'border-destructive focus-visible:ring-destructive' : ''}
                       />
+                      {formErrors.email && (
+                        <p className="text-sm text-destructive flex items-center gap-1">
+                          <AlertCircle className="w-3.5 h-3.5" />
+                          {formErrors.email}
+                        </p>
+                      )}
                     </div>
                   </div>
                   
@@ -1211,7 +1269,14 @@ export default function Home() {
                         onChange={handleFormChange}
                         placeholder="Your country"
                         required
+                        className={formErrors.country ? 'border-destructive focus-visible:ring-destructive' : ''}
                       />
+                      {formErrors.country && (
+                        <p className="text-sm text-destructive flex items-center gap-1">
+                          <AlertCircle className="w-3.5 h-3.5" />
+                          {formErrors.country}
+                        </p>
+                      )}
                     </div>
                     <div className="space-y-2">
                       <label htmlFor="company" className="text-sm font-medium text-foreground">Company Name*</label>
@@ -1222,7 +1287,14 @@ export default function Home() {
                         onChange={handleFormChange}
                         placeholder="Company name"
                         required
+                        className={formErrors.company ? 'border-destructive focus-visible:ring-destructive' : ''}
                       />
+                      {formErrors.company && (
+                        <p className="text-sm text-destructive flex items-center gap-1">
+                          <AlertCircle className="w-3.5 h-3.5" />
+                          {formErrors.company}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -1237,7 +1309,14 @@ export default function Home() {
                         onChange={handleFormChange}
                         placeholder="+91 00000 00000"
                         required
+                        className={formErrors.phone ? 'border-destructive focus-visible:ring-destructive' : ''}
                       />
+                      {formErrors.phone && (
+                        <p className="text-sm text-destructive flex items-center gap-1">
+                          <AlertCircle className="w-3.5 h-3.5" />
+                          {formErrors.phone}
+                        </p>
+                      )}
                     </div>
                     <div className="space-y-2">
                       <label htmlFor="lookingFor" className="text-sm font-medium text-foreground">Looking For</label>

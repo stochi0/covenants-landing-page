@@ -50,17 +50,68 @@ export async function POST(request: NextRequest) {
     const body: RFQFormData = await request.json()
     const { name, email, company, phone, country, message = '', products } = body
 
-    // Validate required fields
-    if (!name || !email || !company || !phone || !country) {
+    // Validate required fields with specific error messages
+    const missingFields: string[] = []
+    if (!name || name.trim() === '') missingFields.push('name')
+    if (!email || email.trim() === '') missingFields.push('email')
+    if (!company || company.trim() === '') missingFields.push('company')
+    if (!phone || phone.trim() === '') missingFields.push('phone')
+    if (!country || country.trim() === '') missingFields.push('country')
+
+    if (missingFields.length > 0) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { 
+          error: 'Missing required fields',
+          details: `The following fields are required: ${missingFields.join(', ')}`
+        },
+        { status: 400 }
+      )
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { error: 'Invalid email format' },
+        { status: 400 }
+      )
+    }
+
+    // Validate phone format (basic check)
+    const phoneRegex = /^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,9}$/
+    if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
+      return NextResponse.json(
+        { error: 'Invalid phone number format' },
         { status: 400 }
       )
     }
 
     if (!products || products.length === 0) {
       return NextResponse.json(
-        { error: 'No products selected' },
+        { error: 'No products selected', details: 'Please select at least one product' },
+        { status: 400 }
+      )
+    }
+
+    // Validate product quantities
+    const invalidProducts: string[] = []
+    products.forEach((product, index) => {
+      if (!product.quantity || product.quantity.trim() === '') {
+        invalidProducts.push(`Product ${index + 1} (${product.name || 'Unknown'})`)
+      } else {
+        const qty = parseFloat(product.quantity)
+        if (isNaN(qty) || qty <= 0) {
+          invalidProducts.push(`Product ${index + 1} (${product.name || 'Unknown'})`)
+        }
+      }
+    })
+
+    if (invalidProducts.length > 0) {
+      return NextResponse.json(
+        { 
+          error: 'Invalid product quantities',
+          details: `The following products have invalid quantities: ${invalidProducts.join(', ')}`
+        },
         { status: 400 }
       )
     }
