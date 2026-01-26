@@ -668,10 +668,10 @@ export default function Home() {
                   alt="Pharmaceutical and chemical manufacturing machinery and equipment" 
                   width={800}
                   height={320}
-                  className="w-full h-[320px] object-cover"
+                  className="w-full h-[320px] object-cover opacity-40"
                   priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/40" />
                 
                 {/* Stats Overlay */}
                 <div className="absolute bottom-0 left-0 right-0 p-6">
