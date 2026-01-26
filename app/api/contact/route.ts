@@ -2,6 +2,18 @@ import { NextRequest, NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
 import { contactFormSchema } from '@/lib/validation'
 
+// HTML escape function to prevent XSS and formatting issues
+function escapeHtml(text: string): string {
+  const map: Record<string, string> = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;',
+  }
+  return text.replace(/[&<>"']/g, (m) => map[m])
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -67,56 +79,66 @@ export async function POST(request: NextRequest) {
         <head>
           <meta charset="utf-8">
           <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px 8px 0 0; }
-            .content { background: #f9f9f9; padding: 20px; border-radius: 0 0 8px 8px; }
-            .field { margin-bottom: 15px; }
-            .label { font-weight: bold; color: #555; margin-bottom: 5px; display: block; }
-            .value { color: #333; padding: 8px; background: white; border-radius: 4px; border-left: 3px solid #667eea; }
-            .footer { margin-top: 20px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 12px; color: #777; }
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; line-height: 1.5; color: #1f2937; margin: 0; padding: 0; background: #f3f4f6; }
+            .container { max-width: 600px; margin: 16px auto; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+            .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 16px 20px; }
+            .header h2 { margin: 0; font-size: 20px; font-weight: 600; }
+            .header p { margin: 4px 0 0 0; opacity: 0.95; font-size: 13px; }
+            .content { padding: 16px 20px; }
+            .section { margin-bottom: 16px; }
+            .section-title { font-size: 14px; font-weight: 600; color: #374151; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid #e5e7eb; text-transform: uppercase; letter-spacing: 0.5px; }
+            .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; margin-bottom: 12px; }
+            .contact-item { display: flex; flex-direction: column; }
+            .contact-label { font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; font-weight: 600; }
+            .contact-value { font-size: 14px; color: #1f2937; font-weight: 500; }
+            .message-box { background: #f9fafb; padding: 12px; border-radius: 6px; border-left: 3px solid #667eea; font-size: 13px; line-height: 1.6; white-space: pre-wrap; color: #374151; margin-top: 8px; }
+            .footer { margin-top: 16px; padding-top: 12px; border-top: 1px solid #e5e7eb; font-size: 11px; color: #9ca3af; }
           </style>
         </head>
         <body>
           <div class="container">
             <div class="header">
-              <h2 style="margin: 0;">New Partner Inquiry</h2>
-              <p style="margin: 5px 0 0 0; opacity: 0.9;">Covenants PharmaChem LLP</p>
+              <h2>New Partner Inquiry</h2>
+              <p>Covenants PharmaChem LLP</p>
             </div>
             <div class="content">
-              <div class="field">
-                <span class="label">Name:</span>
-                <div class="value">${name}</div>
-              </div>
-              <div class="field">
-                <span class="label">Email:</span>
-                <div class="value">${email}</div>
-              </div>
-              <div class="field">
-                <span class="label">Company:</span>
-                <div class="value">${company}</div>
-              </div>
-              <div class="field">
-                <span class="label">Phone:</span>
-                <div class="value">${phone}</div>
-              </div>
-              <div class="field">
-                <span class="label">Country:</span>
-                <div class="value">${country}</div>
-              </div>
-              <div class="field">
-                <span class="label">Looking For:</span>
-                <div class="value">${lookingForLabel}</div>
+              <div class="section">
+                <div class="section-title">Contact</div>
+                <div class="contact-grid">
+                  <div class="contact-item">
+                    <span class="contact-label">Name</span>
+                    <span class="contact-value">${escapeHtml(name)}</span>
+                  </div>
+                  <div class="contact-item">
+                    <span class="contact-label">Email</span>
+                    <span class="contact-value">${escapeHtml(email)}</span>
+                  </div>
+                  <div class="contact-item">
+                    <span class="contact-label">Company</span>
+                    <span class="contact-value">${escapeHtml(company)}</span>
+                  </div>
+                  <div class="contact-item">
+                    <span class="contact-label">Phone</span>
+                    <span class="contact-value">${escapeHtml(phone)}</span>
+                  </div>
+                  <div class="contact-item">
+                    <span class="contact-label">Country</span>
+                    <span class="contact-value">${escapeHtml(country)}</span>
+                  </div>
+                  <div class="contact-item">
+                    <span class="contact-label">Looking For</span>
+                    <span class="contact-value">${escapeHtml(lookingForLabel)}</span>
+                  </div>
+                </div>
               </div>
               ${message ? `
-              <div class="field">
-                <span class="label">Message:</span>
-                <div class="value" style="white-space: pre-wrap;">${message}</div>
+              <div class="section">
+                <div class="section-title">Message</div>
+                <div class="message-box">${escapeHtml(message)}</div>
               </div>
               ` : ''}
               <div class="footer">
-                <p>This email was sent from the Partner With Us form on the Covenants PharmaChem website.</p>
-                <p>Submitted at: ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })}</p>
+                <p>Partner With Us form • ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata', dateStyle: 'short', timeStyle: 'short' })}</p>
               </div>
             </div>
           </div>
@@ -127,15 +149,12 @@ export async function POST(request: NextRequest) {
     const emailText = `
 New Partner Inquiry - Covenants PharmaChem LLP
 
-Name: ${name}
-Email: ${email}
-Company: ${company}
-Phone: ${phone}
-Country: ${country}
-Looking For: ${lookingForLabel}
-${message ? `Message: ${message}` : ''}
+CONTACT
+Name: ${name} | Email: ${email} | Company: ${company}
+Phone: ${phone} | Country: ${country} | Looking For: ${lookingForLabel}
+${message ? `\nMESSAGE\n${message}\n` : ''}
 
-Submitted at: ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })}
+${new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata', dateStyle: 'short', timeStyle: 'short' })}
     `.trim()
 
     // Send email

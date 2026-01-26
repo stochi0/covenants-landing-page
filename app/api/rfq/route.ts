@@ -96,18 +96,16 @@ export async function POST(request: NextRequest) {
     const productsTableRows = products
       .map(
         (product) => `
-      <tr style="border-bottom: 1px solid #e5e7eb;">
-        <td style="padding: 12px; border-right: 1px solid #e5e7eb;">
-          <div style="font-weight: 600; color: #1f2937; margin-bottom: 4px;">${escapeHtml(product.name)}</div>
-          <div style="font-size: 12px; color: #6b7280; font-family: monospace;">CAS: ${escapeHtml(product.casNumber)}</div>
+      <tr>
+        <td>
+          <div class="product-name">${escapeHtml(product.name)}</div>
+          <div class="product-cas">CAS: ${escapeHtml(product.casNumber)}</div>
         </td>
-        <td style="padding: 12px; border-right: 1px solid #e5e7eb; text-align: center;">
-          <span style="background: #f3f4f6; padding: 4px 8px; border-radius: 4px; font-size: 12px; color: #374151;">
-            ${escapeHtml(categoryLabels[product.category] || product.category)}
-          </span>
+        <td>
+          <span class="category-badge">${escapeHtml(categoryLabels[product.category] || product.category)}</span>
         </td>
-        <td style="padding: 12px; text-align: center; color: #1f2937; font-weight: 500;">
-          ${product.quantity && product.unit ? `${escapeHtml(product.quantity)} ${escapeHtml(product.unit)}` : 'Not specified'}
+        <td>
+          <span class="quantity">${product.quantity && product.unit ? `${escapeHtml(product.quantity)} ${escapeHtml(product.unit)}` : '—'}</span>
         </td>
       </tr>
     `
@@ -121,65 +119,74 @@ export async function POST(request: NextRequest) {
         <head>
           <meta charset="utf-8">
           <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-            .container { max-width: 700px; margin: 0 auto; padding: 20px; }
-            .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; border-radius: 8px 8px 0 0; }
-            .content { background: #f9f9f9; padding: 25px; border-radius: 0 0 8px 8px; }
-            .section { margin-bottom: 25px; }
-            .section-title { font-size: 18px; font-weight: 600; color: #1f2937; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #667eea; }
-            .field { margin-bottom: 15px; }
-            .label { font-weight: 600; color: #555; margin-bottom: 5px; display: block; font-size: 14px; }
-            .value { color: #333; padding: 10px; background: white; border-radius: 4px; border-left: 3px solid #667eea; }
-            .products-table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-            .products-table th { background: #f3f4f6; padding: 12px; text-align: left; font-weight: 600; color: #374151; font-size: 13px; text-transform: uppercase; border-bottom: 2px solid #e5e7eb; }
-            .footer { margin-top: 25px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 12px; color: #777; }
-            .badge { display: inline-block; background: #667eea; color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 500; margin-top: 10px; }
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; line-height: 1.5; color: #1f2937; margin: 0; padding: 0; background: #f3f4f6; }
+            .container { max-width: 600px; margin: 16px auto; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+            .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 16px 20px; }
+            .header h2 { margin: 0; font-size: 20px; font-weight: 600; }
+            .header p { margin: 4px 0 0 0; opacity: 0.95; font-size: 13px; }
+            .content { padding: 16px 20px; }
+            .section { margin-bottom: 16px; }
+            .section-title { font-size: 14px; font-weight: 600; color: #374151; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid #e5e7eb; text-transform: uppercase; letter-spacing: 0.5px; }
+            .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; margin-bottom: 12px; }
+            .contact-item { display: flex; flex-direction: column; }
+            .contact-label { font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; font-weight: 600; }
+            .contact-value { font-size: 14px; color: #1f2937; font-weight: 500; }
+            .products-table { width: 100%; border-collapse: collapse; background: white; font-size: 13px; margin-top: 8px; }
+            .products-table th { background: #f9fafb; padding: 8px 10px; text-align: left; font-weight: 600; color: #374151; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #e5e7eb; }
+            .products-table td { padding: 10px; border-bottom: 1px solid #f3f4f6; }
+            .products-table tr:last-child td { border-bottom: none; }
+            .product-name { font-weight: 600; color: #1f2937; margin-bottom: 3px; }
+            .product-cas { font-size: 11px; color: #6b7280; font-family: 'Monaco', 'Courier New', monospace; }
+            .category-badge { display: inline-block; background: #f3f4f6; padding: 3px 8px; border-radius: 4px; font-size: 11px; color: #374151; font-weight: 500; }
+            .quantity { color: #1f2937; font-weight: 500; }
+            .message-box { background: #f9fafb; padding: 12px; border-radius: 6px; border-left: 3px solid #667eea; font-size: 13px; line-height: 1.6; white-space: pre-wrap; color: #374151; margin-top: 8px; }
+            .footer { margin-top: 16px; padding-top: 12px; border-top: 1px solid #e5e7eb; font-size: 11px; color: #9ca3af; }
+            .badge { display: inline-block; background: #667eea; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 500; margin-left: 8px; }
           </style>
         </head>
         <body>
           <div class="container">
             <div class="header">
-              <h2 style="margin: 0; font-size: 24px;">New Quote Request</h2>
-              <p style="margin: 8px 0 0 0; opacity: 0.9; font-size: 14px;">Covenants PharmaChem LLP</p>
+              <h2>RFQ</h2>
+              <p>${company}</p>
             </div>
             <div class="content">
               <!-- Contact Information -->
               <div class="section">
-                <div class="section-title">Contact Information</div>
-                <div class="field">
-                  <span class="label">Name:</span>
-                  <div class="value">${escapeHtml(name)}</div>
-                </div>
-                <div class="field">
-                  <span class="label">Email:</span>
-                  <div class="value">${escapeHtml(email)}</div>
-                </div>
-                <div class="field">
-                  <span class="label">Company:</span>
-                  <div class="value">${escapeHtml(company)}</div>
-                </div>
-                <div class="field">
-                  <span class="label">Phone:</span>
-                  <div class="value">${escapeHtml(phone)}</div>
-                </div>
-                <div class="field">
-                  <span class="label">Country:</span>
-                  <div class="value">${escapeHtml(country)}</div>
+                <div class="section-title">Contact<span class="badge">${products.length} ${products.length === 1 ? 'Product' : 'Products'}</span></div>
+                <div class="contact-grid">
+                  <div class="contact-item">
+                    <span class="contact-label">Name</span>
+                    <span class="contact-value">${escapeHtml(name)}</span>
+                  </div>
+                  <div class="contact-item">
+                    <span class="contact-label">Email</span>
+                    <span class="contact-value">${escapeHtml(email)}</span>
+                  </div>
+                  <div class="contact-item">
+                    <span class="contact-label">Company</span>
+                    <span class="contact-value">${escapeHtml(company)}</span>
+                  </div>
+                  <div class="contact-item">
+                    <span class="contact-label">Phone</span>
+                    <span class="contact-value">${escapeHtml(phone)}</span>
+                  </div>
+                  <div class="contact-item">
+                    <span class="contact-label">Country</span>
+                    <span class="contact-value">${escapeHtml(country)}</span>
+                  </div>
                 </div>
               </div>
 
               <!-- Products Requested -->
               <div class="section">
-                <div class="section-title">
-                  Products Requested 
-                  <span class="badge">${products.length} ${products.length === 1 ? 'Product' : 'Products'}</span>
-                </div>
+                <div class="section-title">Products</div>
                 <table class="products-table">
                   <thead>
                     <tr>
-                      <th style="width: 45%;">Product Name</th>
-                      <th style="width: 25%; text-align: center;">Category</th>
-                      <th style="width: 30%; text-align: center;">Quantity</th>
+                      <th style="width: 50%;">Product</th>
+                      <th style="width: 25%;">Category</th>
+                      <th style="width: 25%;">Quantity</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -192,13 +199,12 @@ export async function POST(request: NextRequest) {
               <!-- Additional Requirements -->
               <div class="section">
                 <div class="section-title">Additional Requirements</div>
-                <div class="value" style="white-space: pre-wrap;">${escapeHtml(message)}</div>
+                <div class="message-box">${escapeHtml(message)}</div>
               </div>
               ` : ''}
 
               <div class="footer">
-                <p>This email was sent from the Request for Quote form on the Covenants PharmaChem website.</p>
-                <p>Submitted at: ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })}</p>
+                <p>Request for Quote form • ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata', dateStyle: 'short', timeStyle: 'short' })}</p>
               </div>
             </div>
           </div>
@@ -210,27 +216,19 @@ export async function POST(request: NextRequest) {
     const emailText = `
 New Quote Request - Covenants PharmaChem LLP
 
-CONTACT INFORMATION
-Name: ${name}
-Email: ${email}
-Company: ${company}
-Phone: ${phone}
-Country: ${country}
+CONTACT
+Name: ${name} | Email: ${email} | Company: ${company}
+Phone: ${phone} | Country: ${country}
 
-PRODUCTS REQUESTED (${products.length} ${products.length === 1 ? 'Product' : 'Products'})
+PRODUCTS (${products.length})
 ${products
   .map(
-    (p, idx) => `
-${idx + 1}. ${p.name}
-   CAS: ${p.casNumber}
-   Category: ${categoryLabels[p.category] || p.category}
-   Quantity: ${p.quantity && p.unit ? `${p.quantity} ${p.unit}` : 'Not specified'}
-`
+    (p, idx) => `${idx + 1}. ${p.name} (CAS: ${p.casNumber}) - ${categoryLabels[p.category] || p.category} - ${p.quantity && p.unit ? `${p.quantity} ${p.unit}` : 'Qty: —'}`
   )
-  .join('')}
-${message ? `\nADDITIONAL REQUIREMENTS\n${message}\n` : ''}
+  .join('\n')}
+${message ? `\nREQUIREMENTS\n${message}\n` : ''}
 
-Submitted at: ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })}
+${new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata', dateStyle: 'short', timeStyle: 'short' })}
     `.trim()
 
     // Send email
