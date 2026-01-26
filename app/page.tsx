@@ -459,7 +459,7 @@ export default function Home() {
                 href="https://capillia.vercel.app"
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
+                className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-primary bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 hover:from-primary/20 hover:via-accent/20 hover:to-primary/20 rounded-lg transition-all duration-200 border border-primary/20 hover:border-primary/40 shadow-sm hover:shadow-md"
               >
                 <Globe className="w-4 h-4" />
                 Capillia
@@ -587,7 +587,7 @@ export default function Home() {
                 href="https://capillia.vercel.app"
                 target="_blank"
                 rel="noreferrer"
-                className="block w-full text-left px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors flex items-center gap-2"
+                className="block w-full text-left px-4 py-2.5 text-sm font-medium text-primary bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 hover:from-primary/20 hover:via-accent/20 hover:to-primary/20 rounded-lg transition-all duration-200 border border-primary/20 hover:border-primary/40 shadow-sm hover:shadow-md flex items-center gap-2"
               >
                 <Globe className="w-4 h-4" />
                 Capillia
