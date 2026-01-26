@@ -511,7 +511,7 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                   <CardContent className="p-4">
                     <h4 className="text-sm font-medium text-foreground mb-2 flex items-center gap-2">
                       <Package className="w-4 h-4 text-primary" />
-                      Quote Summary
+                      RFQ Summary
                     </h4>
                     <div className="flex flex-wrap gap-2">
                       {selectedProducts.map((product) => {
