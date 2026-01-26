@@ -72,6 +72,7 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
     phone: '',
     country: '',
     countryCode: '',
+    city: '',
     message: '',
   })
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
@@ -242,6 +243,7 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
       phone: '',
       country: '',
       countryCode: '',
+      city: '',
       message: '',
     })
     setFormErrors({})
@@ -497,34 +499,57 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <label htmlFor="rfq-country" className="text-sm font-medium text-foreground flex items-center gap-2">
-                    <MapPin className="w-3.5 h-3.5 text-muted-foreground" />
-                    Country*
-                  </label>
-                  <select
-                    id="rfq-country"
-                    name="country"
-                    value={formData.country}
-                    onChange={handleCountryChange}
-                    required
-                    className={`flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
-                      formErrors.country ? 'border-destructive focus-visible:ring-destructive' : ''
-                    }`}
-                  >
-                    <option value="">Select a country</option>
-                    {countries.map((country) => (
-                      <option key={country.name} value={country.name}>
-                        {country.name}
-                      </option>
-                    ))}
-                  </select>
-                  {formErrors.country && (
-                    <p className="text-xs text-destructive flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3" />
-                      {formErrors.country}
-                    </p>
-                  )}
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label htmlFor="rfq-country" className="text-sm font-medium text-foreground flex items-center gap-2">
+                      <MapPin className="w-3.5 h-3.5 text-muted-foreground" />
+                      Country*
+                    </label>
+                    <select
+                      id="rfq-country"
+                      name="country"
+                      value={formData.country}
+                      onChange={handleCountryChange}
+                      required
+                      className={`flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+                        formErrors.country ? 'border-destructive focus-visible:ring-destructive' : ''
+                      }`}
+                    >
+                      <option value="">Select a country</option>
+                      {countries.map((country) => (
+                        <option key={country.name} value={country.name}>
+                          {country.name}
+                        </option>
+                      ))}
+                    </select>
+                    {formErrors.country && (
+                      <p className="text-xs text-destructive flex items-center gap-1">
+                        <AlertCircle className="w-3 h-3" />
+                        {formErrors.country}
+                      </p>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    <label htmlFor="rfq-city" className="text-sm font-medium text-foreground flex items-center gap-2">
+                      <MapPin className="w-3.5 h-3.5 text-muted-foreground" />
+                      City*
+                    </label>
+                    <Input
+                      id="rfq-city"
+                      name="city"
+                      value={formData.city}
+                      onChange={handleFormChange}
+                      placeholder="City"
+                      required
+                      className={formErrors.city ? 'border-destructive focus-visible:ring-destructive' : ''}
+                    />
+                    {formErrors.city && (
+                      <p className="text-xs text-destructive flex items-center gap-1">
+                        <AlertCircle className="w-3 h-3" />
+                        {formErrors.city}
+                      </p>
+                    )}
+                  </div>
                 </div>
 
                 <div className="space-y-2">
