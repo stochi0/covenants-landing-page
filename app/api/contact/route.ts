@@ -138,7 +138,7 @@ export async function POST(request: NextRequest) {
               </div>
               ` : ''}
               <div class="footer">
-                <p>Partner With Us form • ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata', dateStyle: 'short', timeStyle: 'short' })}</p>
+                <p>Connect With Us form • ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata', dateStyle: 'short', timeStyle: 'short' })}</p>
               </div>
             </div>
           </div>
