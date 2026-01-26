@@ -670,8 +670,8 @@ export default function Home() {
                 {/* Stats Overlay */}
                 <div className="absolute bottom-0 left-0 right-0 p-6">
                   <div className="grid grid-cols-2 gap-4">
-                    <StatCard value="100+" label="Network Partners" sublabel="Trusted partner network" delay={100} />
-                    <StatCard value="6000+" label="KL Capacity" sublabel="Network manufacturing capacity" delay={200} />
+                    <StatCard value="121+" label="Network Partners" sublabel="Trusted partner network" delay={100} />
+                    <StatCard value="7500+" label="KL Capacity" sublabel="Network manufacturing capacity" delay={200} />
                     <StatCard value="3500+" label="Products" sublabel="Across key offerings" delay={300} />
                     <StatCard value="20+" label="Chemical Reactions" sublabel="Diverse reaction capabilities" delay={400} />
                   </div>
