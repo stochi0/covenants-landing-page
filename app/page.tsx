@@ -1431,9 +1431,9 @@ export default function Home() {
                         <option value="">Select an option</option>
                         <option value="custom-manufacturing">Custom Manufacturing</option>
                         <option value="custom-research">Custom Research</option>
-                        <option value="products">Products (API/Intermediates)</option>
+                        <option value="products">Products (eg. API, Intermediates, Specialty Chemicals, Impurities)</option>
                         <option value="scm-services">SCM Services</option>
-                        <option value="partnership">Partnership</option>
+                        <option value="partnership">Become a Network Partner</option>
                         <option value="other">Other</option>
                       </select>
                     </div>
