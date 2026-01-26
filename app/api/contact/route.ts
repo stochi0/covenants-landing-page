@@ -39,7 +39,11 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { name, email, country, company, phone, lookingFor, message } = validationResult.data
+    const { name, email, country, countryCode, city, company, phone, lookingFor, message } = validationResult.data
+
+    // Compact phone display: prefix with +<countryCode>- if provided, else show raw phone
+    const normalizedCountryCode = countryCode ? String(countryCode).replace(/^\+?/, '') : ''
+    const phoneDisplay = normalizedCountryCode ? `+${normalizedCountryCode}-${String(phone)}` : String(phone)
 
     // Get SMTP configuration from environment variables
     const smtpPort = parseInt(process.env.SMTP_PORT || '587', 10)
@@ -79,20 +83,20 @@ export async function POST(request: NextRequest) {
         <head>
           <meta charset="utf-8">
           <style>
-            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; line-height: 1.5; color: #1f2937; margin: 0; padding: 0; background: #f3f4f6; }
-            .container { max-width: 600px; margin: 16px auto; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-            .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 16px 20px; }
-            .header h2 { margin: 0; font-size: 20px; font-weight: 600; }
-            .header p { margin: 4px 0 0 0; opacity: 0.95; font-size: 13px; }
-            .content { padding: 16px 20px; }
-            .section { margin-bottom: 16px; }
-            .section-title { font-size: 14px; font-weight: 600; color: #374151; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid #e5e7eb; text-transform: uppercase; letter-spacing: 0.5px; }
-            .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; margin-bottom: 12px; }
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; font-size: 13px; margin: 0; padding: 0; background: #fff; color: #111827; }
+            .container { max-width: 680px; margin: 8px auto; border: 1px solid #e6e6e6; border-radius: 6px; overflow: hidden; }
+            .header { background: #2D7A6B; color: #fff; padding: 8px 12px; }
+            .header h2 { margin: 0; font-size: 14px; font-weight: 600; }
+            .header p { margin: 2px 0 0; font-size: 12px; opacity: 0.85; }
+            .content { padding: 10px 12px; }
+            .section { margin-top: 10px; }
+            .section-title { font-size: 12px; font-weight: 700; color: #374151; margin-bottom: 8px; }
+            .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; align-items: start; }
             .contact-item { display: flex; flex-direction: column; }
-            .contact-label { font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; font-weight: 600; }
-            .contact-value { font-size: 14px; color: #1f2937; font-weight: 500; }
-            .message-box { background: #f9fafb; padding: 12px; border-radius: 6px; border-left: 3px solid #667eea; font-size: 13px; line-height: 1.6; white-space: pre-wrap; color: #374151; margin-top: 8px; }
-            .footer { margin-top: 16px; padding-top: 12px; border-top: 1px solid #e5e7eb; font-size: 11px; color: #9ca3af; }
+            .contact-label { font-size: 10px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px; font-weight: 600; }
+            .contact-value { font-size: 13px; color: #111827; font-weight: 600; }
+            .message-box { background: #fafafa; padding: 8px; border-left: 3px solid #2D7A6B; border-radius: 4px; font-size: 13px; white-space: pre-wrap; margin-top: 6px; }
+            .footer { margin-top: 10px; padding-top: 8px; border-top: 1px solid #e5e7eb; font-size: 11px; color: #9ca3af; }
           </style>
         </head>
         <body>
@@ -118,12 +122,16 @@ export async function POST(request: NextRequest) {
                     <span class="contact-value">${escapeHtml(company)}</span>
                   </div>
                   <div class="contact-item">
-                    <span class="contact-label">Phone</span>
-                    <span class="contact-value">${escapeHtml(phone)}</span>
+                    <span class="contact-label">City</span>
+                    <span class="contact-value">${escapeHtml(city)}</span>
                   </div>
                   <div class="contact-item">
                     <span class="contact-label">Country</span>
                     <span class="contact-value">${escapeHtml(country)}</span>
+                  </div>
+                  <div class="contact-item">
+                    <span class="contact-label">Phone</span>
+                    <span class="contact-value">${escapeHtml(phoneDisplay)}</span>
                   </div>
                   <div class="contact-item">
                     <span class="contact-label">Looking For</span>
@@ -151,7 +159,7 @@ New Partner Inquiry - Covenants PharmaChem LLP
 
 CONTACT
 Name: ${name} | Email: ${email} | Company: ${company}
-Phone: ${phone} | Country: ${country} | Looking For: ${lookingForLabel}
+Phone: ${phoneDisplay} | City: ${city} | Country: ${country} | Looking For: ${lookingForLabel}
 ${message ? `\nMESSAGE\n${message}\n` : ''}
 
 ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata', dateStyle: 'short', timeStyle: 'short' })}

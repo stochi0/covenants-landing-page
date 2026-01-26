@@ -41,8 +41,11 @@ import {
   Loader2,
   CheckCircle,
   AlertCircle,
+  Building2,
+  User,
 } from 'lucide-react'
 import { contactFormSchema } from '@/lib/validation'
+import { countries } from '@/lib/countries'
 
 // WhatsApp icon component
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -161,6 +164,8 @@ export default function Home() {
     name: '',
     email: '',
     country: '',
+    countryCode: '',
+    city: '',
     company: '',
     phone: '',
     lookingFor: '',
@@ -201,6 +206,24 @@ export default function Home() {
       setFormErrors(prev => {
         const newErrors = { ...prev }
         delete newErrors[name]
+        return newErrors
+      })
+    }
+  }
+
+  const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedCountry = countries.find((c) => c.name === e.target.value)
+    setFormData((prev) => ({
+      ...prev,
+      country: e.target.value,
+      countryCode: selectedCountry?.code || '',
+    }))
+    
+    // Clear error for country when user selects
+    if (formErrors.country) {
+      setFormErrors((prev) => {
+        const newErrors = { ...prev }
+        delete newErrors.country
         return newErrors
       })
     }
@@ -251,7 +274,21 @@ export default function Home() {
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to submit form')
+        // If there are validation errors from server, try to map them to form fields
+        if (data.details && typeof data.details === 'string') {
+          // Check if it's about missing fields
+          if (data.details.includes('required')) {
+            const fieldMap: Record<string, string> = {}
+            const missingFields = data.details.match(/name|email|company|phone|country|city/g)
+            if (missingFields) {
+              missingFields.forEach((field: string) => {
+                fieldMap[field] = `${field.charAt(0).toUpperCase() + field.slice(1)} is required`
+              })
+              setFormErrors(fieldMap)
+            }
+          }
+        }
+        throw new Error(data.error || data.details || 'Failed to submit form')
       }
 
       // Success
@@ -263,6 +300,8 @@ export default function Home() {
         name: '',
         email: '',
         country: '',
+        countryCode: '',
+        city: '',
         company: '',
         phone: '',
         lookingFor: '',
@@ -1223,7 +1262,10 @@ export default function Home() {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <label htmlFor="name" className="text-sm font-medium text-foreground">Name*</label>
+                      <label htmlFor="name" className="text-sm font-medium text-foreground flex items-center gap-2">
+                        <User className="w-3.5 h-3.5 text-muted-foreground" />
+                        Full Name*
+                      </label>
                       <Input 
                         id="name"
                         name="name"
@@ -1234,14 +1276,17 @@ export default function Home() {
                         className={formErrors.name ? 'border-destructive focus-visible:ring-destructive' : ''}
                       />
                       {formErrors.name && (
-                        <p className="text-sm text-destructive flex items-center gap-1">
-                          <AlertCircle className="w-3.5 h-3.5" />
+                        <p className="text-xs text-destructive flex items-center gap-1">
+                          <AlertCircle className="w-3 h-3" />
                           {formErrors.name}
                         </p>
                       )}
                     </div>
                     <div className="space-y-2">
-                      <label htmlFor="email" className="text-sm font-medium text-foreground">Work Email*</label>
+                      <label htmlFor="email" className="text-sm font-medium text-foreground flex items-center gap-2">
+                        <Mail className="w-3.5 h-3.5 text-muted-foreground" />
+                        Work Email*
+                      </label>
                       <Input 
                         id="email"
                         name="email"
@@ -1253,8 +1298,8 @@ export default function Home() {
                         className={formErrors.email ? 'border-destructive focus-visible:ring-destructive' : ''}
                       />
                       {formErrors.email && (
-                        <p className="text-sm text-destructive flex items-center gap-1">
-                          <AlertCircle className="w-3.5 h-3.5" />
+                        <p className="text-xs text-destructive flex items-center gap-1">
+                          <AlertCircle className="w-3 h-3" />
                           {formErrors.email}
                         </p>
                       )}
@@ -1263,25 +1308,63 @@ export default function Home() {
                   
                   <div className="grid md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <label htmlFor="country" className="text-sm font-medium text-foreground">Country*</label>
-                      <Input 
+                      <label htmlFor="country" className="text-sm font-medium text-foreground flex items-center gap-2">
+                        <MapPin className="w-3.5 h-3.5 text-muted-foreground" />
+                        Country*
+                      </label>
+                      <select
                         id="country"
                         name="country"
                         value={formData.country}
-                        onChange={handleFormChange}
-                        placeholder="Your country"
+                        onChange={handleCountryChange}
                         required
-                        className={formErrors.country ? 'border-destructive focus-visible:ring-destructive' : ''}
-                      />
+                        className={`flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+                          formErrors.country ? 'border-destructive focus-visible:ring-destructive' : ''
+                        }`}
+                      >
+                        <option value="">Select a country</option>
+                        {countries.map((country) => (
+                          <option key={country.name} value={country.name}>
+                            {country.name}
+                          </option>
+                        ))}
+                      </select>
                       {formErrors.country && (
-                        <p className="text-sm text-destructive flex items-center gap-1">
-                          <AlertCircle className="w-3.5 h-3.5" />
+                        <p className="text-xs text-destructive flex items-center gap-1">
+                          <AlertCircle className="w-3 h-3" />
                           {formErrors.country}
                         </p>
                       )}
                     </div>
                     <div className="space-y-2">
-                      <label htmlFor="company" className="text-sm font-medium text-foreground">Company Name*</label>
+                      <label htmlFor="city" className="text-sm font-medium text-foreground flex items-center gap-2">
+                        <MapPin className="w-3.5 h-3.5 text-muted-foreground" />
+                        City*
+                      </label>
+                      <Input
+                        id="city"
+                        name="city"
+                        value={formData.city}
+                        onChange={handleFormChange}
+                        placeholder="City"
+                        required
+                        className={formErrors.city ? 'border-destructive focus-visible:ring-destructive' : ''}
+                      />
+                      {formErrors.city && (
+                        <p className="text-xs text-destructive flex items-center gap-1">
+                          <AlertCircle className="w-3 h-3" />
+                          {formErrors.city}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label htmlFor="company" className="text-sm font-medium text-foreground flex items-center gap-2">
+                        <Building2 className="w-3.5 h-3.5 text-muted-foreground" />
+                        Company Name*
+                      </label>
                       <Input 
                         id="company"
                         name="company"
@@ -1292,34 +1375,50 @@ export default function Home() {
                         className={formErrors.company ? 'border-destructive focus-visible:ring-destructive' : ''}
                       />
                       {formErrors.company && (
-                        <p className="text-sm text-destructive flex items-center gap-1">
-                          <AlertCircle className="w-3.5 h-3.5" />
+                        <p className="text-xs text-destructive flex items-center gap-1">
+                          <AlertCircle className="w-3 h-3" />
                           {formErrors.company}
+                        </p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <label htmlFor="phone" className="text-sm font-medium text-foreground flex items-center gap-2">
+                        <Phone className="w-3.5 h-3.5 text-muted-foreground" />
+                        Phone Number*
+                      </label>
+                      <div className="flex items-center gap-2">
+                        {formData.countryCode && (
+                          <div className="flex items-center h-10 px-3 rounded-md border border-input bg-muted text-sm text-muted-foreground shrink-0">
+                            {formData.countryCode}
+                          </div>
+                        )}
+                        <Input
+                          id="phone"
+                          name="phone"
+                          type="tel"
+                          value={formData.phone}
+                          onChange={handleFormChange}
+                          placeholder={formData.countryCode ? "1234567890" : "Select country first"}
+                          required
+                          disabled={!formData.countryCode}
+                          className={`flex-1 ${formErrors.phone ? 'border-destructive focus-visible:ring-destructive' : ''} ${!formData.countryCode ? 'cursor-not-allowed opacity-60' : ''}`}
+                        />
+                      </div>
+                      {!formData.countryCode && !formErrors.phone && (
+                        <p className="text-xs text-muted-foreground">
+                          Please select a country above to enter your phone number
+                        </p>
+                      )}
+                      {formErrors.phone && (
+                        <p className="text-xs text-destructive flex items-center gap-1">
+                          <AlertCircle className="w-3 h-3" />
+                          {formErrors.phone}
                         </p>
                       )}
                     </div>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <label htmlFor="phone" className="text-sm font-medium text-foreground">Phone Number*</label>
-                      <Input 
-                        id="phone"
-                        name="phone"
-                        type="tel"
-                        value={formData.phone}
-                        onChange={handleFormChange}
-                        placeholder="+91 00000 00000"
-                        required
-                        className={formErrors.phone ? 'border-destructive focus-visible:ring-destructive' : ''}
-                      />
-                      {formErrors.phone && (
-                        <p className="text-sm text-destructive flex items-center gap-1">
-                          <AlertCircle className="w-3.5 h-3.5" />
-                          {formErrors.phone}
-                        </p>
-                      )}
-                    </div>
                     <div className="space-y-2">
                       <label htmlFor="lookingFor" className="text-sm font-medium text-foreground">Looking For</label>
                       <select 

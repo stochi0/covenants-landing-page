@@ -16,6 +16,12 @@ export const contactFormSchema = z.object({
     .min(1, 'Country is required')
     .trim()
     .min(2, 'Country must be at least 2 characters'),
+  countryCode: z.string().optional(),
+  city: z
+    .string()
+    .min(1, 'City is required')
+    .trim()
+    .min(2, 'City must be at least 2 characters'),
   company: z
     .string()
     .min(1, 'Company is required')
