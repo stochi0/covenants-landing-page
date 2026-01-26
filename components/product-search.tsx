@@ -471,7 +471,7 @@ export function ProductSearch({ open, onOpenChange }: ProductSearchProps) {
                         className="group relative flex items-start gap-2 p-2.5 rounded-lg bg-background border border-border/50 hover:border-primary/30 transition-all"
                       >
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-foreground truncate">
+                          <p className="text-sm font-medium text-foreground break-words">
                             {product.name}
                           </p>
                           <p className="text-xs text-muted-foreground font-mono">
