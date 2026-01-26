@@ -1217,7 +1217,7 @@ export default function Home() {
             <Card className="border-border/50 bg-card max-w-2xl mx-auto overflow-hidden relative">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5" />
               <CardHeader className="relative">
-                <CardTitle className="text-xl">Partner With Us</CardTitle>
+                <CardTitle className="text-xl">Connect With Us</CardTitle>
               </CardHeader>
               <CardContent className="relative">
                 <form onSubmit={handleSubmit} className="space-y-4">
