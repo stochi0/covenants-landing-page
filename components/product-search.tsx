@@ -285,7 +285,7 @@ export function ProductSearch({ open, onOpenChange }: ProductSearchProps) {
                 <Filter className="w-3.5 h-3.5" />
                 <span>Filter:</span>
               </div>
-              {(['api', 'impurity', 'intermediate', 'chemical'] as Category[]).map((category) => {
+              {(['api', 'intermediate', 'chemical', 'impurity'] as Category[]).map((category) => {
                 const info = categoryInfo[category]
                 const isActive = selectedCategories.includes(category)
                 return (
