@@ -81,6 +81,7 @@ export const rfqContactFormSchema = z.object({
     .min(1, 'Country is required')
     .trim()
     .min(2, 'Country must be at least 2 characters'),
+  countryCode: z.string().optional(),
   message: z.string().optional(),
 })
 

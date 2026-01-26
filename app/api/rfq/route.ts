@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const { name, email, company, phone, country, message = '', products } = validationResult.data
+    const { name, email, company, phone, country, countryCode, message = '', products } = validationResult.data
 
     // Validate each product individually
     const productValidationErrors: string[] = []
@@ -169,12 +169,18 @@ export async function POST(request: NextRequest) {
                   </div>
                   <div class="contact-item">
                     <span class="contact-label">Phone</span>
-                    <span class="contact-value">${escapeHtml(phone)}</span>
+                    <span class="contact-value">${countryCode ? `${escapeHtml(countryCode)} ` : ''}${escapeHtml(phone)}</span>
                   </div>
                   <div class="contact-item">
                     <span class="contact-label">Country</span>
                     <span class="contact-value">${escapeHtml(country)}</span>
                   </div>
+                  ${countryCode ? `
+                  <div class="contact-item">
+                    <span class="contact-label">Country Code</span>
+                    <span class="contact-value">${escapeHtml(countryCode)}</span>
+                  </div>
+                  ` : ''}
                 </div>
               </div>
 
@@ -218,7 +224,8 @@ New Quote Request - Covenants PharmaChem LLP
 
 CONTACT
 Name: ${name} | Email: ${email} | Company: ${company}
-Phone: ${phone} | Country: ${country}
+Phone: ${countryCode ? `${countryCode} ` : ''}${phone} | Country: ${country}
+${countryCode ? `Country Code: ${countryCode}` : ''}
 
 PRODUCTS (${products.length})
 ${products
