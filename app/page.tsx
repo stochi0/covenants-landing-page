@@ -297,13 +297,19 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <Image 
-                src="/covenants-logo.png" 
-                alt="Covenants Logo" 
-                width={140} 
-                height={56} 
-                className="h-14 w-auto object-contain"
-              />
+              <button
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="cursor-pointer hover:opacity-80 transition-opacity"
+                aria-label="Go to home"
+              >
+                <Image 
+                  src="/covenants-logo.png" 
+                  alt="Covenants Logo" 
+                  width={140} 
+                  height={56} 
+                  className="h-14 w-auto object-contain"
+                />
+              </button>
             </div>
 
             {/* Desktop Navigation */}
