@@ -655,11 +655,11 @@ export default function Home() {
 
             {/* Hero Image & Stats */}
             <div className="relative">
-              {/* Lab Image with Overlay */}
+              {/* Manufacturing Image with Overlay */}
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                 <Image 
-                  src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&q=80" 
-                  alt="Pharmaceutical laboratory with glassware" 
+                  src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=800&q=80" 
+                  alt="Pharmaceutical and chemical manufacturing machinery and equipment" 
                   width={800}
                   height={320}
                   className="w-full h-[320px] object-cover"
