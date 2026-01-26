@@ -469,38 +469,6 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                     )}
                   </div>
                   <div className="space-y-2">
-                    <label htmlFor="rfq-phone" className="text-sm font-medium text-foreground flex items-center gap-2">
-                      <Phone className="w-3.5 h-3.5 text-muted-foreground" />
-                      Phone Number*
-                    </label>
-                    <div className="flex items-center gap-2">
-                      {formData.countryCode && (
-                        <div className="flex items-center h-10 px-3 rounded-md border border-input bg-muted text-sm text-muted-foreground shrink-0">
-                          {formData.countryCode}
-                        </div>
-                      )}
-                      <Input
-                        id="rfq-phone"
-                        name="phone"
-                        type="tel"
-                        value={formData.phone}
-                        onChange={handleFormChange}
-                        placeholder={formData.countryCode ? "Phone number" : "+1 (555) 000-0000"}
-                        required
-                        className={`flex-1 ${formErrors.phone ? 'border-destructive focus-visible:ring-destructive' : ''}`}
-                      />
-                    </div>
-                    {formErrors.phone && (
-                      <p className="text-xs text-destructive flex items-center gap-1">
-                        <AlertCircle className="w-3 h-3" />
-                        {formErrors.phone}
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
                     <label htmlFor="rfq-country" className="text-sm font-medium text-foreground flex items-center gap-2">
                       <MapPin className="w-3.5 h-3.5 text-muted-foreground" />
                       Country*
@@ -526,6 +494,44 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                       <p className="text-xs text-destructive flex items-center gap-1">
                         <AlertCircle className="w-3 h-3" />
                         {formErrors.country}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label htmlFor="rfq-phone" className="text-sm font-medium text-foreground flex items-center gap-2">
+                      <Phone className="w-3.5 h-3.5 text-muted-foreground" />
+                      Phone Number*
+                    </label>
+                    <div className="flex items-center gap-2">
+                      {formData.countryCode && (
+                        <div className="flex items-center h-10 px-3 rounded-md border border-input bg-muted text-sm text-muted-foreground shrink-0">
+                          {formData.countryCode}
+                        </div>
+                      )}
+                      <Input
+                        id="rfq-phone"
+                        name="phone"
+                        type="tel"
+                        value={formData.phone}
+                        onChange={handleFormChange}
+                        placeholder={formData.countryCode ? "1234567890" : "Select country first"}
+                        required
+                        disabled={!formData.countryCode}
+                        className={`flex-1 ${formErrors.phone ? 'border-destructive focus-visible:ring-destructive' : ''} ${!formData.countryCode ? 'cursor-not-allowed opacity-60' : ''}`}
+                      />
+                    </div>
+                    {!formData.countryCode && !formErrors.phone && (
+                      <p className="text-xs text-muted-foreground">
+                        Please select a country above to enter your phone number
+                      </p>
+                    )}
+                    {formErrors.phone && (
+                      <p className="text-xs text-destructive flex items-center gap-1">
+                        <AlertCircle className="w-3 h-3" />
+                        {formErrors.phone}
                       </p>
                     )}
                   </div>
