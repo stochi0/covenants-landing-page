@@ -291,16 +291,16 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                   return (
                     <Card key={product.id} className="border-border/50 bg-card overflow-hidden">
                       <CardContent className="p-4">
-                        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                        <div className="flex flex-col sm:flex-row gap-3">
                           {/* Product Info */}
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 mb-1">
-                              <h4 className="font-medium text-sm text-foreground truncate">
+                          <div className="flex-1 min-w-0 sm:max-w-[calc(100%-200px)]">
+                            <div className="flex items-start gap-2 mb-1">
+                              <h4 className="font-medium text-sm text-foreground break-words flex-1 min-w-0">
                                 {product.name}
                               </h4>
                               <Badge
                                 variant={product.category as 'api' | 'impurity' | 'intermediate' | 'chemical'}
-                                className="shrink-0 text-[10px]"
+                                className="shrink-0 text-[10px] mt-0.5"
                               >
                                 {categoryIcons[product.category]}
                                 <span className="ml-1">{info.label}</span>
@@ -312,7 +312,7 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                           </div>
 
                           {/* Quantity Input */}
-                          <div className="flex flex-col gap-1 shrink-0">
+                          <div className="flex flex-col gap-1 shrink-0 sm:w-[180px]">
                             <div className="flex items-center gap-2">
                               <div className="relative">
                                 <Input
