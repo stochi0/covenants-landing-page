@@ -258,17 +258,17 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
 
   return (
     <Dialog open={open} onOpenChange={resetAndClose}>
-      <DialogContent className="sm:max-w-2xl p-0 gap-0 overflow-hidden">
+      <DialogContent className="sm:max-w-2xl p-0 gap-0 overflow-hidden h-full sm:h-auto max-h-[100vh] sm:max-h-[90vh] w-full sm:w-auto rounded-none sm:rounded-2xl flex flex-col">
         {/* Header */}
-        <div className="px-6 pt-6 pb-4 border-b border-border bg-gradient-to-b from-accent/5 to-transparent">
+        <div className="px-4 sm:px-6 pt-4 sm:pt-6 pb-3 sm:pb-4 border-b border-border bg-gradient-to-b from-accent/5 to-transparent shrink-0">
           <DialogHeader>
-            <div className="flex items-center gap-3 mb-1">
-              <div className="p-2 rounded-xl bg-accent/10">
-                <FileText className="w-5 h-5 text-accent" />
+            <div className="flex items-center gap-2 sm:gap-3 mb-1">
+              <div className="p-1.5 sm:p-2 rounded-lg sm:rounded-xl bg-accent/10 shrink-0">
+                <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-accent" />
               </div>
-              <DialogTitle className="text-xl">Request for Quote</DialogTitle>
+              <DialogTitle className="text-lg sm:text-xl">Request for Quote</DialogTitle>
             </div>
-            <DialogDescription className="text-muted-foreground">
+            <DialogDescription className="text-muted-foreground text-xs sm:text-sm">
               {step === 'products' && 'Specify quantities for each product you need.'}
               {step === 'contact' && 'Provide your contact details to receive the quote.'}
               {step === 'success' && 'Your request has been submitted successfully!'}
@@ -277,26 +277,26 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
 
           {/* Progress Steps */}
           {step !== 'success' && (
-            <div className="flex items-center gap-2 mt-4">
+            <div className="flex items-center gap-1.5 sm:gap-2 mt-3 sm:mt-4">
               <div
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-full text-xs font-medium transition-all touch-manipulation ${
                   step === 'products'
                     ? 'bg-primary text-primary-foreground'
                     : 'bg-primary/10 text-primary'
                 }`}
               >
-                <Package className="w-3.5 h-3.5" />
+                <Package className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 Products
               </div>
-              <div className="w-8 h-px bg-border" />
+              <div className="w-6 sm:w-8 h-px bg-border" />
               <div
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-full text-xs font-medium transition-all touch-manipulation ${
                   step === 'contact'
                     ? 'bg-primary text-primary-foreground'
                     : 'bg-muted text-muted-foreground'
                 }`}
               >
-                <User className="w-3.5 h-3.5" />
+                <User className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 Contact
               </div>
             </div>
@@ -305,20 +305,20 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
 
         {/* Content */}
         {step === 'products' && (
-          <div className="flex flex-col">
-            <ScrollArea className="h-[300px]">
-              <div className="p-4 space-y-3">
+          <div className="flex flex-col flex-1 min-h-0">
+            <ScrollArea className="flex-1">
+              <div className="p-3 sm:p-4 space-y-2 sm:space-y-3">
                 {selectedProducts.map((product) => {
                   const quantity = quantities.find((q) => q.productId === product.id)
                   const info = categoryInfo[product.category]
                   return (
                     <Card key={product.id} className="border-border/50 bg-card overflow-hidden">
-                      <CardContent className="p-4">
-                        <div className="flex flex-col sm:flex-row gap-3">
+                      <CardContent className="p-3 sm:p-4">
+                        <div className="flex flex-col gap-3">
                           {/* Product Info */}
-                          <div className="flex-1 min-w-0 sm:max-w-[calc(100%-200px)]">
-                            <div className="flex items-start gap-2 mb-1">
-                              <h4 className="font-medium text-sm text-foreground break-words flex-1 min-w-0">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-start gap-2 mb-1.5">
+                              <h4 className="font-medium text-sm text-foreground break-words flex-1 min-w-0 pr-2">
                                 {product.name}
                               </h4>
                               <Badge
@@ -326,7 +326,7 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                                 className="shrink-0 text-[10px] mt-0.5"
                               >
                                 {categoryIcons[product.category]}
-                                <span className="ml-1">{info.label}</span>
+                                <span className="ml-1 hidden sm:inline">{info.label}</span>
                               </Badge>
                             </div>
                             <p className="text-xs text-muted-foreground font-mono">
@@ -335,31 +335,35 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                           </div>
 
                           {/* Quantity Input */}
-                          <div className="flex flex-col gap-1 shrink-0 sm:w-[180px]">
+                          <div className="flex flex-col gap-1.5">
                             <div className="flex items-center gap-2">
-                              <div className="relative">
+                              <div className="relative flex-1">
+                                <label className="text-xs text-muted-foreground mb-1 block">Quantity</label>
                                 <Input
                                   type="number"
                                   min="0"
                                   step="0.1"
-                                  placeholder="Qty"
+                                  placeholder="Enter quantity"
                                   value={quantity?.quantity || ''}
                                   onChange={(e) =>
                                     updateQuantity(product.id, 'quantity', e.target.value)
                                   }
-                                  className={`w-24 h-9 text-sm pr-2 ${quantityErrors[product.id] ? 'border-destructive focus-visible:ring-destructive' : ''}`}
+                                  className={`w-full h-11 text-sm touch-manipulation ${quantityErrors[product.id] ? 'border-destructive focus-visible:ring-destructive' : ''}`}
                                 />
                               </div>
-                              <select
-                                value={quantity?.unit || 'kg'}
-                                onChange={(e) => updateQuantity(product.id, 'unit', e.target.value)}
-                                className="h-9 px-2 rounded-md border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                              >
-                                <option value="mg">mg</option>
-                                <option value="g">g</option>
-                                <option value="kg">kg</option>
-                                <option value="mt">MT</option>
-                              </select>
+                              <div className="relative shrink-0">
+                                <label className="text-xs text-muted-foreground mb-1 block">Unit</label>
+                                <select
+                                  value={quantity?.unit || 'kg'}
+                                  onChange={(e) => updateQuantity(product.id, 'unit', e.target.value)}
+                                  className="h-11 px-3 rounded-md border border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring touch-manipulation min-w-[80px]"
+                                >
+                                  <option value="mg">mg</option>
+                                  <option value="g">g</option>
+                                  <option value="kg">kg</option>
+                                  <option value="mt">MT</option>
+                                </select>
+                              </div>
                             </div>
                             {quantityErrors[product.id] && (
                               <p className="text-xs text-destructive flex items-center gap-1">
@@ -376,10 +380,10 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
               </div>
             </ScrollArea>
 
-            {/* Footer */}
-            <div className="p-4 border-t border-border bg-muted/30 flex items-center justify-between">
-              <p className="text-sm text-muted-foreground">
-                {selectedProducts.length} product{selectedProducts.length !== 1 ? 's' : ''} selected
+            {/* Footer - Sticky on mobile */}
+            <div className="p-3 sm:p-4 border-t border-border bg-background/95 backdrop-blur-sm md:bg-muted/30 flex items-center justify-between shrink-0 sticky bottom-0 md:relative z-10 shadow-lg md:shadow-none">
+              <p className="text-xs sm:text-sm text-muted-foreground">
+                {selectedProducts.length} product{selectedProducts.length !== 1 ? 's' : ''}
               </p>
               <Button 
                 onClick={() => {
@@ -387,7 +391,8 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                     setStep('contact')
                   }
                 }} 
-                className="group"
+                className="group min-h-[44px] touch-manipulation"
+                size="lg"
               >
                 Continue
                 <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-0.5 transition-transform" />
@@ -397,10 +402,10 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
         )}
 
         {step === 'contact' && (
-          <form onSubmit={handleSubmit} className="flex flex-col">
-            <ScrollArea className="h-[350px]">
-              <div className="p-6 space-y-4">
-                <div className="grid md:grid-cols-2 gap-4">
+          <form onSubmit={handleSubmit} className="flex flex-col flex-1 min-h-0">
+            <ScrollArea className="flex-1">
+              <div className="p-4 sm:p-6 space-y-4">
+                <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label htmlFor="rfq-name" className="text-sm font-medium text-foreground flex items-center gap-2">
                       <User className="w-3.5 h-3.5 text-muted-foreground" />
@@ -413,7 +418,7 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                       onChange={handleFormChange}
                       placeholder="Your name"
                       required
-                      className={formErrors.name ? 'border-destructive focus-visible:ring-destructive' : ''}
+                      className={`h-11 touch-manipulation ${formErrors.name ? 'border-destructive focus-visible:ring-destructive' : ''}`}
                     />
                     {formErrors.name && (
                       <p className="text-xs text-destructive flex items-center gap-1">
@@ -435,7 +440,7 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                       onChange={handleFormChange}
                       placeholder="you@company.com"
                       required
-                      className={formErrors.email ? 'border-destructive focus-visible:ring-destructive' : ''}
+                      className={`h-11 touch-manipulation ${formErrors.email ? 'border-destructive focus-visible:ring-destructive' : ''}`}
                     />
                     {formErrors.email && (
                       <p className="text-xs text-destructive flex items-center gap-1">
@@ -446,7 +451,7 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label htmlFor="rfq-company" className="text-sm font-medium text-foreground flex items-center gap-2">
                       <Building2 className="w-3.5 h-3.5 text-muted-foreground" />
@@ -459,7 +464,7 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                       onChange={handleFormChange}
                       placeholder="Company name"
                       required
-                      className={formErrors.company ? 'border-destructive focus-visible:ring-destructive' : ''}
+                      className={`h-11 touch-manipulation ${formErrors.company ? 'border-destructive focus-visible:ring-destructive' : ''}`}
                     />
                     {formErrors.company && (
                       <p className="text-xs text-destructive flex items-center gap-1">
@@ -479,7 +484,7 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                       value={formData.country}
                       onChange={handleCountryChange}
                       required
-                      className={`flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+                      className={`flex h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 touch-manipulation ${
                         formErrors.country ? 'border-destructive focus-visible:ring-destructive' : ''
                       }`}
                     >
@@ -499,7 +504,7 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label htmlFor="rfq-phone" className="text-sm font-medium text-foreground flex items-center gap-2">
                       <Phone className="w-3.5 h-3.5 text-muted-foreground" />
@@ -507,7 +512,7 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                     </label>
                     <div className="flex items-center gap-2">
                       {formData.countryCode && (
-                        <div className="flex items-center h-10 px-3 rounded-md border border-input bg-muted text-sm text-muted-foreground shrink-0">
+                        <div className="flex items-center h-11 px-3 rounded-md border border-input bg-muted text-sm text-muted-foreground shrink-0">
                           {formData.countryCode}
                         </div>
                       )}
@@ -520,7 +525,7 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                         placeholder={formData.countryCode ? "1234567890" : "Select country first"}
                         required
                         disabled={!formData.countryCode}
-                        className={`flex-1 ${formErrors.phone ? 'border-destructive focus-visible:ring-destructive' : ''} ${!formData.countryCode ? 'cursor-not-allowed opacity-60' : ''}`}
+                        className={`flex-1 h-11 touch-manipulation ${formErrors.phone ? 'border-destructive focus-visible:ring-destructive' : ''} ${!formData.countryCode ? 'cursor-not-allowed opacity-60' : ''}`}
                       />
                     </div>
                     {!formData.countryCode && !formErrors.phone && (
@@ -547,7 +552,7 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                       onChange={handleFormChange}
                       placeholder="City"
                       required
-                      className={formErrors.city ? 'border-destructive focus-visible:ring-destructive' : ''}
+                      className={`h-11 touch-manipulation ${formErrors.city ? 'border-destructive focus-visible:ring-destructive' : ''}`}
                     />
                     {formErrors.city && (
                       <p className="text-xs text-destructive flex items-center gap-1">
@@ -567,15 +572,15 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                     name="message"
                     value={formData.message}
                     onChange={handleFormChange}
-                    rows={3}
+                    rows={4}
                     placeholder="Any specific requirements, delivery timeline, quality specifications..."
-                    className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 resize-none"
+                    className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 resize-none touch-manipulation min-h-[100px]"
                   />
                 </div>
 
                 {/* Summary */}
                 <Card className="border-border/50 bg-muted/30">
-                  <CardContent className="p-4">
+                  <CardContent className="p-3 sm:p-4">
                     <h4 className="text-sm font-medium text-foreground mb-2 flex items-center gap-2">
                       <Package className="w-4 h-4 text-primary" />
                       RFQ Summary
@@ -584,10 +589,10 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                       {selectedProducts.map((product) => {
                         const qty = quantities.find((q) => q.productId === product.id)
                         return (
-                          <Badge key={product.id} variant="outline" className="text-xs">
-                            {product.name}
+                          <Badge key={product.id} variant="outline" className="text-xs break-words">
+                            <span className="line-clamp-1">{product.name}</span>
                             {qty?.quantity && (
-                              <span className="ml-1 opacity-70">
+                              <span className="ml-1 opacity-70 whitespace-nowrap">
                                 ({qty.quantity} {qty.unit})
                               </span>
                             )}
@@ -600,12 +605,22 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
               </div>
             </ScrollArea>
 
-            {/* Footer */}
-            <div className="p-4 border-t border-border bg-muted/30 flex items-center justify-between">
-              <Button type="button" variant="ghost" onClick={() => setStep('products')}>
+            {/* Footer - Sticky on mobile */}
+            <div className="p-3 sm:p-4 border-t border-border bg-background/95 backdrop-blur-sm md:bg-muted/30 flex items-center justify-between shrink-0 sticky bottom-0 md:relative z-10 shadow-lg md:shadow-none">
+              <Button 
+                type="button" 
+                variant="ghost" 
+                onClick={() => setStep('products')}
+                className="touch-manipulation min-h-[44px]"
+              >
                 Back
               </Button>
-              <Button type="submit" disabled={isSubmitting} className="group min-w-32">
+              <Button 
+                type="submit" 
+                disabled={isSubmitting} 
+                className="group min-w-32 min-h-[44px] touch-manipulation"
+                size="lg"
+              >
                 {isSubmitting ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin" />
@@ -623,7 +638,7 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
         )}
 
         {step === 'success' && (
-          <div className="p-8 flex flex-col items-center justify-center text-center min-h-[300px]">
+          <div className="p-6 sm:p-8 flex flex-col items-center justify-center text-center min-h-[300px]">
             {/* Success Animation */}
             <div className="relative mb-6">
               <div className="absolute inset-0 bg-accent/20 rounded-full animate-ping" />
@@ -662,11 +677,18 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
               </CardContent>
             </Card>
 
-            <div className="flex items-center gap-3">
-              <Button variant="outline" onClick={handleSuccessClose}>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+              <Button 
+                variant="outline" 
+                onClick={handleSuccessClose}
+                className="w-full sm:w-auto min-h-[44px] touch-manipulation"
+              >
                 Close
               </Button>
-              <Button onClick={handleSuccessClose}>
+              <Button 
+                onClick={handleSuccessClose}
+                className="w-full sm:w-auto min-h-[44px] touch-manipulation"
+              >
                 <Sparkles className="w-4 h-4" />
                 Continue Browsing
               </Button>
