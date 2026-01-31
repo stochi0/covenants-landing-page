@@ -211,7 +211,7 @@ export function ProductSearch({ open, onOpenChange }: ProductSearchProps) {
   return (
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="sm:max-w-5xl p-0 gap-0 overflow-hidden max-h-[95vh] md:max-h-[85vh]">
+        <DialogContent className="sm:max-w-5xl p-0 gap-0 overflow-hidden max-h-[95vh] md:max-h-[85vh] w-[calc(100vw-2rem)] sm:w-full">
           {/* Header */}
           <div className="px-4 sm:px-6 pt-4 sm:pt-6 pb-3 sm:pb-4 border-b border-border bg-gradient-to-b from-primary/5 to-transparent">
             <DialogHeader>
@@ -705,19 +705,19 @@ function ProductCard({ product, isSelected, onToggle, searchType, searchQuery }:
       </div>
 
       {/* Content */}
-      <div className="flex-1 min-w-0">
+      <div className="flex-1 min-w-0 overflow-hidden">
         <div className="flex items-start justify-between gap-1.5 sm:gap-2 mb-1">
-          <h3 className="font-medium text-xs sm:text-sm text-foreground leading-tight group-hover:text-primary transition-colors line-clamp-2">
+          <h3 className="font-medium text-xs sm:text-sm text-foreground leading-tight group-hover:text-primary transition-colors line-clamp-2 flex-1 min-w-0">
             {searchType === 'name' ? highlightMatch(product.name, searchQuery) : product.name}
           </h3>
-          <Badge variant={product.category as 'api' | 'impurity' | 'intermediate' | 'chemical'} className="shrink-0 text-[10px] sm:text-xs">
+          <Badge variant={product.category as 'api' | 'impurity' | 'intermediate' | 'chemical'} className="shrink-0 text-[10px] sm:text-xs whitespace-nowrap">
             <span className="hidden sm:inline-flex">{categoryIcons[product.category]}</span>
             <span className="sm:ml-1">{info.label}</span>
           </Badge>
         </div>
 
         <div className="flex flex-wrap items-center gap-x-2 sm:gap-x-3 gap-y-1 text-[10px] sm:text-xs text-muted-foreground">
-          <span className={`font-mono bg-muted/50 px-1 sm:px-1.5 py-0.5 rounded ${searchType === 'cas' ? 'ring-1 ring-primary/30' : ''}`}>
+          <span className={`font-mono bg-muted/50 px-1 sm:px-1.5 py-0.5 rounded truncate max-w-full ${searchType === 'cas' ? 'ring-1 ring-primary/30' : ''}`}>
             CAS: {searchType === 'cas' ? highlightMatch(product.casNumber, searchQuery) : product.casNumber}
           </span>
         </div>
