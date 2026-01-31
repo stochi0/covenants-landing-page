@@ -13,7 +13,7 @@
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - pnpm installed (`npm install -g pnpm`)
 
 ### Installation
@@ -90,6 +90,7 @@ The migration includes:
 - 🛒 Product selection for RFQ
 - 📧 Request for Quote form
 - ⚡ Fast search with PostgreSQL indexes
+- 📱 Mobile responsive design
 
 ## Build
 
