@@ -647,6 +647,12 @@ export function ProductSearch({ open, onOpenChange }: ProductSearchProps) {
         onOpenChange={setRfqOpen}
         selectedProducts={selectedProducts}
         onSuccess={handleRfqSuccess}
+        onRemoveProduct={(productId) => {
+          setSelectedProducts((prev) => prev.filter((p) => p.id !== productId))
+        }}
+        onBack={() => {
+          setRfqOpen(false)
+        }}
       />
     </>
   )

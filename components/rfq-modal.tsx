@@ -24,6 +24,7 @@ import {
   MapPin,
   Package,
   ArrowRight,
+  ArrowLeft,
   Sparkles,
   FlaskConical,
   Beaker,
@@ -31,6 +32,7 @@ import {
   Layers,
   X,
   Loader2,
+  Trash2,
 } from 'lucide-react'
 import type { Product } from '@/lib/products-data'
 import { categoryInfo } from '@/lib/products-data'
@@ -49,6 +51,8 @@ interface RFQModalProps {
   onOpenChange: (open: boolean) => void
   selectedProducts: Product[]
   onSuccess: () => void
+  onRemoveProduct?: (productId: string) => void
+  onBack?: () => void
 }
 
 interface ProductQuantity {
@@ -57,7 +61,7 @@ interface ProductQuantity {
   unit: string
 }
 
-export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RFQModalProps) {
+export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess, onRemoveProduct, onBack }: RFQModalProps) {
   const [step, setStep] = useState<'products' | 'contact' | 'success'>('products')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [quantities, setQuantities] = useState<ProductQuantity[]>(
@@ -207,7 +211,7 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                   const quantity = quantities.find((q) => q.productId === product.id)
                   const info = categoryInfo[product.category]
                   return (
-                    <Card key={product.id} className="border-border/50 bg-card overflow-hidden">
+                    <Card key={product.id} className="border-border/50 bg-card overflow-hidden group">
                       <CardContent className="p-3 sm:p-4">
                         <div className="flex flex-col gap-2 sm:gap-3">
                           {/* Product Info */}
@@ -216,13 +220,25 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                               <h4 className="font-medium text-sm text-foreground line-clamp-2 leading-tight">
                                 {product.name}
                               </h4>
-                              <Badge
-                                variant={product.category as 'api' | 'impurity' | 'intermediate' | 'chemical'}
-                                className="shrink-0 text-[10px]"
-                              >
-                                <span className="hidden sm:inline-flex">{categoryIcons[product.category]}</span>
-                                <span className="sm:ml-1">{info.label}</span>
-                              </Badge>
+                              <div className="flex items-center gap-1.5 shrink-0">
+                                <Badge
+                                  variant={product.category as 'api' | 'impurity' | 'intermediate' | 'chemical'}
+                                  className="text-[10px]"
+                                >
+                                  <span className="hidden sm:inline-flex">{categoryIcons[product.category]}</span>
+                                  <span className="sm:ml-1">{info.label}</span>
+                                </Badge>
+                                {onRemoveProduct && selectedProducts.length > 1 && (
+                                  <button
+                                    type="button"
+                                    onClick={() => onRemoveProduct(product.id)}
+                                    className="p-1.5 rounded-md bg-destructive/10 hover:bg-destructive/20 active:bg-destructive/30 transition-colors"
+                                    aria-label="Remove product"
+                                  >
+                                    <Trash2 className="w-3.5 h-3.5 text-destructive" />
+                                  </button>
+                                )}
+                              </div>
                             </div>
                             <p className="text-xs text-muted-foreground font-mono">
                               CAS: {product.casNumber}
@@ -236,12 +252,12 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
                                 type="number"
                                 min="0"
                                 step="0.1"
-                                placeholder="Quantity"
+                                placeholder="Qty"
                                 value={quantity?.quantity || ''}
                                 onChange={(e) =>
                                   updateQuantity(product.id, 'quantity', e.target.value)
                                 }
-                                className="w-full sm:w-24 h-10 sm:h-9 text-sm"
+                                className="w-full sm:w-28 h-10 sm:h-9 text-sm"
                               />
                             </div>
                             <select
@@ -265,10 +281,27 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess }: RF
 
             {/* Footer */}
             <div className="p-3 sm:p-4 border-t border-border bg-muted/30 flex items-center justify-between gap-3">
-              <p className="text-xs sm:text-sm text-muted-foreground">
-                {selectedProducts.length} product{selectedProducts.length !== 1 ? 's' : ''}
-              </p>
-              <Button onClick={() => setStep('contact')} className="group">
+              <div className="flex items-center gap-2">
+                {onBack && (
+                  <Button 
+                    type="button" 
+                    variant="default"
+                    size="sm"
+                    onClick={() => {
+                      resetAndClose()
+                      onBack()
+                    }}
+                    className="gap-1"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                    <span className="hidden sm:inline">Back</span>
+                  </Button>
+                )}
+                <p className="text-xs sm:text-sm text-muted-foreground">
+                  {selectedProducts.length} product{selectedProducts.length !== 1 ? 's' : ''}
+                </p>
+              </div>
+              <Button onClick={() => setStep('contact')} className="group" disabled={selectedProducts.length === 0}>
                 Continue
                 <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-0.5 transition-transform" />
               </Button>
