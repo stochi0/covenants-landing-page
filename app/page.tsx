@@ -253,7 +253,7 @@ export default function Home() {
       <div className="fixed inset-0 bg-mesh-gradient pointer-events-none" />
 
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
@@ -581,7 +581,7 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="relative z-10">
+      <main className="relative z-10 pt-[73px]">
         {/* Hero Section */}
         <section className="relative max-w-7xl mx-auto px-6 pt-6 pb-16 md:pt-8 md:pb-24">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -698,10 +698,10 @@ export default function Home() {
               />
             </div>
 
-            {/* Our Offerings Detail */}
-            <Card className="border-border/50 bg-card overflow-hidden">
+            {/* Service Offerings Detail */}
+            <Card className="border-border/50 bg-card overflow-hidden mb-12">
               <CardContent className="p-8">
-                <h3 className="text-xl font-semibold text-foreground mb-6">Our Offerings</h3>
+                <h3 className="text-xl font-semibold text-foreground mb-6">Service Offerings</h3>
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                   <div className="space-y-4">
                     <div className="flex items-center gap-2 text-primary font-medium">
@@ -718,28 +718,95 @@ export default function Home() {
                   <div className="space-y-4">
                     <div className="flex items-center gap-2 text-primary font-medium">
                       <Layers className="w-5 h-5" />
-                      <span>Also Includes</span>
+                      <span>Research & Analytics</span>
                     </div>
                     <ul className="space-y-2 text-sm text-muted-foreground">
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Analytical Method Development</li>
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Impurity Synthesis</li>
+                      <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Stability Studies</li>
+                      <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Reference Standards Preparation</li>
+                    </ul>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 text-primary font-medium">
+                      <BarChart3 className="w-5 h-5" />
+                      <span>Analytical Capabilities</span>
+                    </div>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />HPLC / GC Analysis</li>
+                      <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />LCMS Analysis</li>
+                      <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Method Development</li>
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Full Time Equivalent</li>
                     </ul>
                   </div>
-                  <div className="space-y-4 lg:col-span-2">
+                  <div className="space-y-4">
                     <div className="flex items-center gap-2 text-primary font-medium">
-                      <TestTubes className="w-5 h-5" />
-                      <span>Focus Areas</span>
+                      <Factory className="w-5 h-5" />
+                      <span>Manufacturing Products</span>
                     </div>
-                    <div className="flex flex-wrap gap-2">
-                      <span className="px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium">Custom Manufacturing</span>
-                      <span className="px-3 py-1.5 rounded-full bg-accent/10 text-accent text-sm font-medium">Custom Research</span>
-                      <span className="px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium">Products</span>
-                    </div>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Custom Synthesis Compounds</li>
+                      <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Key Starting Materials</li>
+                      <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Intermediates</li>
+                      <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />APIs</li>
+                    </ul>
                   </div>
                 </div>
               </CardContent>
             </Card>
+
+            {/* Network Capabilities */}
+            <div className="space-y-8">
+              {/* Facility Accreditations */}
+              <Card className="border-border/50 bg-card">
+                <CardContent className="p-8">
+                  <h4 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
+                    <ShieldCheck className="w-6 h-6 text-primary" />
+                    Facility Accreditations
+                  </h4>
+                  <p className="text-muted-foreground mb-6">
+                    Our promise to uphold the highest standards of operational excellence and patient care
+                  </p>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                    <div className="p-3 rounded-lg bg-primary/5 border border-primary/10 text-center">
+                      <p className="text-sm font-medium text-foreground">cGMP/Non GMP</p>
+                    </div>
+                    <div className="p-3 rounded-lg bg-accent/5 border border-accent/10 text-center">
+                      <p className="text-sm font-medium text-foreground">USFDA</p>
+                    </div>
+                    <div className="p-3 rounded-lg bg-primary/5 border border-primary/10 text-center">
+                      <p className="text-sm font-medium text-foreground">State FDA</p>
+                    </div>
+                    <div className="p-3 rounded-lg bg-accent/5 border border-accent/10 text-center">
+                      <p className="text-sm font-medium text-foreground">EDQM</p>
+                    </div>
+                    <div className="p-3 rounded-lg bg-primary/5 border border-primary/10 text-center">
+                      <p className="text-sm font-medium text-foreground">ISO:9001</p>
+                    </div>
+                    <div className="p-3 rounded-lg bg-accent/5 border border-accent/10 text-center">
+                      <p className="text-sm font-medium text-foreground">WHO GMP</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Chemical Reactions Capabilities */}
+              <Card className="border-border/50 bg-card">
+                <CardContent className="p-8">
+                  <h4 className="text-xl font-semibold text-foreground mb-6 flex items-center gap-2">
+                    <TestTubes className="w-6 h-6 text-primary" />
+                    Chemical Reactions Capabilities
+                  </h4>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                    {['Alkylation', 'Cyclization', 'Chiral Chemistry', 'Grignard', 'Amination', 'Diazotization', 'Chlorosulfonation', 'Hoffman', 'Nitration', 'Esterification', 'Birch Reduction', 'Cyanation', 'Oxidation', 'Fluorination', 'Iodine Chemistry', 'Chlorination', 'Cryogenic', 'Friedel-Crafts', 'Lyophilisation', 'Bromination', 'Reduction', 'Sulphonation', 'Thiophosgenation', 'Sand Meyer', 'Column Chromatography', 'Heterocyclic Synthesis', 'High Vacuum Distillation', 'Hydrogenation'].map((reaction, idx) => (
+                      <div key={idx} className="p-3 rounded-lg bg-muted/50 border border-border/50 text-center">
+                        <p className="text-sm text-foreground">{reaction}</p>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </section>
 
@@ -756,32 +823,32 @@ export default function Home() {
                   SCM Services
                 </h2>
                 <p className="text-muted-foreground mb-8">
-                  End to End Supply Chain Services—tailored to help you optimize cost, mitigate risk, and execute reliably.
+                  Our unparalleled functional expertise in end to end Supply Chain Management—tailored to help you optimize cost, mitigate risk, and execute reliably.
                 </p>
                 
                 <div className="space-y-6">
                   <FeatureCard 
                     icon={<SearchIcon className="w-5 h-5" />}
-                    title="Sourcing"
-                    description="Supplier discovery and sourcing support through our network."
+                    title="Strategic Sourcing & Procurement"
+                    description="Risk mitigation, alternate vendor development, cost reduction for Direct, Capex and Indirect Procurement"
                     delay={100}
                   />
                   <FeatureCard 
                     icon={<BarChart3 className="w-5 h-5" />}
-                    title="Procurement Cost Optimization"
-                    description="Identify savings opportunities across procurement workflows."
+                    title="Planning & Inventory Management"
+                    description="Effective capacity utilization, Optimized inventory, delivery improvement, improved customer satisfaction"
                     delay={200}
                   />
                   <FeatureCard 
-                    icon={<ShieldCheck className="w-5 h-5" />}
-                    title="Risk Mitigation"
-                    description="Reduce supply risks through proactive planning and execution."
+                    icon={<Globe className="w-5 h-5" />}
+                    title="End-to-end Foreign Trade"
+                    description="Compliance hygiene w.r.t. Foreign Trade Policy, Customs, Foreign Exchange, Benefits / Subsidies / Duty Exemptions"
                     delay={300}
                   />
                   <FeatureCard 
-                    icon={<Zap className="w-5 h-5" />}
-                    title="Digital Transformation"
-                    description="Enable better visibility and execution across the supply chain."
+                    icon={<Leaf className="w-5 h-5" />}
+                    title="ESG Capabilities (Sustainability)"
+                    description="ESG transformation, Sustainable procurement roadmap, Mapping customer expectations, ESG ratings"
                     delay={400}
                   />
                 </div>
@@ -934,9 +1001,14 @@ export default function Home() {
                 <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-4">
                   About Us
                 </h2>
-                <p className="text-muted-foreground text-lg leading-relaxed">
-                  We are a team of passionate professionals committed to creating value for all stakeholders. By leveraging our extensive network, deep expertise, and cutting-edge technology, we drive sustainable growth and innovation.
-                </p>
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="text-xl font-semibold text-foreground mb-2">Mission</h3>
+                    <p className="text-muted-foreground text-lg leading-relaxed">
+                      To become trusted supply chain partner and strive to exceed expectations through innovative & tailored solutions. We create value for all stakeholders by leveraging our network, expertise and technology to drive sustainable growth.
+                    </p>
+                  </div>
+                </div>
               </div>
               
               <div className="relative">
@@ -952,6 +1024,127 @@ export default function Home() {
                 {/* Decorative element */}
                 <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-gradient-to-br from-accent/30 to-primary/30 rounded-full blur-2xl -z-10" />
               </div>
+            </div>
+
+            {/* Co-Founders Section */}
+            <div className="mb-12">
+              <h3 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight mb-2 text-center">Co-Founders</h3>
+              <p className="text-center text-muted-foreground mb-8">Leverage 5 decades of expertise in End to End Supply Chain Management</p>
+              
+              <div className="grid md:grid-cols-2 gap-8">
+                <Card className="border-border/50 bg-card">
+                  <CardContent className="p-8">
+                    <h4 className="text-xl font-semibold text-foreground mb-4">Alpesh Mehta, Co-founder</h4>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li className="flex items-start gap-2">
+                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                        <span>Over 20 years in the Pharmaceuticals Industry Supply Chain Management</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                        <span>Expertise in Planning, Procurement, Outsourcing, Logistics, Commercials, and Project Management</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                        <span>Proven track record of leveraging supply chain as a competitive advantage</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                        <span>Extensive experience managing end-to-end supply chains for various Indian and Multinational Pharma companies like Cadila, Mylan, Piramal</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                        <span>Managed critical CDMO and CRO projects for global customers</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                        <span>B.E. Chemical from DDIT, Nadiad and PGDBA from NMIMS, Mumbai</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                        <span>Certified Project Management Professional</span>
+                      </li>
+                    </ul>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-border/50 bg-card">
+                  <CardContent className="p-8">
+                    <h4 className="text-xl font-semibold text-foreground mb-4">Vivek Bodade, Co-founder</h4>
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      <li className="flex items-start gap-2">
+                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                        <span>Over 20 years of experience in Supply Chain Management, Digital Transformation & driving international projects</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                        <span>Expertise in Global Sourcing, Procurement, Contract Management, Vendor Development, Capex, Opex, and Indirect procurement</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                        <span>Proven track record in driving Global Procurement initiatives and achieving Cost Optimization through E-Procurement, category management etc.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                        <span>Diverse sector experience: Pharma, Chemical, Biotech, Biosimilar, Healthcare, FMCG, and Hospital</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                        <span>Worked with notable companies including Atul, Cadila Pharma, Wockhardt, Glenmark, Laurus Labs, Piramal, and Perfetti van Melle</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                        <span>B.E. Mechanical from Amravati University and MBA in Materials & Logistics and Marketing from the University of Pune</span>
+                      </li>
+                    </ul>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            {/* Strategic Focus Areas */}
+            <div className="grid md:grid-cols-3 gap-6 mb-12">
+              <Card className="border-border/50 bg-card">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
+                      <Lightbulb className="w-5 h-5" />
+                    </div>
+                    <h3 className="font-semibold text-foreground">Explore and Seize Opportunities</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Leverage the available capacities, capabilities, and talent within India&apos;s pharmaceutical manufacturing, research & development ecosystem to address latent opportunities, solve complex technical or technological problems, and serve global customers.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-border/50 bg-card">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2.5 rounded-lg bg-accent/10 text-accent">
+                      <Users className="w-5 h-5" />
+                    </div>
+                    <h3 className="font-semibold text-foreground">Value Creation for Stakeholders</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Delivering exceptional value for customers and network partners by providing products and services at competitive prices, with on-time delivery, and unmatched quality.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="border-border/50 bg-card">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
+                      <Handshake className="w-5 h-5" />
+                    </div>
+                    <h3 className="font-semibold text-foreground">Drive Strategic Growth</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Initiate and cultivate strategic partnerships that underscore value creation, accelerate growth, and enhance global competitiveness, all while making a significant societal impact through sustainable practices.
+                  </p>
+                </CardContent>
+              </Card>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -1127,44 +1320,6 @@ export default function Home() {
               <p className="text-muted-foreground max-w-2xl mx-auto">
                 Share what you&apos;re looking for—services, products, or SCM support—and we&apos;ll connect you with the right solution through our network.
               </p>
-            </div>
-
-            <div className="grid lg:grid-cols-3 gap-8 mb-12">
-              <Card className="border-border/50 bg-card group hover:shadow-lg transition-all duration-300">
-                <CardContent className="p-6 text-center">
-                  <div className="p-3 rounded-xl bg-primary/10 text-primary w-fit mx-auto mb-4">
-                    <Factory className="w-6 h-6" />
-                  </div>
-                  <h3 className="font-semibold text-foreground mb-2">Services Through Network Partners</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Contract manufacturing, development, scale-up, analytics, impurity synthesis, and FTE support.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-border/50 bg-card group hover:shadow-lg transition-all duration-300">
-                <CardContent className="p-6 text-center">
-                  <div className="p-3 rounded-xl bg-accent/10 text-accent w-fit mx-auto mb-4">
-                    <Truck className="w-6 h-6" />
-                  </div>
-                  <h3 className="font-semibold text-foreground mb-2">SCM Services</h3>
-                  <p className="text-sm text-muted-foreground">
-                    End to End Supply Chain Services tailored to your business needs.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-border/50 bg-card group hover:shadow-lg transition-all duration-300">
-                <CardContent className="p-6 text-center">
-                  <div className="p-3 rounded-xl bg-primary/10 text-primary w-fit mx-auto mb-4">
-                    <Package className="w-6 h-6" />
-                  </div>
-                  <h3 className="font-semibold text-foreground mb-2">Product Offerings</h3>
-                  <p className="text-sm text-muted-foreground">
-                    API, Intermediate, Specialty chemicals, and Impurities.
-                  </p>
-                </CardContent>
-              </Card>
             </div>
 
             {/* Contact Form */}
