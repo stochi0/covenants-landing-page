@@ -618,20 +618,20 @@ export default function Home() {
               {/* Lab Image with Overlay */}
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                 <Image 
-                  src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&q=80" 
-                  alt="Pharmaceutical laboratory with glassware" 
+                  src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=800&q=80" 
+                  alt="Pharmaceutical and chemical manufacturing machinery and equipment" 
                   width={800}
                   height={320}
-                  className="w-full h-[320px] object-cover"
+                  className="w-full h-[320px] object-cover opacity-40"
                   priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/40" />
                 
                 {/* Stats Overlay */}
                 <div className="absolute bottom-0 left-0 right-0 p-6">
                   <div className="grid grid-cols-2 gap-4">
-                    <StatCard value="100+" label="Network Partners" sublabel="Trusted partner network" delay={100} />
-                    <StatCard value="6000+" label="KL Capacity" sublabel="Network manufacturing capacity" delay={200} />
+                    <StatCard value="121+" label="Network Partners" sublabel="Trusted partner network" delay={100} />
+                    <StatCard value="7500+" label="KL Capacity" sublabel="Network manufacturing capacity" delay={200} />
                     <StatCard value="3500+" label="Products" sublabel="Across key offerings" delay={300} />
                     <StatCard value="20+" label="Chemical Reactions" sublabel="Diverse reaction capabilities" delay={400} />
                   </div>

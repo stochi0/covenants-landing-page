@@ -156,7 +156,7 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess, onRe
 
   return (
     <Dialog open={open} onOpenChange={resetAndClose}>
-      <DialogContent className="sm:max-w-2xl p-0 gap-0 overflow-hidden max-h-[90vh] sm:max-h-[85vh] flex flex-col">
+      <DialogContent className="sm:max-w-2xl p-0 gap-0 overflow-hidden max-h-[90vh] sm:max-h-[85vh] flex flex-col w-[calc(100%-1rem)] sm:w-full">
         {/* Header */}
         <div className="px-4 sm:px-6 pt-4 sm:pt-6 pb-3 sm:pb-4 border-b border-border bg-gradient-to-b from-accent/5 to-transparent shrink-0">
           <DialogHeader>
