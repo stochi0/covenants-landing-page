@@ -227,7 +227,7 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess, onRe
                                   <span className="hidden sm:inline-flex">{categoryIcons[product.category]}</span>
                                   <span className="sm:ml-1">{info.label}</span>
                                 </Badge>
-                                {onRemoveProduct && selectedProducts.length > 1 && (
+                                {onRemoveProduct && (
                                   <button
                                     type="button"
                                     onClick={() => onRemoveProduct(product.id)}
