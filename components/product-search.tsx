@@ -211,9 +211,9 @@ export function ProductSearch({ open, onOpenChange }: ProductSearchProps) {
   return (
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="sm:max-w-5xl p-0 gap-0 overflow-hidden max-h-[95vh] md:max-h-[85vh]">
+        <DialogContent className="sm:max-w-5xl p-0 gap-0 overflow-hidden max-h-[90vh] md:max-h-[85vh] flex flex-col">
           {/* Header */}
-          <div className="px-4 sm:px-6 pt-4 sm:pt-6 pb-3 sm:pb-4 border-b border-border bg-gradient-to-b from-primary/5 to-transparent">
+          <div className="px-4 sm:px-6 pt-4 sm:pt-6 pb-3 sm:pb-4 border-b border-border bg-gradient-to-b from-primary/5 to-transparent shrink-0">
             <DialogHeader>
               <div className="flex items-center gap-2 sm:gap-3 mb-1">
                 <div className="p-1.5 sm:p-2 rounded-lg sm:rounded-xl bg-primary/10">
@@ -323,7 +323,7 @@ export function ProductSearch({ open, onOpenChange }: ProductSearchProps) {
           </div>
 
           {/* Results */}
-          <div className="flex flex-col md:flex-row h-[55vh] sm:h-[50vh] min-h-[350px] sm:min-h-[400px] relative">
+          <div className="flex flex-col md:flex-row flex-1 min-h-0 relative">
             {/* Product List */}
             <div className="flex-1 md:border-r border-border overflow-hidden flex flex-col">
               <div className="px-3 sm:px-4 py-2 bg-muted/30 border-b border-border flex items-center justify-between shrink-0">

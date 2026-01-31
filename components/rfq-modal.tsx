@@ -157,9 +157,9 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess, onRe
 
   return (
     <Dialog open={open} onOpenChange={resetAndClose}>
-      <DialogContent className="sm:max-w-2xl p-0 gap-0 overflow-hidden max-h-[95vh] sm:max-h-[85vh]">
+      <DialogContent className="sm:max-w-2xl p-0 gap-0 overflow-hidden max-h-[90vh] sm:max-h-[85vh] flex flex-col">
         {/* Header */}
-        <div className="px-4 sm:px-6 pt-4 sm:pt-6 pb-3 sm:pb-4 border-b border-border bg-gradient-to-b from-accent/5 to-transparent">
+        <div className="px-4 sm:px-6 pt-4 sm:pt-6 pb-3 sm:pb-4 border-b border-border bg-gradient-to-b from-accent/5 to-transparent shrink-0">
           <DialogHeader>
             <div className="flex items-center gap-2 sm:gap-3 mb-1">
               <div className="p-1.5 sm:p-2 rounded-lg sm:rounded-xl bg-accent/10">
@@ -204,8 +204,8 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess, onRe
 
         {/* Content */}
         {step === 'products' && (
-          <div className="flex flex-col">
-            <ScrollArea className="h-[45vh] sm:h-[300px] min-h-[250px]">
+          <div className="flex flex-col flex-1 min-h-0">
+            <ScrollArea className="flex-1">
               <div className="p-3 sm:p-4 space-y-2 sm:space-y-3">
                 {selectedProducts.map((product) => {
                   const quantity = quantities.find((q) => q.productId === product.id)
@@ -280,7 +280,7 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess, onRe
             </ScrollArea>
 
             {/* Footer */}
-            <div className="p-3 sm:p-4 border-t border-border bg-muted/30 flex items-center justify-between gap-3">
+            <div className="p-3 sm:p-4 border-t border-border bg-muted/30 flex items-center justify-between gap-3 shrink-0">
               <div className="flex items-center gap-2">
                 {onBack && (
                   <Button 
@@ -310,8 +310,8 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess, onRe
         )}
 
         {step === 'contact' && (
-          <form onSubmit={handleSubmit} className="flex flex-col">
-            <ScrollArea className="h-[50vh] sm:h-[350px] min-h-[280px]">
+          <form onSubmit={handleSubmit} className="flex flex-col flex-1 min-h-0">
+            <ScrollArea className="flex-1">
               <div className="p-4 sm:p-6 space-y-3 sm:space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <div className="space-y-1.5 sm:space-y-2">
