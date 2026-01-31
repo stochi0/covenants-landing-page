@@ -72,6 +72,9 @@ export function ProductSearch({ open, onOpenChange }: ProductSearchProps) {
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([])
   const [rfqOpen, setRfqOpen] = useState(false)
   
+  // Mobile panel state
+  const [showMobileCart, setShowMobileCart] = useState(false)
+  
   // Refs
   const searchInputRef = useRef<HTMLInputElement>(null)
   const scrollAreaRef = useRef<HTMLDivElement>(null)
@@ -208,82 +211,82 @@ export function ProductSearch({ open, onOpenChange }: ProductSearchProps) {
   return (
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="sm:max-w-5xl p-0 gap-0 overflow-hidden">
+        <DialogContent className="sm:max-w-5xl p-0 gap-0 overflow-hidden max-h-[95vh] md:max-h-[85vh]">
           {/* Header */}
-          <div className="px-6 pt-6 pb-4 border-b border-border bg-gradient-to-b from-primary/5 to-transparent">
+          <div className="px-4 sm:px-6 pt-4 sm:pt-6 pb-3 sm:pb-4 border-b border-border bg-gradient-to-b from-primary/5 to-transparent">
             <DialogHeader>
-              <div className="flex items-center gap-3 mb-1">
-                <div className="p-2 rounded-xl bg-primary/10">
-                  <Package className="w-5 h-5 text-primary" />
+              <div className="flex items-center gap-2 sm:gap-3 mb-1">
+                <div className="p-1.5 sm:p-2 rounded-lg sm:rounded-xl bg-primary/10">
+                  <Package className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                 </div>
-                <DialogTitle className="text-xl">Product Catalog</DialogTitle>
-                <Badge variant="secondary" className="text-xs">
+                <DialogTitle className="text-lg sm:text-xl">Product Catalog</DialogTitle>
+                <Badge variant="secondary" className="text-[10px] sm:text-xs hidden sm:inline-flex">
                   500+ Products
                 </Badge>
               </div>
-              <DialogDescription className="text-muted-foreground">
+              <DialogDescription className="text-muted-foreground text-sm hidden sm:block">
                 Search by CAS number or product name to find exactly what you need.
               </DialogDescription>
             </DialogHeader>
 
             {/* Search Type Tabs */}
-            <div className="mt-4 flex items-center gap-2 p-1 bg-muted/50 rounded-lg w-fit">
+            <div className="mt-3 sm:mt-4 flex items-center gap-1 sm:gap-2 p-1 bg-muted/50 rounded-lg w-fit">
               <button
                 onClick={() => setSearchType('name')}
                 className={`
-                  flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all
+                  flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-all
                   ${searchType === 'name' 
                     ? 'bg-background text-foreground shadow-sm' 
                     : 'text-muted-foreground hover:text-foreground'
                   }
                 `}
               >
-                <Type className="w-4 h-4" />
-                Product Name
+                <Type className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <span className="hidden xs:inline">Product</span> Name
               </button>
               <button
                 onClick={() => setSearchType('cas')}
                 className={`
-                  flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all
+                  flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-md text-xs sm:text-sm font-medium transition-all
                   ${searchType === 'cas' 
                     ? 'bg-background text-foreground shadow-sm' 
                     : 'text-muted-foreground hover:text-foreground'
                   }
                 `}
               >
-                <Hash className="w-4 h-4" />
-                CAS Number
+                <Hash className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                CAS <span className="hidden xs:inline">Number</span>
               </button>
             </div>
 
             {/* Search Bar */}
-            <div className="mt-3 relative">
+            <div className="mt-2 sm:mt-3 relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
                 ref={searchInputRef}
                 placeholder={searchType === 'cas' 
-                  ? "Enter CAS number (e.g., 1115-70-4)..." 
-                  : "Search by product name or synonym..."
+                  ? "CAS number (e.g., 1115-70-4)" 
+                  : "Search product name..."
                 }
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 h-11 bg-background/80 border-border/50 focus:border-primary/50 font-mono"
+                className="pl-10 h-10 sm:h-11 bg-background/80 border-border/50 focus:border-primary/50 text-sm sm:text-base"
                 style={{ fontFamily: searchType === 'cas' ? 'var(--font-jetbrains), monospace' : 'inherit' }}
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-muted transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-full hover:bg-muted transition-colors"
                 >
-                  <X className="w-3.5 h-3.5 text-muted-foreground" />
+                  <X className="w-4 h-4 text-muted-foreground" />
                 </button>
               )}
             </div>
 
             {/* Category Filters */}
-            <div className="mt-3 flex flex-wrap items-center gap-2">
-              <div className="flex items-center gap-1.5 text-sm text-muted-foreground mr-2">
-                <Filter className="w-3.5 h-3.5" />
+            <div className="mt-2 sm:mt-3 flex flex-wrap items-center gap-1.5 sm:gap-2">
+              <div className="flex items-center gap-1 sm:gap-1.5 text-xs sm:text-sm text-muted-foreground mr-1 sm:mr-2">
+                <Filter className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 <span>Filter:</span>
               </div>
               {(['api', 'impurity', 'intermediate', 'chemical'] as Category[]).map((category) => {
@@ -294,7 +297,7 @@ export function ProductSearch({ open, onOpenChange }: ProductSearchProps) {
                     key={category}
                     onClick={() => toggleCategory(category)}
                     className={`
-                      inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200
+                      inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-medium transition-all duration-200
                       ${
                         isActive
                           ? 'bg-primary text-primary-foreground shadow-sm'
@@ -302,70 +305,73 @@ export function ProductSearch({ open, onOpenChange }: ProductSearchProps) {
                       }
                     `}
                   >
-                    {categoryIcons[category]}
+                    <span className="hidden sm:inline-flex">{categoryIcons[category]}</span>
                     {info.label}
-                    {isActive && <Check className="w-3 h-3" />}
+                    {isActive && <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3" />}
                   </button>
                 )
               })}
               {selectedCategories.length > 0 && (
                 <button
                   onClick={() => setSelectedCategories([])}
-                  className="text-xs text-muted-foreground hover:text-foreground transition-colors ml-1"
+                  className="text-[10px] sm:text-xs text-muted-foreground hover:text-foreground transition-colors ml-1"
                 >
-                  Clear filters
+                  Clear
                 </button>
               )}
             </div>
           </div>
 
           {/* Results */}
-          <div className="flex flex-col md:flex-row h-[50vh] min-h-[400px]">
+          <div className="flex flex-col md:flex-row h-[55vh] sm:h-[50vh] min-h-[350px] sm:min-h-[400px] relative">
             {/* Product List */}
-            <div className="flex-1 border-r border-border overflow-hidden flex flex-col">
-              <div className="px-4 py-2 bg-muted/30 border-b border-border flex items-center justify-between shrink-0">
-                <span className="text-xs text-muted-foreground">
+            <div className="flex-1 md:border-r border-border overflow-hidden flex flex-col">
+              <div className="px-3 sm:px-4 py-2 bg-muted/30 border-b border-border flex items-center justify-between shrink-0">
+                <span className="text-[10px] sm:text-xs text-muted-foreground">
                   {hasSearched ? (
                     <>
-                      {totalCount} result{totalCount !== 1 ? 's' : ''} found
-                      {products.length < totalCount && ` • Showing ${products.length}`}
+                      {totalCount} result{totalCount !== 1 ? 's' : ''}
+                      <span className="hidden sm:inline"> found</span>
+                      {products.length < totalCount && <span className="hidden sm:inline"> • Showing {products.length}</span>}
                     </>
                   ) : (
-                    'Enter a search term or select a category'
+                    <span className="hidden sm:inline">Enter a search term or select a category</span>
                   )}
                 </span>
-                {products.length > 0 && (
-                  <button
-                    onClick={() => {
-                      const allSelected = products.every((p) =>
+                <div className="flex items-center gap-2">
+                  {products.length > 0 && (
+                    <button
+                      onClick={() => {
+                        const allSelected = products.every((p) =>
+                          selectedProducts.some((sp) => sp.id === p.id)
+                        )
+                        if (allSelected) {
+                          setSelectedProducts((prev) =>
+                            prev.filter((p) => !products.some((fp) => fp.id === p.id))
+                          )
+                        } else {
+                          setSelectedProducts((prev) => {
+                            const newProducts = products.filter(
+                              (fp) => !prev.some((p) => p.id === fp.id)
+                            )
+                            return [...prev, ...newProducts]
+                          })
+                        }
+                      }}
+                      className="text-[10px] sm:text-xs text-primary hover:text-primary/80 transition-colors font-medium"
+                    >
+                      {products.every((p) =>
                         selectedProducts.some((sp) => sp.id === p.id)
                       )
-                      if (allSelected) {
-                        setSelectedProducts((prev) =>
-                          prev.filter((p) => !products.some((fp) => fp.id === p.id))
-                        )
-                      } else {
-                        setSelectedProducts((prev) => {
-                          const newProducts = products.filter(
-                            (fp) => !prev.some((p) => p.id === fp.id)
-                          )
-                          return [...prev, ...newProducts]
-                        })
-                      }
-                    }}
-                    className="text-xs text-primary hover:text-primary/80 transition-colors font-medium"
-                  >
-                    {products.every((p) =>
-                      selectedProducts.some((sp) => sp.id === p.id)
-                    )
-                      ? 'Deselect visible'
-                      : 'Select visible'}
-                  </button>
-                )}
+                        ? 'Deselect all'
+                        : 'Select all'}
+                    </button>
+                  )}
+                </div>
               </div>
 
               <ScrollArea className="flex-1" ref={scrollAreaRef}>
-                <div className="p-3 space-y-2">
+                <div className="p-2 sm:p-3 space-y-1.5 sm:space-y-2">
                   {/* Loading state */}
                   {isLoading && (
                     <div className="flex flex-col items-center justify-center py-12 text-center">
@@ -439,8 +445,8 @@ export function ProductSearch({ open, onOpenChange }: ProductSearchProps) {
               </ScrollArea>
             </div>
 
-            {/* Selected Products Panel */}
-            <div className="w-full md:w-72 bg-muted/20 flex flex-col">
+            {/* Selected Products Panel - Desktop */}
+            <div className="hidden md:flex w-72 bg-muted/20 flex-col">
               <div className="px-4 py-3 bg-muted/30 border-b border-border shrink-0">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -469,21 +475,22 @@ export function ProductSearch({ open, onOpenChange }: ProductSearchProps) {
                     {selectedProducts.map((product) => (
                       <div
                         key={product.id}
-                        className="group relative flex items-start gap-2 p-2.5 rounded-lg bg-background border border-border/50 hover:border-primary/30 transition-all"
+                        className="group relative flex items-center gap-2 p-2.5 rounded-lg bg-background border border-border/50 hover:border-primary/30 transition-all"
                       >
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-foreground truncate">
+                          <p className="text-sm font-medium text-foreground line-clamp-2 leading-tight">
                             {product.name}
                           </p>
-                          <p className="text-xs text-muted-foreground font-mono">
+                          <p className="text-xs text-muted-foreground font-mono mt-0.5">
                             {product.casNumber}
                           </p>
                         </div>
                         <button
                           onClick={() => toggleProductSelection(product)}
-                          className="p-1 rounded-full opacity-0 group-hover:opacity-100 hover:bg-destructive/10 transition-all"
+                          className="shrink-0 p-1.5 rounded-full bg-destructive/10 hover:bg-destructive/20 transition-all"
+                          aria-label="Remove product"
                         >
-                          <X className="w-3 h-3 text-destructive" />
+                          <X className="w-3.5 h-3.5 text-destructive" />
                         </button>
                       </div>
                     ))}
@@ -514,6 +521,121 @@ export function ProductSearch({ open, onOpenChange }: ProductSearchProps) {
                   <ArrowRight className="w-4 h-4 ml-auto opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                 </Button>
               </div>
+            </div>
+
+            {/* Mobile Selected Products Drawer */}
+            {showMobileCart && (
+              <div className="md:hidden absolute inset-0 z-50 bg-background flex flex-col animate-in slide-in-from-bottom duration-200">
+                <div className="px-4 py-3 bg-muted/30 border-b border-border flex items-center justify-between shrink-0">
+                  <div className="flex items-center gap-2">
+                    <ShoppingCart className="w-4 h-4 text-primary" />
+                    <span className="font-medium text-sm">Selected Products</span>
+                    <Badge variant="secondary" className="text-xs">
+                      {selectedProducts.length}
+                    </Badge>
+                  </div>
+                  <button
+                    onClick={() => setShowMobileCart(false)}
+                    className="p-2 rounded-full hover:bg-muted transition-colors"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <ScrollArea className="flex-1">
+                  {selectedProducts.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
+                      <div className="p-3 rounded-full bg-muted/50 mb-3">
+                        <Sparkles className="w-6 h-6 text-muted-foreground/50" />
+                      </div>
+                      <p className="text-sm text-muted-foreground">No products selected</p>
+                      <p className="text-xs text-muted-foreground/70 mt-1">
+                        Go back and select products to request a quote
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="p-3 space-y-2">
+                      {selectedProducts.map((product) => (
+                        <div
+                          key={product.id}
+                          className="flex items-center gap-3 p-3 rounded-lg bg-muted/30 border border-border/50"
+                        >
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-foreground line-clamp-2 leading-tight">
+                              {product.name}
+                            </p>
+                            <p className="text-xs text-muted-foreground font-mono mt-0.5">
+                              CAS: {product.casNumber}
+                            </p>
+                          </div>
+                          <button
+                            onClick={() => toggleProductSelection(product)}
+                            className="shrink-0 p-2 rounded-full bg-destructive/10 hover:bg-destructive/20 active:bg-destructive/30 transition-all"
+                            aria-label="Remove product"
+                          >
+                            <X className="w-4 h-4 text-destructive" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </ScrollArea>
+
+                {/* Mobile Cart Actions */}
+                <div className="p-4 border-t border-border bg-background space-y-3 shrink-0">
+                  {selectedProducts.length > 0 && (
+                    <button
+                      onClick={clearSelections}
+                      className="w-full text-sm text-muted-foreground hover:text-foreground transition-colors text-center py-2"
+                    >
+                      Clear all selections
+                    </button>
+                  )}
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      onClick={() => setShowMobileCart(false)}
+                      className="flex-1"
+                    >
+                      Continue Browsing
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        setShowMobileCart(false)
+                        handleRequestQuote()
+                      }}
+                      disabled={selectedProducts.length === 0}
+                      className="flex-1"
+                    >
+                      <FileText className="w-4 h-4" />
+                      Get Quote
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Mobile Floating Action Bar */}
+            <div className="md:hidden absolute bottom-0 left-0 right-0 p-3 bg-background/95 backdrop-blur-sm border-t border-border flex items-center gap-2">
+              <button
+                onClick={() => setShowMobileCart(true)}
+                className="flex items-center gap-2 px-3 py-2 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
+              >
+                <ShoppingCart className="w-4 h-4 text-primary" />
+                <span className="text-sm font-medium">{selectedProducts.length}</span>
+                <span className="text-xs text-muted-foreground">selected</span>
+              </button>
+              <Button
+                onClick={handleRequestQuote}
+                disabled={selectedProducts.length === 0}
+                className="flex-1"
+              >
+                <FileText className="w-4 h-4" />
+                Request Quote
+                {selectedProducts.length > 0 && (
+                  <span className="ml-1 opacity-70">({selectedProducts.length})</span>
+                )}
+              </Button>
             </div>
           </div>
         </DialogContent>
@@ -560,7 +682,7 @@ function ProductCard({ product, isSelected, onToggle, searchType, searchQuery }:
     <div
       onClick={onToggle}
       className={`
-        group relative flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all duration-200
+        group relative flex items-start gap-2 sm:gap-3 p-2.5 sm:p-3 rounded-lg sm:rounded-xl border cursor-pointer transition-all duration-200 active:scale-[0.99]
         ${
           isSelected
             ? 'bg-primary/5 border-primary/40 shadow-sm'
@@ -569,7 +691,7 @@ function ProductCard({ product, isSelected, onToggle, searchType, searchQuery }:
       `}
     >
       {/* Checkbox */}
-      <div className="pt-0.5" onClick={(e) => e.stopPropagation()}>
+      <div className="pt-0.5 shrink-0" onClick={(e) => e.stopPropagation()}>
         <ControlledCheckbox
           checked={isSelected}
           onCheckedChange={onToggle}
@@ -578,18 +700,18 @@ function ProductCard({ product, isSelected, onToggle, searchType, searchQuery }:
 
       {/* Content */}
       <div className="flex-1 min-w-0">
-        <div className="flex items-start justify-between gap-2 mb-1">
-          <h3 className="font-medium text-sm text-foreground leading-tight group-hover:text-primary transition-colors">
+        <div className="flex items-start justify-between gap-1.5 sm:gap-2 mb-1">
+          <h3 className="font-medium text-xs sm:text-sm text-foreground leading-tight group-hover:text-primary transition-colors line-clamp-2">
             {searchType === 'name' ? highlightMatch(product.name, searchQuery) : product.name}
           </h3>
-          <Badge variant={product.category as 'api' | 'impurity' | 'intermediate' | 'chemical'} className="shrink-0">
-            {categoryIcons[product.category]}
-            <span className="ml-1">{info.label}</span>
+          <Badge variant={product.category as 'api' | 'impurity' | 'intermediate' | 'chemical'} className="shrink-0 text-[10px] sm:text-xs">
+            <span className="hidden sm:inline-flex">{categoryIcons[product.category]}</span>
+            <span className="sm:ml-1">{info.label}</span>
           </Badge>
         </div>
 
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
-          <span className={`font-mono bg-muted/50 px-1.5 py-0.5 rounded ${searchType === 'cas' ? 'ring-1 ring-primary/30' : ''}`}>
+        <div className="flex flex-wrap items-center gap-x-2 sm:gap-x-3 gap-y-1 text-[10px] sm:text-xs text-muted-foreground">
+          <span className={`font-mono bg-muted/50 px-1 sm:px-1.5 py-0.5 rounded ${searchType === 'cas' ? 'ring-1 ring-primary/30' : ''}`}>
             CAS: {searchType === 'cas' ? highlightMatch(product.casNumber, searchQuery) : product.casNumber}
           </span>
         </div>
