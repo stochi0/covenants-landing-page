@@ -1032,6 +1032,17 @@ export default function Home() {
               <div className="grid md:grid-cols-2 gap-8">
                 <Card className="border-border/50 bg-card">
                   <CardContent className="p-8">
+                    <div className="flex justify-center mb-6">
+                      <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-2 border-border/50 shrink-0">
+                        <Image
+                          src="/alpesh_mehta.jpeg"
+                          alt="Alpesh Mehta, Co-founder"
+                          fill
+                          className="object-cover object-top"
+                          sizes="128px"
+                        />
+                      </div>
+                    </div>
                     <h4 className="text-xl font-semibold text-foreground mb-4">Alpesh Mehta, Co-founder</h4>
                     <ul className="space-y-2 text-sm text-muted-foreground">
                       <li className="flex items-start gap-2">
@@ -1068,6 +1079,17 @@ export default function Home() {
 
                 <Card className="border-border/50 bg-card">
                   <CardContent className="p-8">
+                    <div className="flex justify-center mb-6">
+                      <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-2 border-border/50 shrink-0">
+                        <Image
+                          src="/vivek_bodade.jpeg"
+                          alt="Vivek Bodade, Co-founder"
+                          fill
+                          className="object-cover object-top"
+                          sizes="128px"
+                        />
+                      </div>
+                    </div>
                     <h4 className="text-xl font-semibold text-foreground mb-4">Vivek Bodade, Co-founder</h4>
                     <ul className="space-y-2 text-sm text-muted-foreground">
                       <li className="flex items-start gap-2">
