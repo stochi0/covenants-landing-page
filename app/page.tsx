@@ -150,6 +150,92 @@ function ProductCategory({ icon, title, description, delay = 0 }: ProductCategor
   )
 }
 
+// Accreditation badge: uses imageUrl (web) when provided, else local /accreditations/{slug}.png|.svg, else placeholder
+// Image URLs from Wikimedia Commons (public domain / CC where noted)
+const ACCREDITATION_IMAGES = [
+  { label: 'cGMP/Non GMP', slug: 'cgmp', short: 'GMP', imageUrl: null as string | null },
+  { label: 'USFDA', slug: 'usfda', short: 'USFDA', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/3/30/U.S._Food_and_Drug_Administration.png' },
+  { label: 'State FDA', slug: 'state-fda', short: 'FDA', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/3/30/U.S._Food_and_Drug_Administration.png' },
+  { label: 'EDQM', slug: 'edqm', short: 'EDQM', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/b/b0/EDQM_logo.png' },
+  { label: 'ISO:9001', slug: 'iso9001', short: 'ISO', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/5/53/Logo-iso9001.png' },
+  { label: 'WHO GMP', slug: 'who-gmp', short: 'WHO', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Logo_of_the_World_Health_Organization.jpg/330px-Logo_of_the_World_Health_Organization.jpg' },
+] as const
+
+function AccreditationPlaceholder({ short }: { short: string }) {
+  return (
+    <div className="w-14 h-14 rounded-full border-2 border-primary/30 bg-primary/5 flex items-center justify-center shrink-0">
+      <span className="text-[10px] font-semibold tracking-wide text-primary/80 uppercase">{short}</span>
+    </div>
+  )
+}
+
+// cGMP certification seal (no standard logo available; use inline SVG so it's always visible)
+function CgmpBadge() {
+  return (
+    <svg
+      width={56}
+      height={56}
+      viewBox="0 0 56 56"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="shrink-0 text-primary"
+      aria-hidden
+    >
+      <circle cx="28" cy="28" r="26" className="stroke-primary/40 fill-primary/10" strokeWidth="2" />
+      <circle cx="28" cy="28" r="22" className="stroke-primary/30" strokeWidth="1" fill="none" />
+      <text x="28" y="26" textAnchor="middle" className="fill-primary" style={{ fontFamily: 'system-ui, sans-serif', fontSize: 11, fontWeight: 700, letterSpacing: '0.05em' }}>cGMP</text>
+      <text x="28" y="38" textAnchor="middle" className="fill-primary/80" style={{ fontFamily: 'system-ui, sans-serif', fontSize: 7, fontWeight: 600, letterSpacing: '0.02em' }}>QUALITY</text>
+    </svg>
+  )
+}
+
+function AccreditationBadge({ label, slug, short, imageUrl }: { label: string; slug: string; short: string; imageUrl: string | null }) {
+  const [remoteFailed, setRemoteFailed] = useState(false)
+  const [useSvg, setUseSvg] = useState(false)
+  const [localFailed, setLocalFailed] = useState(false)
+  const localSrc = useSvg ? `/accreditations/${slug}.svg` : `/accreditations/${slug}.png`
+  const handleLocalError = () => {
+    if (!useSvg) setUseSvg(true)
+    else setLocalFailed(true)
+  }
+  const useRemote = Boolean(imageUrl) && !remoteFailed
+  const showPlaceholder = (imageUrl && remoteFailed) || (!imageUrl && slug !== 'cgmp' && localFailed)
+  const showCgmpBadge = !imageUrl && slug === 'cgmp' && !localFailed
+
+  return (
+    <div className="flex flex-col items-center justify-center gap-2 py-3 px-4 rounded-lg border border-border/70 bg-muted/30 hover:bg-muted/50 hover:border-primary/20 transition-colors duration-200 min-h-[88px]">
+      <div className="relative w-14 h-14 flex items-center justify-center shrink-0">
+        {showCgmpBadge ? (
+          <CgmpBadge />
+        ) : showPlaceholder ? (
+          <AccreditationPlaceholder short={short} />
+        ) : useRemote && imageUrl ? (
+          <Image
+            src={imageUrl}
+            alt={label}
+            width={56}
+            height={56}
+            className="object-contain w-full h-full"
+            onError={() => setRemoteFailed(true)}
+            unoptimized
+          />
+        ) : !imageUrl && slug !== 'cgmp' ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src={localSrc}
+            alt={label}
+            width={56}
+            height={56}
+            className="object-contain w-full h-full"
+            onError={handleLocalError}
+          />
+        ) : null}
+      </div>
+      <p className="text-sm font-medium text-foreground text-center leading-tight">{label}</p>
+    </div>
+  )
+}
+
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [offeringsOpen, setOfferingsOpen] = useState(false)
@@ -762,56 +848,53 @@ export default function Home() {
             </Card>
 
             {/* Network Capabilities */}
-            <div className="space-y-8">
-              {/* Facility Accreditations */}
-              <Card className="border-border/50 bg-card">
-                <CardContent className="p-8">
-                  <h4 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
-                    <ShieldCheck className="w-6 h-6 text-primary" />
+            <div className="space-y-16">
+              {/* Facility Accreditations — old money elegant */}
+              <div className="rounded-2xl border border-border/80 bg-card overflow-hidden shadow-sm">
+                <CardContent className="p-8 md:p-10">
+                  <p className="text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase mb-2">
                     Facility Accreditations
+                  </p>
+                  <h4 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-1 flex items-center gap-2">
+                    <ShieldCheck className="w-5 h-5 text-primary/80" />
+                    Certified excellence
                   </h4>
-                  <p className="text-muted-foreground mb-6">
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-6 max-w-xl">
                     Our promise to uphold the highest standards of operational excellence and patient care
                   </p>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                    <div className="p-3 rounded-lg bg-primary/5 border border-primary/10 text-center">
-                      <p className="text-sm font-medium text-foreground">cGMP/Non GMP</p>
-                    </div>
-                    <div className="p-3 rounded-lg bg-accent/5 border border-accent/10 text-center">
-                      <p className="text-sm font-medium text-foreground">USFDA</p>
-                    </div>
-                    <div className="p-3 rounded-lg bg-primary/5 border border-primary/10 text-center">
-                      <p className="text-sm font-medium text-foreground">State FDA</p>
-                    </div>
-                    <div className="p-3 rounded-lg bg-accent/5 border border-accent/10 text-center">
-                      <p className="text-sm font-medium text-foreground">EDQM</p>
-                    </div>
-                    <div className="p-3 rounded-lg bg-primary/5 border border-primary/10 text-center">
-                      <p className="text-sm font-medium text-foreground">ISO:9001</p>
-                    </div>
-                    <div className="p-3 rounded-lg bg-accent/5 border border-accent/10 text-center">
-                      <p className="text-sm font-medium text-foreground">WHO GMP</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Chemical Reactions Capabilities */}
-              <Card className="border-border/50 bg-card">
-                <CardContent className="p-8">
-                  <h4 className="text-xl font-semibold text-foreground mb-6 flex items-center gap-2">
-                    <TestTubes className="w-6 h-6 text-primary" />
-                    Chemical Reactions Capabilities
-                  </h4>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                    {['Alkylation', 'Cyclization', 'Chiral Chemistry', 'Grignard', 'Amination', 'Diazotization', 'Chlorosulfonation', 'Hoffman', 'Nitration', 'Esterification', 'Birch Reduction', 'Cyanation', 'Oxidation', 'Fluorination', 'Iodine Chemistry', 'Chlorination', 'Cryogenic', 'Friedel-Crafts', 'Lyophilisation', 'Bromination', 'Reduction', 'Sulphonation', 'Thiophosgenation', 'Sand Meyer', 'Column Chromatography', 'Heterocyclic Synthesis', 'High Vacuum Distillation', 'Hydrogenation'].map((reaction, idx) => (
-                      <div key={idx} className="p-3 rounded-lg bg-muted/50 border border-border/50 text-center">
-                        <p className="text-sm text-foreground">{reaction}</p>
-                      </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 md:gap-3">
+                    {ACCREDITATION_IMAGES.map(({ label, slug, short, imageUrl }) => (
+                      <AccreditationBadge key={slug} label={label} slug={slug} short={short} imageUrl={imageUrl} />
                     ))}
                   </div>
                 </CardContent>
-              </Card>
+              </div>
+
+              {/* Chemical Reactions Capabilities — old money elegant */}
+              <div className="rounded-2xl border border-border/80 bg-card overflow-hidden shadow-sm">
+                <CardContent className="p-8 md:p-10">
+                  <p className="text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase mb-2">
+                    Chemical Reactions Capabilities
+                  </p>
+                  <h4 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-1 flex items-center gap-2">
+                    <TestTubes className="w-5 h-5 text-primary/80" />
+                    Diverse reaction expertise
+                  </h4>
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-6 max-w-xl">
+                    Custom synthesis and scale-up across a broad range of chemistries
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {['Alkylation', 'Cyclization', 'Chiral Chemistry', 'Grignard', 'Amination', 'Diazotization', 'Chlorosulfonation', 'Hoffman', 'Nitration', 'Esterification', 'Birch Reduction', 'Cyanation', 'Oxidation', 'Fluorination', 'Iodine Chemistry', 'Chlorination', 'Cryogenic', 'Friedel-Crafts', 'Lyophilisation', 'Bromination', 'Reduction', 'Sulphonation', 'Thiophosgenation', 'Sand Meyer', 'Column Chromatography', 'Heterocyclic Synthesis', 'High Vacuum Distillation', 'Hydrogenation'].map((reaction, idx) => (
+                      <span
+                        key={idx}
+                        className="inline-flex items-center px-3 py-1.5 rounded-md border border-border/70 bg-muted/30 text-sm text-foreground/90 hover:bg-muted/50 hover:border-primary/20 transition-colors duration-200"
+                      >
+                        {reaction}
+                      </span>
+                    ))}
+                  </div>
+                </CardContent>
+              </div>
             </div>
           </div>
         </section>
