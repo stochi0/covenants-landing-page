@@ -94,8 +94,8 @@ function ServiceCard({ icon, title, description, delay = 0 }: ServiceCardProps) 
         <div className="p-3 rounded-xl bg-primary/10 text-primary w-fit mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
           {icon}
         </div>
-        <h3 className="font-semibold text-lg text-foreground mb-2">{title}</h3>
-        <p className="text-base text-muted-foreground leading-relaxed">{description}</p>
+        <h3 className="font-bold text-xl text-foreground mb-2">{title}</h3>
+        <p className="text-base font-medium text-muted-foreground leading-relaxed">{description}</p>
       </CardContent>
     </Card>
   )
@@ -118,8 +118,8 @@ function FeatureCard({ icon, title, description, delay = 0 }: FeatureCardProps) 
         {icon}
       </div>
       <div>
-        <h4 className="font-semibold text-lg text-foreground mb-1">{title}</h4>
-        <p className="text-base text-muted-foreground leading-relaxed">{description}</p>
+        <h4 className="font-bold text-xl text-foreground mb-1">{title}</h4>
+        <p className="text-base font-medium text-muted-foreground leading-relaxed">{description}</p>
       </div>
     </div>
   )
@@ -143,8 +143,8 @@ function ProductCategory({ icon, title, description, delay = 0 }: ProductCategor
         <div className="p-4 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 text-primary mb-4 group-hover:scale-110 transition-transform duration-300">
           {icon}
         </div>
-        <h3 className="font-semibold text-foreground mb-2">{title}</h3>
-        <p className="text-base text-muted-foreground">{description}</p>
+        <h3 className="font-bold text-xl text-foreground mb-2">{title}</h3>
+        <p className="text-base font-medium text-muted-foreground">{description}</p>
       </CardContent>
     </Card>
   )
@@ -231,7 +231,7 @@ function AccreditationBadge({ label, slug, short, imageUrl }: { label: string; s
           />
         ) : null}
       </div>
-      <p className="text-base font-medium text-foreground text-center leading-tight">{label}</p>
+      <p className="text-base font-semibold text-foreground text-center leading-tight">{label}</p>
     </div>
   )
 }
@@ -751,14 +751,14 @@ export default function Home() {
 
           <div className="relative max-w-7xl mx-auto px-6">
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 text-accent text-base font-medium mb-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 text-accent text-lg font-semibold mb-4">
                 <Network className="w-4 h-4" />
                 <span>Network partners capacity & capability</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-4">
+              <h2 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight mb-4">
                 Services Through Network Partners
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-lg font-medium text-muted-foreground max-w-2xl mx-auto">
                 Access the right capabilities faster through our network—covering custom manufacturing, custom research, and product sourcing.
               </p>
             </div>
@@ -793,14 +793,14 @@ export default function Home() {
             {/* Service Offerings Detail */}
             <Card className="border-border/50 bg-card overflow-hidden mb-12">
               <CardContent className="p-8">
-                <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-6">Service Offerings</h3>
+                <h3 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Service Offerings</h3>
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                   <div className="space-y-4">
-                    <div className="flex items-center gap-2 text-primary font-medium text-lg">
+                    <div className="flex items-center gap-2 text-primary font-semibold text-xl">
                       <Cog className="w-5 h-5" />
                       <span>Manufacturing & Development</span>
                     </div>
-                    <ul className="space-y-2 text-base text-muted-foreground">
+                    <ul className="space-y-2 text-base font-medium text-muted-foreground">
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Contract Manufacturing</li>
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Product Development</li>
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Process Development</li>
@@ -808,11 +808,11 @@ export default function Home() {
                     </ul>
                   </div>
                   <div className="space-y-4">
-                    <div className="flex items-center gap-2 text-primary font-medium text-lg">
+                    <div className="flex items-center gap-2 text-primary font-semibold text-xl">
                       <Layers className="w-5 h-5" />
                       <span>Research & Analytics</span>
                     </div>
-                    <ul className="space-y-2 text-base text-muted-foreground">
+                    <ul className="space-y-2 text-base font-medium text-muted-foreground">
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Analytical Method Development</li>
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Impurity Synthesis</li>
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Stability Studies</li>
@@ -820,11 +820,11 @@ export default function Home() {
                     </ul>
                   </div>
                   <div className="space-y-4">
-                    <div className="flex items-center gap-2 text-primary font-medium text-lg">
+                    <div className="flex items-center gap-2 text-primary font-semibold text-xl">
                       <BarChart3 className="w-5 h-5" />
                       <span>Analytical Capabilities</span>
                     </div>
-                    <ul className="space-y-2 text-base text-muted-foreground">
+                    <ul className="space-y-2 text-base font-medium text-muted-foreground">
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />HPLC / GC Analysis</li>
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />LCMS Analysis</li>
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Method Development</li>
@@ -832,11 +832,11 @@ export default function Home() {
                     </ul>
                   </div>
                   <div className="space-y-4">
-                    <div className="flex items-center gap-2 text-primary font-medium text-lg">
+                    <div className="flex items-center gap-2 text-primary font-semibold text-xl">
                       <Factory className="w-5 h-5" />
                       <span>Manufacturing Products</span>
                     </div>
-                    <ul className="space-y-2 text-base text-muted-foreground">
+                    <ul className="space-y-2 text-base font-medium text-muted-foreground">
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Custom Synthesis Compounds</li>
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Key Starting Materials</li>
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Intermediates</li>
@@ -852,14 +852,14 @@ export default function Home() {
               {/* Facility Accreditations — old money elegant */}
               <div className="rounded-2xl border border-border/80 bg-card overflow-hidden shadow-sm">
                 <CardContent className="p-8 md:p-10">
-                  <p className="text-sm font-medium tracking-[0.2em] text-muted-foreground uppercase mb-2">
+                  <p className="text-base font-semibold tracking-[0.2em] text-muted-foreground uppercase mb-2">
                     Facility Accreditations
                   </p>
-                  <h4 className="text-2xl md:text-3xl font-semibold text-foreground tracking-tight mb-1 flex items-center gap-2">
+                  <h4 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-1 flex items-center gap-2">
                     <ShieldCheck className="w-5 h-5 text-primary/80" />
                     Certified excellence
                   </h4>
-                  <p className="text-muted-foreground text-base leading-relaxed mb-6 max-w-xl">
+                  <p className="text-muted-foreground text-lg font-medium leading-relaxed mb-6 max-w-xl">
                     Our promise to uphold the highest standards of operational excellence and patient care
                   </p>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 md:gap-3">
@@ -873,21 +873,21 @@ export default function Home() {
               {/* Chemical Reactions Capabilities — old money elegant */}
               <div className="rounded-2xl border border-border/80 bg-card overflow-hidden shadow-sm">
                 <CardContent className="p-8 md:p-10">
-                  <p className="text-sm font-medium tracking-[0.2em] text-muted-foreground uppercase mb-2">
+                  <p className="text-base font-semibold tracking-[0.2em] text-muted-foreground uppercase mb-2">
                     Chemical Reactions Capabilities
                   </p>
-                  <h4 className="text-2xl md:text-3xl font-semibold text-foreground tracking-tight mb-1 flex items-center gap-2">
+                  <h4 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-1 flex items-center gap-2">
                     <TestTubes className="w-5 h-5 text-primary/80" />
                     Diverse reaction expertise
                   </h4>
-                  <p className="text-muted-foreground text-base leading-relaxed mb-6 max-w-xl">
+                  <p className="text-muted-foreground text-lg font-medium leading-relaxed mb-6 max-w-xl">
                     Custom synthesis and scale-up across a broad range of chemistries
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {['Alkylation', 'Cyclization', 'Chiral Chemistry', 'Grignard', 'Amination', 'Diazotization', 'Chlorosulfonation', 'Hoffman', 'Nitration', 'Esterification', 'Birch Reduction', 'Cyanation', 'Oxidation', 'Fluorination', 'Iodine Chemistry', 'Chlorination', 'Cryogenic', 'Friedel-Crafts', 'Lyophilisation', 'Bromination', 'Reduction', 'Sulphonation', 'Thiophosgenation', 'Sand Meyer', 'Column Chromatography', 'Heterocyclic Synthesis', 'High Vacuum Distillation', 'Hydrogenation'].map((reaction, idx) => (
                       <span
                         key={idx}
-                        className="inline-flex items-center px-3 py-1.5 rounded-md border border-border/70 bg-muted/30 text-base text-foreground/90 hover:bg-muted/50 hover:border-primary/20 transition-colors duration-200"
+                        className="inline-flex items-center px-3 py-1.5 rounded-md border border-border/70 bg-muted/30 text-lg font-semibold text-foreground/90 hover:bg-muted/50 hover:border-primary/20 transition-colors duration-200"
                       >
                         {reaction}
                       </span>
@@ -904,14 +904,14 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-6">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-base font-medium mb-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-lg font-semibold mb-4">
                   <Truck className="w-4 h-4" />
                   <span>Supply chain services</span>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-4">
+                <h2 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight mb-4">
                   SCM Services
                 </h2>
-                <p className="text-base md:text-lg text-muted-foreground mb-8">
+                <p className="text-lg md:text-xl font-medium text-muted-foreground mb-8">
                   Our unparalleled functional expertise in end to end Supply Chain Management—tailored to help you optimize cost, mitigate risk, and execute reliably.
                 </p>
 
@@ -957,23 +957,23 @@ export default function Home() {
 
                 <Card className="border-border/50 bg-gradient-to-br from-primary/5 to-accent/5 overflow-hidden">
                   <CardContent className="p-6">
-                    <h3 className="font-semibold text-xl text-foreground mb-4">Additional SCM Support</h3>
+                    <h3 className="font-bold text-2xl text-foreground mb-4">Additional SCM Support</h3>
                     <div className="grid grid-cols-2 gap-3">
                       <div className="p-3 rounded-xl bg-background border border-border/50">
                         <FileStack className="w-5 h-5 text-primary mb-1.5" />
-                        <p className="text-sm font-medium text-foreground">Planning Process Implementation</p>
+                        <p className="text-base font-semibold text-foreground">Planning Process Implementation</p>
                       </div>
                       <div className="p-3 rounded-xl bg-background border border-border/50">
                         <Leaf className="w-5 h-5 text-accent mb-1.5" />
-                        <p className="text-sm font-medium text-foreground">ESG</p>
+                        <p className="text-base font-semibold text-foreground">ESG</p>
                       </div>
                       <div className="p-3 rounded-xl bg-background border border-border/50">
                         <Globe className="w-5 h-5 text-primary mb-1.5" />
-                        <p className="text-sm font-medium text-foreground">Foreign Trade</p>
+                        <p className="text-base font-semibold text-foreground">Foreign Trade</p>
                       </div>
                       <div className="p-3 rounded-xl bg-background border border-border/50">
                         <Users className="w-5 h-5 text-accent mb-1.5" />
-                        <p className="text-sm font-medium text-foreground">SCM Shared Services</p>
+                        <p className="text-base font-semibold text-foreground">SCM Shared Services</p>
                       </div>
                     </div>
 
@@ -1030,14 +1030,14 @@ export default function Home() {
             </div>
 
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-lg font-semibold mb-4">
                 <Package className="w-4 h-4" />
                 <span>Product offerings</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-4">
+              <h2 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight mb-4">
                 APIs, Intermediates & Specialty Chemicals
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-lg font-medium text-muted-foreground max-w-2xl mx-auto">
                 Explore our core product offerings across APIs, intermediates, specialty chemicals, and impurities.
               </p>
             </div>
@@ -1087,13 +1087,13 @@ export default function Home() {
             {/* About Header with Image */}
             <div className="grid lg:grid-cols-2 gap-12 items-center mb-12">
               <div>
-                <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-4">
+                <h2 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight mb-4">
                   About Us
                 </h2>
                 <div className="space-y-4">
                   <div>
-                    <h3 className="text-xl font-semibold text-foreground mb-2">Mission</h3>
-                    <p className="text-muted-foreground text-lg leading-relaxed">
+                    <h3 className="text-2xl font-bold text-foreground mb-2">Mission</h3>
+                    <p className="text-muted-foreground text-lg font-medium leading-relaxed">
                       To become trusted supply chain partner and strive to exceed expectations through innovative & tailored solutions. We create value for all stakeholders by leveraging our network, expertise and technology to drive sustainable growth.
                     </p>
                   </div>
@@ -1117,8 +1117,8 @@ export default function Home() {
 
             {/* Co-Founders Section */}
             <div className="mb-12">
-              <h3 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight mb-2 text-center">Co-Founders</h3>
-              <p className="text-center text-muted-foreground mb-8">Leverage 5 decades of expertise in End to End Supply Chain Management</p>
+              <h3 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-2 text-center">Co-Founders</h3>
+              <p className="text-center text-lg font-medium text-muted-foreground mb-8">Leverage 5 decades of expertise in End to End Supply Chain Management</p>
 
               <div className="grid md:grid-cols-2 gap-8">
                 <Card className="border-border/50 bg-card">
@@ -1134,8 +1134,8 @@ export default function Home() {
                         />
                       </div>
                     </div>
-                    <h4 className="text-xl font-semibold text-foreground mb-4">Alpesh Mehta, Co-founder</h4>
-                    <ul className="space-y-2 text-sm text-muted-foreground">
+                    <h4 className="text-2xl font-bold text-foreground mb-4">Alpesh Mehta, Co-founder</h4>
+                    <ul className="space-y-2 text-base font-medium text-muted-foreground">
                       <li className="flex items-start gap-2">
                         <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
                         <span>Over 20 years in the Pharmaceuticals Industry Supply Chain Management</span>
@@ -1181,8 +1181,8 @@ export default function Home() {
                         />
                       </div>
                     </div>
-                    <h4 className="text-xl font-semibold text-foreground mb-4">Vivek Bodade, Co-founder</h4>
-                    <ul className="space-y-2 text-sm text-muted-foreground">
+                    <h4 className="text-2xl font-bold text-foreground mb-4">Vivek Bodade, Co-founder</h4>
+                    <ul className="space-y-2 text-base font-medium text-muted-foreground">
                       <li className="flex items-start gap-2">
                         <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
                         <span>Over 20 years of experience in Supply Chain Management, Digital Transformation & driving international projects</span>
@@ -1221,9 +1221,9 @@ export default function Home() {
                     <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
                       <Lightbulb className="w-5 h-5" />
                     </div>
-                    <h3 className="font-semibold text-foreground">Explore and Seize Opportunities</h3>
+                    <h3 className="font-bold text-xl text-foreground">Explore and Seize Opportunities</h3>
                   </div>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-base font-medium text-muted-foreground">
                     Leverage the available capacities, capabilities, and talent within India&apos;s pharmaceutical manufacturing, research & development ecosystem to address latent opportunities, solve complex technical or technological problems, and serve global customers.
                   </p>
                 </CardContent>
@@ -1235,9 +1235,9 @@ export default function Home() {
                     <div className="p-2.5 rounded-lg bg-accent/10 text-accent">
                       <Users className="w-5 h-5" />
                     </div>
-                    <h3 className="font-semibold text-foreground">Value Creation for Stakeholders</h3>
+                    <h3 className="font-bold text-xl text-foreground">Value Creation for Stakeholders</h3>
                   </div>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-base font-medium text-muted-foreground">
                     Delivering exceptional value for customers and network partners by providing products and services at competitive prices, with on-time delivery, and unmatched quality.
                   </p>
                 </CardContent>
@@ -1249,9 +1249,9 @@ export default function Home() {
                     <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
                       <Handshake className="w-5 h-5" />
                     </div>
-                    <h3 className="font-semibold text-foreground">Drive Strategic Growth</h3>
+                    <h3 className="font-bold text-xl text-foreground">Drive Strategic Growth</h3>
                   </div>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-base font-medium text-muted-foreground">
                     Initiate and cultivate strategic partnerships that underscore value creation, accelerate growth, and enhance global competitiveness, all while making a significant societal impact through sustainable practices.
                   </p>
                 </CardContent>
@@ -1264,8 +1264,8 @@ export default function Home() {
                   <div className="p-4 rounded-2xl bg-primary/10 text-primary w-fit mx-auto mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
                     <Network className="w-8 h-8" />
                   </div>
-                  <h3 className="font-semibold text-lg text-foreground mb-2">Network</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <h3 className="font-bold text-xl text-foreground mb-2">Network</h3>
+                  <p className="text-base font-medium text-muted-foreground">
                     We leverage an extensive network of partners to deliver capacity and capability where you need it.
                   </p>
                 </CardContent>
@@ -1276,8 +1276,8 @@ export default function Home() {
                   <div className="p-4 rounded-2xl bg-accent/10 text-accent w-fit mx-auto mb-4 group-hover:bg-accent group-hover:text-accent-foreground transition-colors duration-300">
                     <Users className="w-8 h-8" />
                   </div>
-                  <h3 className="font-semibold text-lg text-foreground mb-2">Expertise</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <h3 className="font-bold text-xl text-foreground mb-2">Expertise</h3>
+                  <p className="text-base font-medium text-muted-foreground">
                     A team of passionate professionals committed to creating value for all stakeholders.
                   </p>
                 </CardContent>
@@ -1288,8 +1288,8 @@ export default function Home() {
                   <div className="p-4 rounded-2xl bg-primary/10 text-primary w-fit mx-auto mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
                     <Lightbulb className="w-8 h-8" />
                   </div>
-                  <h3 className="font-semibold text-lg text-foreground mb-2">Technology</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <h3 className="font-bold text-xl text-foreground mb-2">Technology</h3>
+                  <p className="text-base font-medium text-muted-foreground">
                     Cutting-edge technology to drive efficiency, visibility, and reliable execution.
                   </p>
                 </CardContent>
@@ -1300,8 +1300,8 @@ export default function Home() {
                   <div className="p-4 rounded-2xl bg-accent/10 text-accent w-fit mx-auto mb-4 group-hover:bg-accent group-hover:text-accent-foreground transition-colors duration-300">
                     <Leaf className="w-8 h-8" />
                   </div>
-                  <h3 className="font-semibold text-lg text-foreground mb-2">Sustainable Growth</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <h3 className="font-bold text-xl text-foreground mb-2">Sustainable Growth</h3>
+                  <p className="text-base font-medium text-muted-foreground">
                     We drive sustainable growth through innovative, tailored solutions across the supply chain.
                   </p>
                 </CardContent>
@@ -1314,10 +1314,10 @@ export default function Home() {
         <section id="why-covenants" className="relative bg-muted/30 py-16 md:py-24">
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-4">
+              <h2 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight mb-4">
                 Why Covenants?
               </h2>
-              <p className="text-muted-foreground max-w-3xl mx-auto">
+              <p className="text-lg font-medium text-muted-foreground max-w-3xl mx-auto">
                 We strive to exceed expectations through innovative, tailored solutions—creating value for all our stakeholders by leveraging our network, expertise and technology to drive sustainable growth.
               </p>
             </div>
@@ -1329,9 +1329,9 @@ export default function Home() {
                     <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
                       <Handshake className="w-5 h-5" />
                     </div>
-                    <h3 className="font-semibold text-foreground">Trusted Supply Chain Partner</h3>
+                    <h3 className="font-bold text-xl text-foreground">Trusted Supply Chain Partner</h3>
                   </div>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-base font-medium text-muted-foreground">
                     Covenants promises to become your trusted supply chain partner—focused on long-term relationships.
                   </p>
                 </CardContent>
@@ -1343,9 +1343,9 @@ export default function Home() {
                     <div className="p-2.5 rounded-lg bg-accent/10 text-accent">
                       <Lightbulb className="w-5 h-5" />
                     </div>
-                    <h3 className="font-semibold text-foreground">Innovative, Tailored Solutions</h3>
+                    <h3 className="font-bold text-xl text-foreground">Innovative, Tailored Solutions</h3>
                   </div>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-base font-medium text-muted-foreground">
                     We strive to exceed expectations through innovative, tailored solutions for your needs.
                   </p>
                 </CardContent>
@@ -1357,9 +1357,9 @@ export default function Home() {
                     <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
                       <Users className="w-5 h-5" />
                     </div>
-                    <h3 className="font-semibold text-foreground">Value for All Stakeholders</h3>
+                    <h3 className="font-bold text-xl text-foreground">Value for All Stakeholders</h3>
                   </div>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-base font-medium text-muted-foreground">
                     We are committed to creating value for customers, partners, and the broader ecosystem.
                   </p>
                 </CardContent>
@@ -1371,9 +1371,9 @@ export default function Home() {
                     <div className="p-2.5 rounded-lg bg-accent/10 text-accent">
                       <Network className="w-5 h-5" />
                     </div>
-                    <h3 className="font-semibold text-foreground">Network-led Execution</h3>
+                    <h3 className="font-bold text-xl text-foreground">Network-led Execution</h3>
                   </div>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-base font-medium text-muted-foreground">
                     Leverage our network partners for capacity and capability across manufacturing and research.
                   </p>
                 </CardContent>
@@ -1385,9 +1385,9 @@ export default function Home() {
                     <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
                       <Zap className="w-5 h-5" />
                     </div>
-                    <h3 className="font-semibold text-foreground">Expertise + Technology</h3>
+                    <h3 className="font-bold text-xl text-foreground">Expertise + Technology</h3>
                   </div>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-base font-medium text-muted-foreground">
                     Deep expertise combined with cutting-edge technology to drive reliable outcomes.
                   </p>
                 </CardContent>
@@ -1399,9 +1399,9 @@ export default function Home() {
                     <div className="p-2.5 rounded-lg bg-accent/10 text-accent">
                       <Leaf className="w-5 h-5" />
                     </div>
-                    <h3 className="font-semibold text-foreground">Sustainable Growth</h3>
+                    <h3 className="font-bold text-xl text-foreground">Sustainable Growth</h3>
                   </div>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-base font-medium text-muted-foreground">
                     We drive sustainable growth by improving resilience, transparency, and execution quality.
                   </p>
                 </CardContent>
@@ -1425,10 +1425,10 @@ export default function Home() {
 
           <div className="relative max-w-7xl mx-auto px-6">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-4">
+              <h2 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight mb-4">
                 Let&apos;s Connect!
               </h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-lg font-medium text-muted-foreground max-w-2xl mx-auto">
                 Share what you&apos;re looking for—services, products, or SCM support—and we&apos;ll connect you with the right solution through our network.
               </p>
             </div>
@@ -1437,13 +1437,13 @@ export default function Home() {
             <Card className="border-muted-foreground/20 shadow-sm bg-card max-w-2xl mx-auto overflow-hidden relative">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5" />
               <CardHeader className="relative">
-                <CardTitle className="text-xl">Partner With Us</CardTitle>
+                <CardTitle className="text-2xl font-bold">Partner With Us</CardTitle>
               </CardHeader>
               <CardContent className="relative">
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <label htmlFor="name" className="text-sm font-medium text-foreground">Name*</label>
+                      <label htmlFor="name" className="text-base font-semibold text-foreground">Name*</label>
                       <Input
                         className="border-muted-foreground/30"
                         id="name"
@@ -1455,7 +1455,7 @@ export default function Home() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label htmlFor="email" className="text-sm font-medium text-foreground">Work Email*</label>
+                      <label htmlFor="email" className="text-base font-semibold text-foreground">Work Email*</label>
                       <Input
                         className="border-muted-foreground/30"
                         id="email"
@@ -1471,7 +1471,7 @@ export default function Home() {
 
                   <div className="grid md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <label htmlFor="country" className="text-sm font-medium text-foreground">Country*</label>
+                      <label htmlFor="country" className="text-base font-semibold text-foreground">Country*</label>
                       <Input
                         className="border-muted-foreground/30"
                         id="country"
@@ -1483,7 +1483,7 @@ export default function Home() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label htmlFor="company" className="text-sm font-medium text-foreground">Company Name*</label>
+                      <label htmlFor="company" className="text-base font-semibold text-foreground">Company Name*</label>
                       <Input
                         className="border-muted-foreground/30"
                         id="company"
@@ -1498,7 +1498,7 @@ export default function Home() {
 
                   <div className="grid md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <label htmlFor="phone" className="text-sm font-medium text-foreground">Phone Number*</label>
+                      <label htmlFor="phone" className="text-base font-semibold text-foreground">Phone Number*</label>
                       <Input
                         className="border-muted-foreground/30"
                         id="phone"
@@ -1511,13 +1511,13 @@ export default function Home() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label htmlFor="lookingFor" className="text-sm font-medium text-foreground">Looking For</label>
+                      <label htmlFor="lookingFor" className="text-base font-semibold text-foreground">Looking For</label>
                       <select
                         id="lookingFor"
                         name="lookingFor"
                         value={formData.lookingFor}
                         onChange={handleFormChange}
-                        className="flex h-10 w-full rounded-md border border-muted-foreground/30 bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                        className="flex h-10 w-full rounded-md border border-muted-foreground/30 bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                       >
                         <option value="">Select an option</option>
                         <option value="custom-manufacturing">Custom Manufacturing</option>
@@ -1531,7 +1531,7 @@ export default function Home() {
                   </div>
 
                   <div className="space-y-2">
-                    <label htmlFor="message" className="text-sm font-medium text-foreground">Message</label>
+                    <label htmlFor="message" className="text-base font-semibold text-foreground">Message</label>
                     <textarea
                       id="message"
                       name="message"
@@ -1539,7 +1539,7 @@ export default function Home() {
                       onChange={handleFormChange}
                       rows={4}
                       placeholder="Tell us about your requirements..."
-                      className="flex min-h-[80px] w-full rounded-md border border-muted-foreground/30 bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 resize-none"
+                      className="flex min-h-[80px] w-full rounded-md border border-muted-foreground/30 bg-background px-3 py-2 text-base ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 resize-none"
                     />
                   </div>
 
@@ -1566,14 +1566,14 @@ export default function Home() {
                   {submitStatus === 'success' && (
                     <div className="flex items-center gap-2 p-4 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200">
                       <CheckCircle className="w-5 h-5 shrink-0" />
-                      <p className="text-sm font-medium">{submitMessage}</p>
+                      <p className="text-base font-semibold">{submitMessage}</p>
                     </div>
                   )}
 
                   {submitStatus === 'error' && (
                     <div className="flex items-center gap-2 p-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200">
                       <AlertCircle className="w-5 h-5 shrink-0" />
-                      <p className="text-sm font-medium">{submitMessage}</p>
+                      <p className="text-base font-semibold">{submitMessage}</p>
                     </div>
                   )}
                 </form>
@@ -1590,12 +1590,12 @@ export default function Home() {
             {/* Company Info - Left Side */}
             <div className="lg:w-[380px] shrink-0">
               <div className="flex items-center gap-3 mb-4">
-                <h3 className="font-bold text-foreground">Covenants PharmaChem LLP</h3>
+                <h3 className="font-bold text-lg text-foreground">Covenants PharmaChem LLP</h3>
               </div>
-              <p className="text-sm text-muted-foreground mb-4">
+              <p className="text-base font-medium text-muted-foreground mb-4">
                 Expanding horizons in APIs, intermediates & specialty chemicals—powered by our network, expertise and technology.
               </p>
-              <div className="space-y-2.5 text-sm text-muted-foreground">
+              <div className="space-y-2.5 text-base font-medium text-muted-foreground">
                 <div className="flex items-start gap-2.5">
                   <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-primary" />
                   <span>A-209, Bhaveshwar Arcade, LBS Marg, Ghatkopar (West), Mumbai - 400086, Maharashtra, India</span>
@@ -1637,8 +1637,8 @@ export default function Home() {
             <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-8 lg:gap-12">
               {/* Company Links */}
               <div>
-                <h4 className="font-semibold text-foreground mb-4">Company</h4>
-                <ul className="space-y-2.5 text-sm text-muted-foreground">
+                <h4 className="font-bold text-foreground mb-4">Company</h4>
+                <ul className="space-y-2.5 text-base font-medium text-muted-foreground">
                   <li>
                     <button type="button" onClick={() => scrollToSection('about')} className="hover:text-foreground transition-colors text-left">
                       About Us
@@ -1654,8 +1654,8 @@ export default function Home() {
 
               {/* Services Links */}
               <div>
-                <h4 className="font-semibold text-foreground mb-4">Services</h4>
-                <ul className="space-y-2.5 text-sm text-muted-foreground">
+                <h4 className="font-bold text-foreground mb-4">Services</h4>
+                <ul className="space-y-2.5 text-base font-medium text-muted-foreground">
                   <li>
                     <button type="button" onClick={() => scrollToSection('services')} className="hover:text-foreground transition-colors text-left">
                       Services through Network Partners
@@ -1671,8 +1671,8 @@ export default function Home() {
 
               {/* Products Links */}
               <div>
-                <h4 className="font-semibold text-foreground mb-4">Products</h4>
-                <ul className="space-y-2.5 text-sm text-muted-foreground">
+                <h4 className="font-bold text-foreground mb-4">Products</h4>
+                <ul className="space-y-2.5 text-base font-medium text-muted-foreground">
                   <li>
                     <button type="button" onClick={() => scrollToSection('products')} className="hover:text-foreground transition-colors text-left">
                       API
@@ -1701,14 +1701,14 @@ export default function Home() {
           <Separator className="mb-8" />
 
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-base font-medium text-muted-foreground">
               © 2026 Covenants PharmaChem LLP. All rights reserved.
             </p>
             <div className="flex items-center gap-4">
-              <button type="button" onClick={() => scrollToSection('contact')} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <button type="button" onClick={() => scrollToSection('contact')} className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors">
                 Contact Us
               </button>
-              <button type="button" onClick={() => scrollToSection('contact')} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <button type="button" onClick={() => scrollToSection('contact')} className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors">
                 Let&apos;s Connect!
               </button>
               <span className="hidden md:block h-4 w-px bg-border" />
