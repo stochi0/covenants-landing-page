@@ -70,8 +70,8 @@ function StatCard({ value, label, sublabel, delay = 0 }: StatCardProps) {
       style={{ animationDelay: `${delay}ms`, animationFillMode: 'both' }}
     >
       <div className="text-4xl md:text-5xl font-bold text-primary font-mono tracking-tight">{value}</div>
-      <div className="text-sm font-semibold text-foreground mt-1">{label}</div>
-      <div className="text-xs text-muted-foreground">{sublabel}</div>
+      <div className="text-base font-semibold text-foreground mt-1">{label}</div>
+      <div className="text-sm text-muted-foreground">{sublabel}</div>
     </div>
   )
 }
@@ -95,7 +95,7 @@ function ServiceCard({ icon, title, description, delay = 0 }: ServiceCardProps) 
           {icon}
         </div>
         <h3 className="font-semibold text-lg text-foreground mb-2">{title}</h3>
-        <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
+        <p className="text-base text-muted-foreground leading-relaxed">{description}</p>
       </CardContent>
     </Card>
   )
@@ -118,8 +118,8 @@ function FeatureCard({ icon, title, description, delay = 0 }: FeatureCardProps) 
         {icon}
       </div>
       <div>
-        <h4 className="font-semibold text-foreground mb-1">{title}</h4>
-        <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
+        <h4 className="font-semibold text-lg text-foreground mb-1">{title}</h4>
+        <p className="text-base text-muted-foreground leading-relaxed">{description}</p>
       </div>
     </div>
   )
@@ -144,7 +144,7 @@ function ProductCategory({ icon, title, description, delay = 0 }: ProductCategor
           {icon}
         </div>
         <h3 className="font-semibold text-foreground mb-2">{title}</h3>
-        <p className="text-sm text-muted-foreground">{description}</p>
+        <p className="text-base text-muted-foreground">{description}</p>
       </CardContent>
     </Card>
   )
@@ -164,7 +164,7 @@ const ACCREDITATION_IMAGES = [
 function AccreditationPlaceholder({ short }: { short: string }) {
   return (
     <div className="w-14 h-14 rounded-full border-2 border-primary/30 bg-primary/5 flex items-center justify-center shrink-0">
-      <span className="text-[10px] font-semibold tracking-wide text-primary/80 uppercase">{short}</span>
+      <span className="text-xs font-semibold tracking-wide text-primary/80 uppercase">{short}</span>
     </div>
   )
 }
@@ -231,7 +231,7 @@ function AccreditationBadge({ label, slug, short, imageUrl }: { label: string; s
           />
         ) : null}
       </div>
-      <p className="text-sm font-medium text-foreground text-center leading-tight">{label}</p>
+      <p className="text-base font-medium text-foreground text-center leading-tight">{label}</p>
     </div>
   )
 }
@@ -751,7 +751,7 @@ export default function Home() {
 
           <div className="relative max-w-7xl mx-auto px-6">
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 text-accent text-sm font-medium mb-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 text-accent text-base font-medium mb-4">
                 <Network className="w-4 h-4" />
                 <span>Network partners capacity & capability</span>
               </div>
@@ -793,14 +793,14 @@ export default function Home() {
             {/* Service Offerings Detail */}
             <Card className="border-border/50 bg-card overflow-hidden mb-12">
               <CardContent className="p-8">
-                <h3 className="text-xl font-semibold text-foreground mb-6">Service Offerings</h3>
+                <h3 className="text-2xl md:text-3xl font-semibold text-foreground mb-6">Service Offerings</h3>
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                   <div className="space-y-4">
-                    <div className="flex items-center gap-2 text-primary font-medium">
+                    <div className="flex items-center gap-2 text-primary font-medium text-lg">
                       <Cog className="w-5 h-5" />
                       <span>Manufacturing & Development</span>
                     </div>
-                    <ul className="space-y-2 text-sm text-muted-foreground">
+                    <ul className="space-y-2 text-base text-muted-foreground">
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Contract Manufacturing</li>
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Product Development</li>
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Process Development</li>
@@ -808,11 +808,11 @@ export default function Home() {
                     </ul>
                   </div>
                   <div className="space-y-4">
-                    <div className="flex items-center gap-2 text-primary font-medium">
+                    <div className="flex items-center gap-2 text-primary font-medium text-lg">
                       <Layers className="w-5 h-5" />
                       <span>Research & Analytics</span>
                     </div>
-                    <ul className="space-y-2 text-sm text-muted-foreground">
+                    <ul className="space-y-2 text-base text-muted-foreground">
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Analytical Method Development</li>
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Impurity Synthesis</li>
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Stability Studies</li>
@@ -820,11 +820,11 @@ export default function Home() {
                     </ul>
                   </div>
                   <div className="space-y-4">
-                    <div className="flex items-center gap-2 text-primary font-medium">
+                    <div className="flex items-center gap-2 text-primary font-medium text-lg">
                       <BarChart3 className="w-5 h-5" />
                       <span>Analytical Capabilities</span>
                     </div>
-                    <ul className="space-y-2 text-sm text-muted-foreground">
+                    <ul className="space-y-2 text-base text-muted-foreground">
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />HPLC / GC Analysis</li>
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />LCMS Analysis</li>
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Method Development</li>
@@ -832,11 +832,11 @@ export default function Home() {
                     </ul>
                   </div>
                   <div className="space-y-4">
-                    <div className="flex items-center gap-2 text-primary font-medium">
+                    <div className="flex items-center gap-2 text-primary font-medium text-lg">
                       <Factory className="w-5 h-5" />
                       <span>Manufacturing Products</span>
                     </div>
-                    <ul className="space-y-2 text-sm text-muted-foreground">
+                    <ul className="space-y-2 text-base text-muted-foreground">
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Custom Synthesis Compounds</li>
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Key Starting Materials</li>
                       <li className="flex items-center gap-2"><ChevronRight className="w-4 h-4 text-accent" />Intermediates</li>
@@ -852,14 +852,14 @@ export default function Home() {
               {/* Facility Accreditations — old money elegant */}
               <div className="rounded-2xl border border-border/80 bg-card overflow-hidden shadow-sm">
                 <CardContent className="p-8 md:p-10">
-                  <p className="text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase mb-2">
+                  <p className="text-sm font-medium tracking-[0.2em] text-muted-foreground uppercase mb-2">
                     Facility Accreditations
                   </p>
-                  <h4 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-1 flex items-center gap-2">
+                  <h4 className="text-2xl md:text-3xl font-semibold text-foreground tracking-tight mb-1 flex items-center gap-2">
                     <ShieldCheck className="w-5 h-5 text-primary/80" />
                     Certified excellence
                   </h4>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-6 max-w-xl">
+                  <p className="text-muted-foreground text-base leading-relaxed mb-6 max-w-xl">
                     Our promise to uphold the highest standards of operational excellence and patient care
                   </p>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 md:gap-3">
@@ -873,21 +873,21 @@ export default function Home() {
               {/* Chemical Reactions Capabilities — old money elegant */}
               <div className="rounded-2xl border border-border/80 bg-card overflow-hidden shadow-sm">
                 <CardContent className="p-8 md:p-10">
-                  <p className="text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase mb-2">
+                  <p className="text-sm font-medium tracking-[0.2em] text-muted-foreground uppercase mb-2">
                     Chemical Reactions Capabilities
                   </p>
-                  <h4 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight mb-1 flex items-center gap-2">
+                  <h4 className="text-2xl md:text-3xl font-semibold text-foreground tracking-tight mb-1 flex items-center gap-2">
                     <TestTubes className="w-5 h-5 text-primary/80" />
                     Diverse reaction expertise
                   </h4>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-6 max-w-xl">
+                  <p className="text-muted-foreground text-base leading-relaxed mb-6 max-w-xl">
                     Custom synthesis and scale-up across a broad range of chemistries
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {['Alkylation', 'Cyclization', 'Chiral Chemistry', 'Grignard', 'Amination', 'Diazotization', 'Chlorosulfonation', 'Hoffman', 'Nitration', 'Esterification', 'Birch Reduction', 'Cyanation', 'Oxidation', 'Fluorination', 'Iodine Chemistry', 'Chlorination', 'Cryogenic', 'Friedel-Crafts', 'Lyophilisation', 'Bromination', 'Reduction', 'Sulphonation', 'Thiophosgenation', 'Sand Meyer', 'Column Chromatography', 'Heterocyclic Synthesis', 'High Vacuum Distillation', 'Hydrogenation'].map((reaction, idx) => (
                       <span
                         key={idx}
-                        className="inline-flex items-center px-3 py-1.5 rounded-md border border-border/70 bg-muted/30 text-sm text-foreground/90 hover:bg-muted/50 hover:border-primary/20 transition-colors duration-200"
+                        className="inline-flex items-center px-3 py-1.5 rounded-md border border-border/70 bg-muted/30 text-base text-foreground/90 hover:bg-muted/50 hover:border-primary/20 transition-colors duration-200"
                       >
                         {reaction}
                       </span>
@@ -904,14 +904,14 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-6">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-base font-medium mb-4">
                   <Truck className="w-4 h-4" />
                   <span>Supply chain services</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-4">
                   SCM Services
                 </h2>
-                <p className="text-muted-foreground mb-8">
+                <p className="text-base md:text-lg text-muted-foreground mb-8">
                   Our unparalleled functional expertise in end to end Supply Chain Management—tailored to help you optimize cost, mitigate risk, and execute reliably.
                 </p>
 
@@ -957,23 +957,23 @@ export default function Home() {
 
                 <Card className="border-border/50 bg-gradient-to-br from-primary/5 to-accent/5 overflow-hidden">
                   <CardContent className="p-6">
-                    <h3 className="font-semibold text-lg text-foreground mb-4">Additional SCM Support</h3>
+                    <h3 className="font-semibold text-xl text-foreground mb-4">Additional SCM Support</h3>
                     <div className="grid grid-cols-2 gap-3">
                       <div className="p-3 rounded-xl bg-background border border-border/50">
                         <FileStack className="w-5 h-5 text-primary mb-1.5" />
-                        <p className="text-xs font-medium text-foreground">Planning Process Implementation</p>
+                        <p className="text-sm font-medium text-foreground">Planning Process Implementation</p>
                       </div>
                       <div className="p-3 rounded-xl bg-background border border-border/50">
                         <Leaf className="w-5 h-5 text-accent mb-1.5" />
-                        <p className="text-xs font-medium text-foreground">ESG</p>
+                        <p className="text-sm font-medium text-foreground">ESG</p>
                       </div>
                       <div className="p-3 rounded-xl bg-background border border-border/50">
                         <Globe className="w-5 h-5 text-primary mb-1.5" />
-                        <p className="text-xs font-medium text-foreground">Foreign Trade</p>
+                        <p className="text-sm font-medium text-foreground">Foreign Trade</p>
                       </div>
                       <div className="p-3 rounded-xl bg-background border border-border/50">
                         <Users className="w-5 h-5 text-accent mb-1.5" />
-                        <p className="text-xs font-medium text-foreground">SCM Shared Services</p>
+                        <p className="text-sm font-medium text-foreground">SCM Shared Services</p>
                       </div>
                     </div>
 
