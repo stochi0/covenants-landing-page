@@ -189,7 +189,8 @@ function CgmpBadge() {
   )
 }
 
-function AccreditationBadge({ label, slug, short, imageUrl }: { label: string; slug: string; short: string; imageUrl: string | null }) {
+// Logo-only block; collage variant = soft shadow, no box border, for collage layout
+function AccreditationLogo({ label, slug, short, imageUrl, collage = false }: { label: string; slug: string; short: string; imageUrl: string | null; collage?: boolean }) {
   const [remoteFailed, setRemoteFailed] = useState(false)
   const [useSvg, setUseSvg] = useState(false)
   const [localFailed, setLocalFailed] = useState(false)
@@ -202,35 +203,51 @@ function AccreditationBadge({ label, slug, short, imageUrl }: { label: string; s
   const showPlaceholder = (imageUrl && remoteFailed) || (!imageUrl && slug !== 'cgmp' && localFailed)
   const showCgmpBadge = !imageUrl && slug === 'cgmp' && !localFailed
 
+  const sizeClass = collage ? 'w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28' : 'w-16 h-16 md:w-20 md:h-20'
+  const imgSize = collage ? 112 : 72
+  const styleClass = collage
+    ? 'rounded-2xl border border-border/90 bg-card/95 shadow-lg flex items-center justify-center shrink-0 p-2 transition-all duration-200 hover:shadow-xl hover:scale-105 [&>*]:max-w-full [&>*]:max-h-full [&>*]:object-contain'
+    : 'rounded-xl border border-border bg-muted/20 flex items-center justify-center shrink-0 p-2 transition-colors duration-200 hover:border-primary/25 hover:bg-muted/40 [&>*]:max-w-full [&>*]:max-h-full [&>*]:object-contain'
+
   return (
-    <div className="flex flex-col items-center justify-center gap-2 py-3 px-4 rounded-lg border border-border/70 bg-muted/30 hover:bg-muted/50 hover:border-primary/20 transition-colors duration-200 min-h-[88px]">
-      <div className="relative w-14 h-14 flex items-center justify-center shrink-0">
-        {showCgmpBadge ? (
+    <div className={`${sizeClass} ${styleClass}`} title={label}>
+      {showCgmpBadge ? (
+        <span className="flex items-center justify-center w-full h-full [&>svg]:w-14 [&>svg]:h-14 sm:[&>svg]:w-16 sm:[&>svg]:h-16 md:[&>svg]:w-20 md:[&>svg]:h-20">
           <CgmpBadge />
-        ) : showPlaceholder ? (
+        </span>
+      ) : showPlaceholder ? (
+        <span className="flex items-center justify-center w-full h-full [&>div]:w-12 [&>div]:h-12 [&>div]:text-xs sm:[&>div]:w-14 sm:[&>div]:h-14 md:[&>div]:w-16 md:[&>div]:h-16 md:[&>div]:text-sm">
           <AccreditationPlaceholder short={short} />
-        ) : useRemote && imageUrl ? (
-          <Image
-            src={imageUrl}
-            alt={label}
-            width={56}
-            height={56}
-            className="object-contain w-full h-full"
-            onError={() => setRemoteFailed(true)}
-            unoptimized
-          />
-        ) : !imageUrl && slug !== 'cgmp' ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
-            src={localSrc}
-            alt={label}
-            width={56}
-            height={56}
-            className="object-contain w-full h-full"
-            onError={handleLocalError}
-          />
-        ) : null}
-      </div>
+        </span>
+      ) : useRemote && imageUrl ? (
+        <Image
+          src={imageUrl}
+          alt=""
+          width={imgSize}
+          height={imgSize}
+          className="object-contain w-full h-full"
+          onError={() => setRemoteFailed(true)}
+          unoptimized
+        />
+      ) : !imageUrl && slug !== 'cgmp' ? (
+        /* eslint-disable-next-line @next/next/no-img-element */
+        <img
+          src={localSrc}
+          alt=""
+          width={imgSize}
+          height={imgSize}
+          className="object-contain w-full h-full"
+          onError={handleLocalError}
+        />
+      ) : null}
+    </div>
+  )
+}
+
+// Name-only card (no image) — accreditations list
+function AccreditationNameCard({ label }: { label: string }) {
+  return (
+    <div className="flex items-center justify-center py-4 px-5 rounded-lg border border-border bg-muted/30 hover:bg-muted/50 hover:border-primary/20 transition-colors duration-200 min-h-[56px]">
       <p className="text-base font-semibold text-foreground text-center leading-tight">{label}</p>
     </div>
   )
@@ -849,23 +866,40 @@ export default function Home() {
 
             {/* Network Capabilities */}
             <div className="space-y-16">
-              {/* Facility Accreditations — old money elegant */}
+              {/* Facility Accreditations — images (representation) + name cards separate */}
               <div className="rounded-2xl border border-border/80 bg-card overflow-hidden shadow-sm">
-                <CardContent className="p-8 md:p-10">
-                  <p className="text-base font-semibold tracking-[0.2em] text-muted-foreground uppercase mb-2">
+                <CardContent className="px-8 pt-4 pb-8 md:px-10 md:pt-5 md:pb-10">
+                  <p className="text-base font-semibold tracking-[0.2em] text-muted-foreground uppercase mb-1">
                     Facility Accreditations
                   </p>
-                  <h4 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-1 flex items-center gap-2">
+                  <h4 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-0.5 flex items-center gap-2">
                     <ShieldCheck className="w-5 h-5 text-primary/80" />
                     Certified excellence
                   </h4>
-                  <p className="text-muted-foreground text-lg font-medium leading-relaxed mb-6 max-w-xl">
+                  <p className="text-muted-foreground text-lg font-medium leading-relaxed mb-4 max-w-xl">
                     Our promise to uphold the highest standards of operational excellence and patient care
                   </p>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 md:gap-3">
-                    {ACCREDITATION_IMAGES.map(({ label, slug, short, imageUrl }) => (
-                      <AccreditationBadge key={slug} label={label} slug={slug} short={short} imageUrl={imageUrl} />
-                    ))}
+
+                  {/* Vertical split: names left, symmetric logo grid right */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 items-center">
+                    <div>
+                      <p className="text-sm font-medium tracking-widest text-muted-foreground/90 uppercase mb-4">
+                        Our accreditations
+                      </p>
+                      <div className="grid grid-cols-2 gap-2 md:gap-3">
+                        {ACCREDITATION_IMAGES.map(({ label, slug }) => (
+                          <AccreditationNameCard key={slug} label={label} />
+                        ))}
+                      </div>
+                    </div>
+                    {/* Symmetric 2×3 grid of logos matching name cards layout */}
+                    <div className="grid grid-cols-3 grid-rows-2 gap-3 md:gap-4 place-items-center w-full max-w-md mx-auto">
+                      {ACCREDITATION_IMAGES.map(({ label, slug, short, imageUrl }) => (
+                        <div key={slug} className="flex justify-center items-center w-full aspect-square max-w-[130px] md:max-w-[150px]">
+                          <AccreditationLogo label={label} slug={slug} short={short} imageUrl={imageUrl} collage />
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </CardContent>
               </div>
