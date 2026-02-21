@@ -1,12 +1,13 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
-import { ProductSearch } from '@/components/product-search'
+import { Header } from '@/components/layout/header'
 import {
   FlaskConical,
   ArrowRight,
@@ -25,7 +26,6 @@ import {
   Handshake,
   Network,
   ChevronRight,
-  ChevronDown,
   Mail,
   Phone,
   MapPin,
@@ -33,11 +33,7 @@ import {
   TestTubes,
   FileStack,
   BarChart3,
-  Menu,
-  X,
   Linkedin,
-  Sparkles,
-  Search,
   Loader2,
   CheckCircle,
   AlertCircle,
@@ -254,11 +250,6 @@ function AccreditationNameCard({ label }: { label: string }) {
 }
 
 export default function Home() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [offeringsOpen, setOfferingsOpen] = useState(false)
-  const [mobileOfferingsOpen, setMobileOfferingsOpen] = useState(false)
-  const [productSearchOpen, setProductSearchOpen] = useState(false)
-  const offeringsRef = useRef<HTMLDivElement>(null)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -272,25 +263,11 @@ export default function Home() {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [submitMessage, setSubmitMessage] = useState('')
 
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (offeringsRef.current && !offeringsRef.current.contains(event.target as Node)) {
-        setOfferingsOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
-
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
     }
-    setMobileMenuOpen(false)
-    setOfferingsOpen(false)
-    setMobileOfferingsOpen(false)
   }
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -355,339 +332,7 @@ export default function Home() {
       {/* Background Pattern */}
       <div className="fixed inset-0 bg-mesh-gradient pointer-events-none" />
 
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault()
-                window.scrollTo({ top: 0, behavior: 'smooth' })
-              }}
-              className="flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded"
-              aria-label="Scroll to top"
-            >
-              <Image
-                src="/covenants-logo.png"
-                alt="Covenants Logo"
-                width={140}
-                height={56}
-                className="h-14 w-auto object-contain"
-              />
-            </a>
-
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-1">
-              {/* Our Offerings Mega Menu */}
-              <div ref={offeringsRef} className="relative">
-                <button
-                  type="button"
-                  onClick={() => setOfferingsOpen(!offeringsOpen)}
-                  className={`flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${offeringsOpen
-                      ? 'text-primary bg-primary/10'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                    }`}
-                >
-                  <Sparkles className="w-4 h-4" />
-                  Our Offerings
-                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${offeringsOpen ? 'rotate-180' : ''}`} />
-                </button>
-
-                {/* Mega Menu Dropdown */}
-                {offeringsOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-[580px] bg-card border border-border rounded-2xl shadow-xl overflow-hidden animate-fade-in-up z-50">
-                    <div className="p-6">
-                      <div className="grid grid-cols-2 gap-6">
-                        {/* Services Column */}
-                        <div className="space-y-4">
-                          <div className="flex items-center gap-2 pb-2 border-b border-border">
-                            <div className="p-1.5 rounded-lg bg-accent/10">
-                              <Cog className="w-4 h-4 text-accent" />
-                            </div>
-                            <span className="font-semibold text-foreground">Services</span>
-                          </div>
-
-                          <button
-                            type="button"
-                            onClick={() => scrollToSection('services')}
-                            className="group w-full text-left p-3 rounded-xl hover:bg-muted/50 transition-all duration-200"
-                          >
-                            <div className="flex items-start gap-3">
-                              <div className="p-2 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                                <Network className="w-5 h-5" />
-                              </div>
-                              <div>
-                                <div className="font-medium text-foreground group-hover:text-primary transition-colors">
-                                  Services Through Network Partners
-                                </div>
-                                <p className="text-xs text-muted-foreground mt-0.5">
-                                  Custom manufacturing, research & development
-                                </p>
-                              </div>
-                            </div>
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={() => scrollToSection('scm')}
-                            className="group w-full text-left p-3 rounded-xl hover:bg-muted/50 transition-all duration-200"
-                          >
-                            <div className="flex items-start gap-3">
-                              <div className="p-2 rounded-lg bg-accent/10 text-accent group-hover:bg-accent group-hover:text-accent-foreground transition-colors">
-                                <Truck className="w-5 h-5" />
-                              </div>
-                              <div>
-                                <div className="font-medium text-foreground group-hover:text-accent transition-colors">
-                                  SCM Services
-                                </div>
-                                <p className="text-xs text-muted-foreground mt-0.5">
-                                  End-to-end supply chain solutions
-                                </p>
-                              </div>
-                            </div>
-                          </button>
-                        </div>
-
-                        {/* Products Column */}
-                        <div className="space-y-4">
-                          <div className="flex items-center gap-2 pb-2 border-b border-border">
-                            <div className="p-1.5 rounded-lg bg-primary/10">
-                              <Package className="w-4 h-4 text-primary" />
-                            </div>
-                            <span className="font-semibold text-foreground">Products</span>
-                          </div>
-
-                          <button
-                            type="button"
-                            onClick={() => scrollToSection('products')}
-                            className="group w-full text-left p-3 rounded-xl hover:bg-muted/50 transition-all duration-200"
-                          >
-                            <div className="flex items-start gap-3">
-                              <div className="p-2 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                                <FlaskConical className="w-5 h-5" />
-                              </div>
-                              <div>
-                                <div className="font-medium text-foreground group-hover:text-primary transition-colors">
-                                  APIs & Intermediates
-                                </div>
-                                <p className="text-xs text-muted-foreground mt-0.5">
-                                  Active pharmaceutical ingredients
-                                </p>
-                              </div>
-                            </div>
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={() => scrollToSection('products')}
-                            className="group w-full text-left p-3 rounded-xl hover:bg-muted/50 transition-all duration-200"
-                          >
-                            <div className="flex items-start gap-3">
-                              <div className="p-2 rounded-lg bg-accent/10 text-accent group-hover:bg-accent group-hover:text-accent-foreground transition-colors">
-                                <TestTubes className="w-5 h-5" />
-                              </div>
-                              <div>
-                                <div className="font-medium text-foreground group-hover:text-accent transition-colors">
-                                  Specialty Chemicals & Impurities
-                                </div>
-                                <p className="text-xs text-muted-foreground mt-0.5">
-                                  Specialty chemicals for diverse applications
-                                </p>
-                              </div>
-                            </div>
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Bottom CTA */}
-                      <div className="mt-6 pt-4 border-t border-border flex items-center justify-between">
-                        <p className="text-sm text-muted-foreground">
-                          Can&apos;t find what you need?
-                        </p>
-                        <Button size="sm" onClick={() => scrollToSection('contact')}>
-                          Contact Us
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Products Search Button */}
-              <button
-                type="button"
-                onClick={() => setProductSearchOpen(true)}
-                className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
-              >
-                <Search className="w-4 h-4" />
-                Products
-              </button>
-
-              <a
-                href="https://capillia.vercel.app"
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-primary bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 hover:from-primary/20 hover:via-accent/20 hover:to-primary/20 rounded-lg transition-all duration-200 border border-primary/20 hover:border-primary/40 shadow-sm hover:shadow-md"
-              >
-                <Globe className="w-4 h-4" />
-                Capillia
-              </a>
-              <button
-                type="button"
-                onClick={() => scrollToSection('about')}
-                className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
-              >
-                <Users className="w-4 h-4" />
-                About Us
-              </button>
-              <button
-                type="button"
-                onClick={() => scrollToSection('why-covenants')}
-                className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
-              >
-                <Lightbulb className="w-4 h-4" />
-                Why Covenants?
-              </button>
-            </nav>
-
-            <div className="flex items-center gap-3">
-              <Button
-                onClick={() => scrollToSection('contact')}
-                className="hidden sm:flex"
-              >
-                Let&apos;s Connect
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-
-              {/* Mobile Menu Button */}
-              <button
-                type="button"
-                className="lg:hidden p-2 rounded-lg hover:bg-muted transition-colors"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              >
-                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-              </button>
-            </div>
-          </div>
-
-          {/* Mobile Navigation */}
-          {mobileMenuOpen && (
-            <nav className="lg:hidden mt-4 pb-4 space-y-1 border-t border-border pt-4">
-              {/* Our Offerings Accordion */}
-              <div className="space-y-1">
-                <button
-                  type="button"
-                  onClick={() => setMobileOfferingsOpen(!mobileOfferingsOpen)}
-                  className={`w-full flex items-center justify-between px-4 py-2.5 text-sm font-medium rounded-lg transition-all ${mobileOfferingsOpen
-                      ? 'text-primary bg-primary/10'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                    }`}
-                >
-                  <span className="flex items-center gap-2">
-                    <Sparkles className="w-4 h-4" />
-                    Our Offerings
-                  </span>
-                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${mobileOfferingsOpen ? 'rotate-180' : ''}`} />
-                </button>
-
-                {mobileOfferingsOpen && (
-                  <div className="ml-4 pl-4 border-l-2 border-primary/20 space-y-1 animate-fade-in-up">
-                    {/* Services Section */}
-                    <div className="pt-2 pb-1">
-                      <span className="px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Services</span>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => scrollToSection('services')}
-                      className="w-full text-left px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors flex items-center gap-2"
-                    >
-                      <Network className="w-4 h-4 text-primary" />
-                      Services Through Network Partners
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => scrollToSection('scm')}
-                      className="w-full text-left px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors flex items-center gap-2"
-                    >
-                      <Truck className="w-4 h-4 text-accent" />
-                      SCM Services
-                    </button>
-
-                    {/* Products Section */}
-                    <div className="pt-3 pb-1">
-                      <span className="px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Products</span>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => scrollToSection('products')}
-                      className="w-full text-left px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors flex items-center gap-2"
-                    >
-                      <FlaskConical className="w-4 h-4 text-primary" />
-                      APIs & Intermediates
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => scrollToSection('products')}
-                      className="w-full text-left px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors flex items-center gap-2"
-                    >
-                      <TestTubes className="w-4 h-4 text-accent" />
-                      Specialty Chemicals & Impurities
-                    </button>
-                  </div>
-                )}
-              </div>
-
-              {/* Products Search Button - Mobile */}
-              <button
-                type="button"
-                onClick={() => {
-                  setProductSearchOpen(true)
-                  setMobileMenuOpen(false)
-                }}
-                className="w-full text-left px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors flex items-center gap-2"
-              >
-                <Search className="w-4 h-4" />
-                Products
-              </button>
-
-              <a
-                href="https://capillia.vercel.app"
-                target="_blank"
-                rel="noreferrer"
-                className="block w-full text-left px-4 py-2.5 text-sm font-medium text-primary bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 hover:from-primary/20 hover:via-accent/20 hover:to-primary/20 rounded-lg transition-all duration-200 border border-primary/20 hover:border-primary/40 shadow-sm hover:shadow-md flex items-center gap-2"
-              >
-                <Globe className="w-4 h-4" />
-                Capillia
-              </a>
-              <button
-                type="button"
-                onClick={() => scrollToSection('about')}
-                className="w-full text-left px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors flex items-center gap-2"
-              >
-                <Users className="w-4 h-4" />
-                About Us
-              </button>
-              <button
-                type="button"
-                onClick={() => scrollToSection('why-covenants')}
-                className="w-full text-left px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors flex items-center gap-2"
-              >
-                <Lightbulb className="w-4 h-4" />
-                Why Covenants?
-              </button>
-              <Button
-                onClick={() => scrollToSection('contact')}
-                className="w-full mt-2"
-              >
-                Let&apos;s Connect
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-            </nav>
-          )}
-        </div>
-      </header>
+      <Header currentPage="home" onNavigate={scrollToSection} />
 
       {/* Main Content */}
       <main className="relative z-10 pt-[73px]">
@@ -1115,236 +760,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* About Us Section */}
-        <section id="about" className="relative py-16 md:py-24">
-          <div className="max-w-7xl mx-auto px-6">
-            {/* About Header with Image */}
-            <div className="grid lg:grid-cols-2 gap-12 items-center mb-12">
-              <div>
-                <h2 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight mb-4">
-                  About Us
-                </h2>
-                <div className="space-y-4">
-                  <div>
-                    <h3 className="text-2xl font-bold text-foreground mb-2">Mission</h3>
-                    <p className="text-muted-foreground text-lg font-medium leading-relaxed">
-                      To become trusted supply chain partner and strive to exceed expectations through innovative & tailored solutions. We create value for all stakeholders by leveraging our network, expertise and technology to drive sustainable growth.
-                    </p>
-                  </div>
-                </div>
-              </div>
 
-              <div className="relative">
-                <div className="rounded-2xl overflow-hidden shadow-xl relative h-64">
-                  <Image
-                    src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=800&q=80"
-                    alt="Scientific research and development"
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent mix-blend-multiply" />
-                </div>
-                {/* Decorative element */}
-                <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-gradient-to-br from-accent/30 to-primary/30 rounded-full blur-2xl -z-10" />
-              </div>
-            </div>
-
-            {/* Co-Founders Section */}
-            <div className="mb-12">
-              <h3 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-2 text-center">Co-Founders</h3>
-              <p className="text-center text-lg font-medium text-muted-foreground mb-8">Leverage 5 decades of expertise in End to End Supply Chain Management</p>
-
-              <div className="grid md:grid-cols-2 gap-8">
-                <Card className="border-border/50 bg-card">
-                  <CardContent className="p-8">
-                    <div className="flex justify-center mb-6">
-                      <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-2 border-border/50 shrink-0">
-                        <Image
-                          src="/alpesh_mehta.jpeg"
-                          alt="Alpesh Mehta, Co-founder"
-                          fill
-                          className="object-cover object-top"
-                          sizes="128px"
-                        />
-                      </div>
-                    </div>
-                    <h4 className="text-2xl font-bold text-foreground mb-4">Alpesh Mehta, Co-founder</h4>
-                    <ul className="space-y-2 text-base font-medium text-muted-foreground">
-                      <li className="flex items-start gap-2">
-                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-                        <span>Over 20 years in the Pharmaceuticals Industry Supply Chain Management</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-                        <span>Expertise in Planning, Procurement, Outsourcing, Logistics, Commercials, and Project Management</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-                        <span>Proven track record of leveraging supply chain as a competitive advantage</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-                        <span>Extensive experience managing end-to-end supply chains for various Indian and Multinational Pharma companies like Cadila, Mylan, Piramal</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-                        <span>Managed critical CDMO and CRO projects for global customers</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-                        <span>B.E. Chemical from DDIT, Nadiad and PGDBA from NMIMS, Mumbai</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-                        <span>Certified Project Management Professional</span>
-                      </li>
-                    </ul>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-border/50 bg-card">
-                  <CardContent className="p-8">
-                    <div className="flex justify-center mb-6">
-                      <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-2 border-border/50 shrink-0">
-                        <Image
-                          src="/vivek_bodade.jpeg"
-                          alt="Vivek Bodade, Co-founder"
-                          fill
-                          className="object-cover object-top"
-                          sizes="128px"
-                        />
-                      </div>
-                    </div>
-                    <h4 className="text-2xl font-bold text-foreground mb-4">Vivek Bodade, Co-founder</h4>
-                    <ul className="space-y-2 text-base font-medium text-muted-foreground">
-                      <li className="flex items-start gap-2">
-                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-                        <span>Over 20 years of experience in Supply Chain Management, Digital Transformation & driving international projects</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-                        <span>Expertise in Global Sourcing, Procurement, Contract Management, Vendor Development, Capex, Opex, and Indirect procurement</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-                        <span>Proven track record in driving Global Procurement initiatives and achieving Cost Optimization through E-Procurement, category management etc.</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-                        <span>Diverse sector experience: Pharma, Chemical, Biotech, Biosimilar, Healthcare, FMCG, and Hospital</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-                        <span>Worked with notable companies including Atul, Cadila Pharma, Wockhardt, Glenmark, Laurus Labs, Piramal, and Perfetti van Melle</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-                        <span>B.E. Mechanical from Amravati University and MBA in Materials & Logistics and Marketing from the University of Pune</span>
-                      </li>
-                    </ul>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-
-            {/* Strategic Focus Areas */}
-            <div className="grid md:grid-cols-3 gap-6 mb-12">
-              <Card className="border-border/50 bg-card">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
-                      <Lightbulb className="w-5 h-5" />
-                    </div>
-                    <h3 className="font-bold text-xl text-foreground">Explore and Seize Opportunities</h3>
-                  </div>
-                  <p className="text-base font-medium text-muted-foreground">
-                    Leverage the available capacities, capabilities, and talent within India&apos;s pharmaceutical manufacturing, research & development ecosystem to address latent opportunities, solve complex technical or technological problems, and serve global customers.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-border/50 bg-card">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="p-2.5 rounded-lg bg-accent/10 text-accent">
-                      <Users className="w-5 h-5" />
-                    </div>
-                    <h3 className="font-bold text-xl text-foreground">Value Creation for Stakeholders</h3>
-                  </div>
-                  <p className="text-base font-medium text-muted-foreground">
-                    Delivering exceptional value for customers and network partners by providing products and services at competitive prices, with on-time delivery, and unmatched quality.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-border/50 bg-card">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
-                      <Handshake className="w-5 h-5" />
-                    </div>
-                    <h3 className="font-bold text-xl text-foreground">Drive Strategic Growth</h3>
-                  </div>
-                  <p className="text-base font-medium text-muted-foreground">
-                    Initiate and cultivate strategic partnerships that underscore value creation, accelerate growth, and enhance global competitiveness, all while making a significant societal impact through sustainable practices.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Card className="border-border/50 bg-card group hover:shadow-lg transition-all duration-300">
-                <CardContent className="p-6 text-center">
-                  <div className="p-4 rounded-2xl bg-primary/10 text-primary w-fit mx-auto mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
-                    <Network className="w-8 h-8" />
-                  </div>
-                  <h3 className="font-bold text-xl text-foreground mb-2">Network</h3>
-                  <p className="text-base font-medium text-muted-foreground">
-                    We leverage an extensive network of partners to deliver capacity and capability where you need it.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-border/50 bg-card group hover:shadow-lg transition-all duration-300">
-                <CardContent className="p-6 text-center">
-                  <div className="p-4 rounded-2xl bg-accent/10 text-accent w-fit mx-auto mb-4 group-hover:bg-accent group-hover:text-accent-foreground transition-colors duration-300">
-                    <Users className="w-8 h-8" />
-                  </div>
-                  <h3 className="font-bold text-xl text-foreground mb-2">Expertise</h3>
-                  <p className="text-base font-medium text-muted-foreground">
-                    A team of passionate professionals committed to creating value for all stakeholders.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-border/50 bg-card group hover:shadow-lg transition-all duration-300">
-                <CardContent className="p-6 text-center">
-                  <div className="p-4 rounded-2xl bg-primary/10 text-primary w-fit mx-auto mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
-                    <Lightbulb className="w-8 h-8" />
-                  </div>
-                  <h3 className="font-bold text-xl text-foreground mb-2">Technology</h3>
-                  <p className="text-base font-medium text-muted-foreground">
-                    Cutting-edge technology to drive efficiency, visibility, and reliable execution.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-border/50 bg-card group hover:shadow-lg transition-all duration-300">
-                <CardContent className="p-6 text-center">
-                  <div className="p-4 rounded-2xl bg-accent/10 text-accent w-fit mx-auto mb-4 group-hover:bg-accent group-hover:text-accent-foreground transition-colors duration-300">
-                    <Leaf className="w-8 h-8" />
-                  </div>
-                  <h3 className="font-bold text-xl text-foreground mb-2">Sustainable Growth</h3>
-                  <p className="text-base font-medium text-muted-foreground">
-                    We drive sustainable growth through innovative, tailored solutions across the supply chain.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
-
-        {/* Why Covenants Section */}
         <section id="why-covenants" className="relative bg-muted/30 py-16 md:py-24">
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-12">
@@ -1674,9 +1090,9 @@ export default function Home() {
                 <h4 className="font-bold text-foreground mb-4">Company</h4>
                 <ul className="space-y-2.5 text-base font-medium text-muted-foreground">
                   <li>
-                    <button type="button" onClick={() => scrollToSection('about')} className="hover:text-foreground transition-colors text-left">
+                    <a href="/about" className="hover:text-foreground transition-colors text-left">
                       About Us
-                    </button>
+                    </a>
                   </li>
                   <li>
                     <button type="button" onClick={() => scrollToSection('why-covenants')} className="hover:text-foreground transition-colors text-left">
@@ -1770,9 +1186,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-
-      {/* Product Search Modal */}
-      <ProductSearch open={productSearchOpen} onOpenChange={setProductSearchOpen} />
     </div>
   )
 }
