@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -155,6 +154,37 @@ const ACCREDITATION_IMAGES = [
   { label: 'EDQM', slug: 'edqm', short: 'EDQM', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/b/b0/EDQM_logo.png' },
   { label: 'ISO:9001', slug: 'iso9001', short: 'ISO', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/5/53/Logo-iso9001.png' },
   { label: 'WHO GMP', slug: 'who-gmp', short: 'WHO', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Logo_of_the_World_Health_Organization.jpg/330px-Logo_of_the_World_Health_Organization.jpg' },
+] as const
+
+const CHEMICAL_REACTIONS = [
+  'Alkylation',
+  'Cyclization',
+  'Chiral Chemistry',
+  'Grignard',
+  'Amination',
+  'Diazotization',
+  'Chlorosulfonation',
+  'Hoffman',
+  'Nitration',
+  'Esterification',
+  'Birch Reduction',
+  'Cyanation',
+  'Oxidation',
+  'Fluorination',
+  'Iodine Chemistry',
+  'Chlorination',
+  'Cryogenic',
+  'Friedel-Crafts',
+  'Lyophilisation',
+  'Bromination',
+  'Reduction',
+  'Sulphonation',
+  'Thiophosgenation',
+  'Sand Meyer',
+  'Column Chromatography',
+  'Heterocyclic Synthesis',
+  'High Vacuum Distillation',
+  'Hydrogenation',
 ] as const
 
 function AccreditationPlaceholder({ short }: { short: string }) {
@@ -550,25 +580,48 @@ export default function Home() {
               </div>
 
               {/* Chemical Reactions Capabilities — old money elegant */}
-              <div className="rounded-2xl border border-border/80 bg-card overflow-hidden shadow-sm">
-                <CardContent className="p-8 md:p-10">
-                  <p className="text-base font-semibold tracking-[0.2em] text-muted-foreground uppercase mb-2">
-                    Chemical Reactions Capabilities
-                  </p>
-                  <h4 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-1 flex items-center gap-2">
-                    <TestTubes className="w-5 h-5 text-primary/80" />
-                    Diverse reaction expertise
-                  </h4>
-                  <p className="text-muted-foreground text-lg font-medium leading-relaxed mb-6 max-w-xl">
-                    Custom synthesis and scale-up across a broad range of chemistries
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {['Alkylation', 'Cyclization', 'Chiral Chemistry', 'Grignard', 'Amination', 'Diazotization', 'Chlorosulfonation', 'Hoffman', 'Nitration', 'Esterification', 'Birch Reduction', 'Cyanation', 'Oxidation', 'Fluorination', 'Iodine Chemistry', 'Chlorination', 'Cryogenic', 'Friedel-Crafts', 'Lyophilisation', 'Bromination', 'Reduction', 'Sulphonation', 'Thiophosgenation', 'Sand Meyer', 'Column Chromatography', 'Heterocyclic Synthesis', 'High Vacuum Distillation', 'Hydrogenation'].map((reaction, idx) => (
+              <div className="rounded-2xl border border-border/80 bg-card overflow-hidden shadow-sm relative">
+                <div className="absolute inset-0 bg-mesh-gradient opacity-[0.45] pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.06] via-transparent to-accent/[0.05] pointer-events-none" />
+                <CardContent className="p-8 md:p-10 relative">
+                  <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-7">
+                    <div>
+                      <p className="text-base font-semibold tracking-[0.2em] text-muted-foreground uppercase mb-2">
+                        Chemical Reactions Capabilities
+                      </p>
+                      <h4 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-1 flex items-center gap-2">
+                        <TestTubes className="w-5 h-5 text-primary/80" />
+                        Diverse reaction expertise
+                      </h4>
+                      <p className="text-muted-foreground text-lg font-medium leading-relaxed max-w-xl">
+                        Custom synthesis and scale-up across a broad range of chemistries
+                      </p>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2">
+                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border/70 bg-background/60 backdrop-blur-sm shadow-sm">
+                        <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-r from-primary to-accent" />
+                        <span className="text-sm font-semibold text-foreground/80">
+                          {CHEMICAL_REACTIONS.length} reaction types
+                        </span>
+                      </div>
+                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border/70 bg-background/60 backdrop-blur-sm shadow-sm">
+                        <span className="h-1.5 w-1.5 rounded-full bg-primary/70" />
+                        <span className="text-sm font-semibold text-foreground/80">
+                          Scale-up ready
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5">
+                    {CHEMICAL_REACTIONS.map((reaction) => (
                       <span
-                        key={idx}
-                        className="inline-flex items-center px-3 py-1.5 rounded-md border border-border/70 bg-muted/30 text-lg font-semibold text-foreground/90 hover:bg-muted/50 hover:border-primary/20 transition-colors duration-200"
+                        key={reaction}
+                        className="group inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/55 px-4 py-2 text-sm font-semibold text-foreground/90 shadow-sm shadow-primary/5 backdrop-blur-sm transition-all duration-200 hover:bg-background/80 hover:border-primary/25 hover:-translate-y-0.5 hover:shadow-md hover:shadow-primary/10"
                       >
-                        {reaction}
+                        <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-r from-primary to-accent opacity-70 group-hover:opacity-100" />
+                        <span className="truncate">{reaction}</span>
                       </span>
                     ))}
                   </div>
