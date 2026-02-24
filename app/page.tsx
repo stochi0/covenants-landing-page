@@ -367,14 +367,9 @@ export default function Home() {
       {/* Main Content */}
       <main className="relative z-10 pt-[73px]">
         {/* Hero Section */}
-        <section className="relative max-w-7xl mx-auto px-6 pt-6 pb-16 md:pt-8 md:pb-24">
+        <section className="relative max-w-7xl mx-auto px-6 pt-12 pb-16 md:pt-16 md:pb-24">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium">
-                <FlaskConical className="w-4 h-4" />
-                <span>Covenants PharmaChem LLP</span>
-              </div>
-
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground tracking-tight leading-tight">
                 Expanding Horizons in{' '}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
