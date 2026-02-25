@@ -593,20 +593,6 @@ export default function Home() {
                       </p>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-2">
-                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border/70 bg-background/60 backdrop-blur-sm shadow-sm">
-                        <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-r from-primary to-accent" />
-                        <span className="text-sm font-semibold text-foreground/80">
-                          {CHEMICAL_REACTIONS.length} reaction types
-                        </span>
-                      </div>
-                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border/70 bg-background/60 backdrop-blur-sm shadow-sm">
-                        <span className="h-1.5 w-1.5 rounded-full bg-primary/70" />
-                        <span className="text-sm font-semibold text-foreground/80">
-                          Scale-up ready
-                        </span>
-                      </div>
-                    </div>
                   </div>
 
                   <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5">
