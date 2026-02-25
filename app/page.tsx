@@ -150,7 +150,7 @@ function ProductCategory({ icon, title, description, delay = 0 }: ProductCategor
 const ACCREDITATION_IMAGES = [
   { label: 'cGMP/Non GMP', slug: 'cgmp', short: 'GMP', imageUrl: null as string | null },
   { label: 'USFDA', slug: 'usfda', short: 'USFDA', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/3/30/U.S._Food_and_Drug_Administration.png' },
-  { label: 'State FDA', slug: 'state-fda', short: 'FDA', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/3/30/U.S._Food_and_Drug_Administration.png' },
+  { label: 'State FDA', slug: 'state-fda', short: 'FDA', imageUrl: '/state_fda.jpeg' },
   { label: 'EDQM', slug: 'edqm', short: 'EDQM', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/b/b0/EDQM_logo.png' },
   { label: 'ISO:9001', slug: 'iso9001', short: 'ISO', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/5/53/Logo-iso9001.png' },
   { label: 'WHO GMP', slug: 'who-gmp', short: 'WHO', imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Logo_of_the_World_Health_Organization.jpg/330px-Logo_of_the_World_Health_Organization.jpg' },
