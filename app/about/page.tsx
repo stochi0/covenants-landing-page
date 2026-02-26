@@ -149,6 +149,58 @@ export default function AboutPage() {
               </div>
             </div>
 
+            <div className="mb-12">
+              <h3 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-2 text-center">Director</h3>
+              <p className="text-center text-lg font-medium text-muted-foreground mb-8">Business Development & Supply Chain Leadership</p>
+
+              <div className="flex justify-center">
+                <div className="w-full max-w-2xl">
+                <Card className="border-border/50 bg-card">
+                  <CardContent className="p-8">
+                    <div className="flex justify-center mb-6">
+                      <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-2 border-border/50 shrink-0">
+                        <Image
+                          src="/devesh_desai.jpeg"
+                          alt="Devesh Desai, Director – Business Development"
+                          fill
+                          className="object-cover object-top"
+                          sizes="128px"
+                        />
+                      </div>
+                    </div>
+                    <h4 className="text-2xl font-bold text-foreground mb-4">Devesh Desai, Director – Business Development</h4>
+                    <ul className="space-y-2 text-base font-medium text-muted-foreground">
+                      <li className="flex items-start gap-2">
+                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                        <span>30 years of experience in Supply Chain Management</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                        <span>Expertise in Global Procurement, Foreign Trade, Sustainability, Compliance, and Digital Transformation</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                        <span>Industry experience: Pharma, Chemicals, Engineering, Paper Industry</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                        <span>Commerce Graduate with qualifications in Supply Chain Management</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                        <span>Familiar with Chinese Language</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                        <span>Brand associations: Ranbaxy, Piramal, Navneet, Ion Exchange, Wockhardt</span>
+                      </li>
+                    </ul>
+                  </CardContent>
+                </Card>
+                </div>
+              </div>
+            </div>
+
             <div className="grid md:grid-cols-3 gap-6 mb-12">
               <Card className="border-border/50 bg-card">
                 <CardContent className="p-6">
