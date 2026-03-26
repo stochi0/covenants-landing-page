@@ -74,19 +74,11 @@ export default function AboutPage() {
                     <ul className="space-y-2 text-base font-medium text-muted-foreground">
                       <li className="flex items-start gap-2">
                         <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-                        <span>Over 20 years in the Pharmaceuticals Industry Supply Chain Management</span>
+                        <span>Over 20 years in the e-to-e Pharmaceuticals Industry Supply Chain Management (Planning, Procurement, Outsourcing, Logistics)</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-                        <span>Expertise in Planning, Procurement, Outsourcing, Logistics, Commercials, and Project Management</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-                        <span>Proven track record of leveraging supply chain as a competitive advantage</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-                        <span>Extensive experience managing end-to-end supply chains for various Indian and Multinational Pharma companies like Cadila, Mylan, Piramal</span>
+                        <span>Proven track record of leveraging supply chain as a competitive advantage with credential of brands like Cadila, Mylan, Piramal</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
@@ -94,7 +86,7 @@ export default function AboutPage() {
                       </li>
                       <li className="flex items-start gap-2">
                         <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-                        <span>B.E. Chemical from DDIT, Nadiad and PGDBA from NMIMS, Mumbai</span>
+                        <span>B.E. Chemical, Management from NMIMS, Mumbai</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
@@ -125,23 +117,19 @@ export default function AboutPage() {
                       </li>
                       <li className="flex items-start gap-2">
                         <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-                        <span>Expertise in Global Sourcing, Procurement, Contract Management, Vendor Development, Capex, Opex, and Indirect procurement</span>
+                        <span>Expertise & proven track record in Global Sourcing, Procurement, Contract Management, Vendor Development, Capex, Opex, Indirect procurement, Digital Supply Chain</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-                        <span>Proven track record in driving Global Procurement initiatives and achieving Cost Optimization through E-Procurement, category management etc.</span>
+                        <span>Diverse sector experience: Pharma, Chemical, Biotech, Biosimilar, FMCG, and Hospital</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-                        <span>Diverse sector experience: Pharma, Chemical, Biotech, Biosimilar, Healthcare, FMCG, and Hospital</span>
+                        <span>Credential of brands like: Atul, Cadila Pharma, Wockhardt, Glenmark, Laurus, Piramal, and Perfetti van Melle</span>
                       </li>
                       <li className="flex items-start gap-2">
                         <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-                        <span>Worked with notable companies including Atul, Cadila Pharma, Wockhardt, Glenmark, Laurus Labs, Piramal, and Perfetti van Melle</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <ChevronRight className="w-4 h-4 text-accent mt-0.5 shrink-0" />
-                        <span>B.E. Mechanical from Amravati University and MBA in Materials & Logistics and Marketing from the University of Pune</span>
+                        <span>B.E. Mechanical and MBA, Pune</span>
                       </li>
                     </ul>
                   </CardContent>
