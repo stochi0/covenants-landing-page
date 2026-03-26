@@ -219,9 +219,9 @@ export function ProductSearch({ open, onOpenChange }: ProductSearchProps) {
                 <div className="p-1.5 sm:p-2 rounded-lg sm:rounded-xl bg-primary/10">
                   <Package className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                 </div>
-                <DialogTitle className="text-lg sm:text-xl">Product Catalog</DialogTitle>
+                <DialogTitle className="text-lg sm:text-xl">Products Search</DialogTitle>
                 <Badge variant="secondary" className="text-[10px] sm:text-xs hidden sm:inline-flex">
-                  500+ Products
+                  3500+ products
                 </Badge>
               </div>
               <DialogDescription className="text-muted-foreground text-sm hidden sm:block">
@@ -289,7 +289,7 @@ export function ProductSearch({ open, onOpenChange }: ProductSearchProps) {
                 <Filter className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 <span>Filter:</span>
               </div>
-              {(['api', 'impurity', 'intermediate', 'chemical'] as Category[]).map((category) => {
+              {(['api', 'intermediate', 'chemical', 'impurity'] as Category[]).map((category) => {
                 const info = categoryInfo[category]
                 const isActive = selectedCategories.includes(category)
                 return (
