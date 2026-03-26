@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -18,7 +18,6 @@ import {
   ShieldCheck,
   Cog,
   Zap,
-  Globe,
   Users,
   Lightbulb,
   Leaf,
@@ -187,6 +186,12 @@ const CHEMICAL_REACTIONS = [
   'Hydrogenation',
 ] as const
 
+type DbStats = {
+  networkPartners: number
+  products: number
+  chemistries: number
+}
+
 function AccreditationPlaceholder({ short }: { short: string }) {
   return (
     <div className="w-14 h-14 rounded-full border-2 border-primary/30 bg-primary/5 flex items-center justify-center shrink-0">
@@ -292,6 +297,7 @@ export default function Home() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [submitMessage, setSubmitMessage] = useState('')
+  const [dbStats, setDbStats] = useState<DbStats | null>(null)
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
@@ -299,6 +305,26 @@ export default function Home() {
       element.scrollIntoView({ behavior: 'smooth' })
     }
   }
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function loadStats() {
+      try {
+        const res = await fetch('/api/stats')
+        if (!res.ok) return
+        const data = (await res.json()) as DbStats
+        if (!cancelled) setDbStats(data)
+      } catch {
+        // Best-effort. Keep fallback UI values if request fails.
+      }
+    }
+
+    loadStats()
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -409,10 +435,25 @@ export default function Home() {
                 {/* Stats Overlay */}
                 <div className="absolute bottom-0 left-0 right-0 p-6">
                   <div className="grid grid-cols-2 gap-4">
-                    <StatCard value="126+" label="Network Partners" sublabel="Trusted partner network" delay={100} />
+                    <StatCard
+                      value={dbStats ? `${dbStats.networkPartners}+` : '—'}
+                      label="Network Partners"
+                      sublabel="Trusted partner network"
+                      delay={100}
+                    />
                     <StatCard value="7500+" label="KL Capacity" sublabel="Network manufacturing capacity" delay={200} />
-                    <StatCard value="3500+" label="Products" sublabel="Across key offerings" delay={300} />
-                    <StatCard value="20+" label="Chemical Reactions" sublabel="Diverse reaction capabilities" delay={400} />
+                    <StatCard
+                      value={dbStats ? `${dbStats.products}+` : '—'}
+                      label="Products"
+                      sublabel="Across key offerings"
+                      delay={300}
+                    />
+                    <StatCard
+                      value={dbStats ? `${dbStats.chemistries}+` : '—'}
+                      label="Chemistries"
+                      sublabel="Diverse chemistry capabilities"
+                      delay={400}
+                    />
                   </div>
                 </div>
               </div>
