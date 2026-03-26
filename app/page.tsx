@@ -660,8 +660,8 @@ export default function Home() {
                 {/* SCM Image */}
                 <div className="relative rounded-2xl overflow-hidden shadow-lg h-48">
                   <Image
-                    src="https://images.unsplash.com/photo-1563213126-a4273aed2016?w=800&q=80"
-                    alt="Pharmaceutical manufacturing facility"
+                    src="/scm_support.png"
+                    alt="SCM support dashboard on tablet"
                     fill
                     className="object-cover"
                   />
