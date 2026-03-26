@@ -243,10 +243,7 @@ export function Header({ currentPage = 'home', onNavigate }: HeaderProps) {
               </a>
               <Link
                 href="/about"
-                className={`flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${currentPage === 'about'
-                    ? 'text-primary bg-primary/10'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                  }`}
+                className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
               >
                 <Users className="w-4 h-4" />
                 About Us
