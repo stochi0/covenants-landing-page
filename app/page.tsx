@@ -477,10 +477,10 @@ export default function Home() {
               />
             </div>
 
-            {/* Service Offerings Detail */}
+            {/* Our Offerings Detail */}
             <Card className="border-border/50 bg-card overflow-hidden mb-12">
               <CardContent className="p-8">
-                <h3 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Service Offerings</h3>
+                <h3 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Our Offerings</h3>
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                   <div className="space-y-4">
                     <div className="flex items-center gap-2 text-primary font-semibold text-xl">

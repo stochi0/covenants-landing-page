@@ -236,7 +236,7 @@ export function Header({ currentPage = 'home', onNavigate }: HeaderProps) {
                 href="https://capillia.vercel.app"
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
+                className="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-primary bg-primary/10 border border-primary/20 hover:bg-primary/15 rounded-lg transition-colors"
               >
                 <Globe className="w-4 h-4" />
                 Capillia
@@ -359,7 +359,7 @@ export function Header({ currentPage = 'home', onNavigate }: HeaderProps) {
                 href="https://capillia.vercel.app"
                 target="_blank"
                 rel="noreferrer"
-                className="block w-full text-left px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors flex items-center gap-2"
+                className="block w-full text-left px-4 py-2 text-sm font-semibold text-primary bg-primary/10 border border-primary/20 hover:bg-primary/15 rounded-lg transition-colors flex items-center gap-2"
               >
                 <Globe className="w-4 h-4" />
                 Capillia
