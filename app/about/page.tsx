@@ -151,7 +151,7 @@ export default function AboutPage() {
 
             <div className="mb-12">
               <h3 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-2 text-center">Director</h3>
-              <p className="text-center text-lg font-medium text-muted-foreground mb-8">Business Development & Supply Chain Leadership</p>
+              <p className="text-center text-lg font-medium text-muted-foreground mb-8">Business Development</p>
 
               <div className="flex justify-center">
                 <div className="w-full max-w-2xl">
