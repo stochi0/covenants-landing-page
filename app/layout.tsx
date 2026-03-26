@@ -25,6 +25,11 @@ export const metadata: Metadata = {
   description: 'Expanding horizons in APIs, intermediates & specialty chemicals. Your trusted supply chain partner for custom manufacturing, research, and SCM services.',
   keywords: ['pharmaceutical', 'API', 'intermediates', 'specialty chemicals', 'supply chain', 'manufacturing'],
   authors: [{ name: 'Covenants PharmaChem LLP' }],
+  icons: {
+    icon: '/covenants-logo.png',
+    shortcut: '/covenants-logo.png',
+    apple: '/covenants-logo.png',
+  },
   openGraph: {
     title: 'Covenants PharmaChem LLP',
     description: 'Expanding horizons in APIs, intermediates & specialty chemicals',
