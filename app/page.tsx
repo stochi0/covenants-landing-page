@@ -642,9 +642,9 @@ export default function Home() {
                     delay={200}
                   />
                   <FeatureCard
-                    icon={<Globe className="w-5 h-5" />}
-                    title="End-to-end Foreign Trade"
-                    description="Compliance hygiene w.r.t. Foreign Trade Policy, Customs, Foreign Exchange, Benefits / Subsidies / Duty Exemptions"
+                    icon={<Zap className="w-5 h-5" />}
+                    title="Digital Transformation"
+                    description="Transform supply chain with AI & digital tools, improving efficiency, visibility, and control."
                     delay={300}
                   />
                   <FeatureCard
@@ -670,7 +670,6 @@ export default function Home() {
 
                 <Card className="border-border/50 bg-gradient-to-br from-primary/5 to-accent/5 overflow-hidden">
                   <CardContent className="p-6">
-                    <h3 className="font-bold text-2xl text-foreground mb-4">Additional SCM Support</h3>
                     <div className="grid grid-cols-2 gap-3">
                       <div className="p-3 rounded-xl bg-background border border-border/50">
                         <FileStack className="w-5 h-5 text-primary mb-1.5" />
@@ -681,8 +680,8 @@ export default function Home() {
                         <p className="text-base font-semibold text-foreground">ESG</p>
                       </div>
                       <div className="p-3 rounded-xl bg-background border border-border/50">
-                        <Globe className="w-5 h-5 text-primary mb-1.5" />
-                        <p className="text-base font-semibold text-foreground">Foreign Trade</p>
+                        <Zap className="w-5 h-5 text-primary mb-1.5" />
+                        <p className="text-base font-semibold text-foreground">SCM Digital Transformation</p>
                       </div>
                       <div className="p-3 rounded-xl bg-background border border-border/50">
                         <Users className="w-5 h-5 text-accent mb-1.5" />
