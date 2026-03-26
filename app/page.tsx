@@ -758,8 +758,8 @@ export default function Home() {
             <div className="flex justify-center gap-4 mb-8">
               <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden shadow-lg border-2 border-primary/20 relative">
                 <Image
-                  src="/drums.png"
-                  alt="Chemical compounds"
+                  src="/equipment.png"
+                  alt="Pharmaceutical production"
                   fill
                   className="object-cover"
                 />
@@ -774,8 +774,8 @@ export default function Home() {
               </div>
               <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden shadow-lg border-2 border-primary/20 relative">
                 <Image
-                  src="/equipment.png"
-                  alt="Pharmaceutical production"
+                  src="/drums.png"
+                  alt="Chemical compounds"
                   fill
                   className="object-cover"
                 />
