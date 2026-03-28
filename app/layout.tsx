@@ -27,9 +27,12 @@ export const metadata: Metadata = {
   keywords: ['pharmaceutical', 'API', 'intermediates', 'specialty chemicals', 'supply chain', 'manufacturing'],
   authors: [{ name: 'Covenants PharmaChem LLP' }],
   icons: {
-    icon: '/covenants-logo.png',
-    shortcut: '/covenants-logo.png',
-    apple: '/covenants-logo.png',
+    icon: [
+      { url: '/favicon-16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    shortcut: '/favicon-32.png',
+    apple: '/apple-touch-icon.png',
   },
   openGraph: {
     title: 'Covenants PharmaChem LLP',
