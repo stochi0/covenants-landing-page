@@ -441,7 +441,7 @@ export default function Home() {
                       sublabel="Trusted partner network"
                       delay={100}
                     />
-                    <StatCard value="7500+" label="KL Capacity" sublabel="Network manufacturing capacity" delay={200} />
+                    <StatCard value="10000+" label="KL Capacity" sublabel="Network manufacturing capacity" delay={200} />
                     <StatCard
                       value={dbStats ? `${dbStats.products}+` : '—'}
                       label="Products"
