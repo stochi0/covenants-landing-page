@@ -190,6 +190,7 @@ type DbStats = {
   networkPartners: number
   products: number
   chemistries: number
+  capacityKl: number
 }
 
 function AccreditationPlaceholder({ short }: { short: string }) {
@@ -441,7 +442,12 @@ export default function Home() {
                       sublabel="Trusted partner network"
                       delay={100}
                     />
-                    <StatCard value="10000+" label="KL Capacity" sublabel="Network manufacturing capacity" delay={200} />
+                    <StatCard
+                      value={dbStats ? `${Math.round(dbStats.capacityKl).toLocaleString()}+` : '—'}
+                      label="KL Capacity"
+                      sublabel="Network manufacturing capacity"
+                      delay={200}
+                    />
                     <StatCard
                       value={dbStats ? `${dbStats.products}+` : '—'}
                       label="Products"
@@ -1263,4 +1269,3 @@ export default function Home() {
     </div>
   )
 }
-
