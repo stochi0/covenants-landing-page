@@ -220,9 +220,6 @@ export function ProductSearch({ open, onOpenChange }: ProductSearchProps) {
                   <Package className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                 </div>
                 <DialogTitle className="text-lg sm:text-xl">Products Search</DialogTitle>
-                <Badge variant="secondary" className="text-[10px] sm:text-xs hidden sm:inline-flex">
-                  3500+ products
-                </Badge>
               </div>
               <DialogDescription className="text-muted-foreground text-sm hidden sm:block">
                 Search by CAS number or product name to find exactly what you need.
