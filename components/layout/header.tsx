@@ -4,12 +4,10 @@ import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { ProductSearch } from '@/components/product-search'
 import {
   ArrowRight,
   Package,
   Truck,
-  Search as SearchIcon,
   Cog,
   Globe,
   Users,
@@ -33,7 +31,6 @@ export function Header({ currentPage = 'home', onNavigate }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [offeringsOpen, setOfferingsOpen] = useState(false)
   const [mobileOfferingsOpen, setMobileOfferingsOpen] = useState(false)
-  const [productSearchOpen, setProductSearchOpen] = useState(false)
   const offeringsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -223,14 +220,17 @@ export function Header({ currentPage = 'home', onNavigate }: HeaderProps) {
                 )}
               </div>
 
-              <button
-                type="button"
-                onClick={() => setProductSearchOpen(true)}
-                className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
+              <Link
+                href="/products"
+                className={`flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                  currentPage === 'products'
+                    ? 'text-primary bg-primary/10'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                }`}
               >
                 <Search className="w-4 h-4" />
                 Products
-              </button>
+              </Link>
 
               <a
                 href="https://capillia.vercel.app"
@@ -340,17 +340,18 @@ export function Header({ currentPage = 'home', onNavigate }: HeaderProps) {
                 )}
               </div>
 
-              <button
-                type="button"
-                onClick={() => {
-                  setProductSearchOpen(true)
-                  setMobileMenuOpen(false)
-                }}
-                className="w-full text-left px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors flex items-center gap-2"
+              <Link
+                href="/products"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`block w-full text-left px-4 py-2 text-sm font-medium rounded-lg transition-colors flex items-center gap-2 ${
+                  currentPage === 'products'
+                    ? 'text-primary bg-primary/10'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                }`}
               >
                 <Search className="w-4 h-4" />
                 Products
-              </button>
+              </Link>
 
               <a
                 href="https://capillia.vercel.app"
@@ -392,7 +393,6 @@ export function Header({ currentPage = 'home', onNavigate }: HeaderProps) {
         </div>
       </header>
 
-      <ProductSearch open={productSearchOpen} onOpenChange={setProductSearchOpen} />
     </>
   )
 }

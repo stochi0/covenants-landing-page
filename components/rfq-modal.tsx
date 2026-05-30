@@ -29,12 +29,11 @@ import {
   Beaker,
   TestTubes,
   Layers,
-  X,
   Loader2,
   Trash2,
 } from 'lucide-react'
 import type { Product } from '@/lib/products-data'
-import { categoryInfo } from '@/lib/products-data'
+import { formatProductCategoryLabel } from '@/lib/products-data'
 
 type Category = 'api' | 'impurity' | 'intermediate' | 'chemical'
 
@@ -43,6 +42,20 @@ const categoryIcons: Record<Category, React.ReactNode> = {
   impurity: <TestTubes className="w-3 h-3" />,
   intermediate: <Beaker className="w-3 h-3" />,
   chemical: <Layers className="w-3 h-3" />,
+}
+
+function getCategoryIcon(category: string | null) {
+  if (category === 'api' || category === 'impurity' || category === 'intermediate' || category === 'chemical') {
+    return categoryIcons[category]
+  }
+  return <Package className="w-3 h-3" />
+}
+
+function getCategoryVariant(category: string | null): Category | 'outline' {
+  if (category === 'api' || category === 'impurity' || category === 'intermediate' || category === 'chemical') {
+    return category
+  }
+  return 'outline'
 }
 
 interface RFQModalProps {
@@ -208,7 +221,6 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess, onRe
               <div className="p-3 sm:p-4 space-y-2 sm:space-y-3 pb-4">
                 {selectedProducts.map((product) => {
                   const quantity = quantities.find((q) => q.productId === product.id)
-                  const info = categoryInfo[product.category]
                   return (
                     <Card key={product.id} className="border-border/50 bg-card overflow-hidden group">
                       <CardContent className="p-3 sm:p-4">
@@ -221,11 +233,11 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess, onRe
                               </h4>
                               <div className="flex items-center gap-1.5 shrink-0">
                                 <Badge
-                                  variant={product.category as 'api' | 'impurity' | 'intermediate' | 'chemical'}
+                                  variant={getCategoryVariant(product.category)}
                                   className="text-[10px]"
                                 >
-                                  <span className="hidden sm:inline-flex">{categoryIcons[product.category]}</span>
-                                  <span className="sm:ml-1">{info.label}</span>
+                                  <span className="hidden sm:inline-flex">{getCategoryIcon(product.category)}</span>
+                                  <span className="sm:ml-1">{formatProductCategoryLabel(product.category)}</span>
                                 </Badge>
                                 {onRemoveProduct && (
                                   <button
@@ -516,4 +528,3 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess, onRe
     </Dialog>
   )
 }
-

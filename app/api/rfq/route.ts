@@ -1,12 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
 
-interface ProductQuantity {
-  productId: string
-  quantity: string
-  unit: string
-}
-
 interface RFQProduct {
   id: string
   name: string

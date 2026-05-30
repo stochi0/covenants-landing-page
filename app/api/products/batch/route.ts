@@ -1,62 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabaseServer } from '@/lib/supabase-server'
-
-// Database product type (matches Supabase schema)
-interface DbProduct {
-  id: string
-  product_name: string
-  cas_number: string
-  category: 'api' | 'impurity' | 'intermediate' | 'chemical'
-  created_at: string
-  updated_at: string
-}
-
-// Frontend product type (mapped from DB)
-interface Product {
-  id: string
-  name: string
-  casNumber: string
-  category: 'api' | 'impurity' | 'intermediate' | 'chemical'
-}
-
-// Map DB product to frontend product
-function mapProduct(dbProduct: DbProduct): Product {
-  return {
-    id: dbProduct.id,
-    name: dbProduct.product_name,
-    casNumber: dbProduct.cas_number,
-    category: dbProduct.category,
-  }
-}
+import { getProductsByIds } from '@/lib/products-server'
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { ids } = body
+    const ids = Array.isArray(body?.ids)
+      ? body.ids.filter((id: unknown): id is string => typeof id === 'string' && id.length > 0)
+      : []
 
-    if (!Array.isArray(ids) || ids.length === 0) {
+    if (ids.length === 0) {
       return NextResponse.json(
         { error: 'Invalid request. Expected an array of product IDs.' },
         { status: 400 }
       )
     }
 
-    const { data, error } = await supabaseServer
-      .from('products')
-      .select('*')
-      .in('id', ids)
-
-    if (error) {
-      console.error('Supabase error:', error)
-      return NextResponse.json(
-        { error: 'Failed to fetch products', details: error.message },
-        { status: 500 }
-      )
-    }
-
-    const products = (data || []).map(mapProduct)
-
-    return NextResponse.json({ products })
+    return NextResponse.json({ products: await getProductsByIds(ids) })
   } catch (error) {
     console.error('API error:', error)
     return NextResponse.json(
