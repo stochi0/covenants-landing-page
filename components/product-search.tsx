@@ -224,11 +224,8 @@ export function ProductSearch() {
         <section className="rounded-[2rem] border border-[#d7ece8] bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(237,248,246,0.92))] p-5 shadow-[0_40px_100px_-70px_rgba(15,118,110,0.55)] sm:p-6">
           <div className="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
             <div className="space-y-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-                Product search
-              </p>
               <h1 className="text-3xl font-semibold tracking-tight text-foreground">
-                Marketplace search
+                Product search
               </h1>
               <p className="max-w-3xl text-sm leading-6 text-muted-foreground">
                 Search products by name or CAS number and build a shortlist for RFQ.
