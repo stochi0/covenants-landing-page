@@ -233,7 +233,7 @@ export function Header({ currentPage = 'home', onNavigate }: HeaderProps) {
               </Link>
 
               <a
-                href="https://capillia.vercel.app"
+                href="http://capillia.covenantspc.com"
                 target="_blank"
                 rel="noreferrer"
                 className="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-primary bg-primary/10 border border-primary/20 hover:bg-primary/15 rounded-lg transition-colors"
@@ -354,7 +354,7 @@ export function Header({ currentPage = 'home', onNavigate }: HeaderProps) {
               </Link>
 
               <a
-                href="https://capillia.vercel.app"
+                href="http://capillia.covenantspc.com"
                 target="_blank"
                 rel="noreferrer"
                 className="block w-full text-left px-4 py-2 text-sm font-semibold text-primary bg-primary/10 border border-primary/20 hover:bg-primary/15 rounded-lg transition-colors flex items-center gap-2"
