@@ -4,10 +4,11 @@ import nodemailer from 'nodemailer'
 interface RFQProduct {
   id: string
   name: string
-  casNumber: string
-  category: 'api' | 'impurity' | 'intermediate' | 'chemical'
+  casNumber?: string
+  category: 'api' | 'impurity' | 'intermediate' | 'chemical' | null
   quantity?: string
   unit?: string
+  isManual?: boolean
 }
 
 interface RFQFormData {
@@ -25,6 +26,11 @@ const categoryLabels: Record<string, string> = {
   impurity: 'Impurity',
   intermediate: 'Intermediate',
   chemical: 'Chemical',
+}
+
+function getProductCategoryLabel(product: RFQProduct): string {
+  if (product.isManual || !product.category) return 'Unlisted'
+  return categoryLabels[product.category] || product.category
 }
 
 // HTML escape function to prevent XSS and formatting issues
@@ -89,11 +95,11 @@ export async function POST(request: NextRequest) {
       <tr style="border-bottom: 1px solid #e5e7eb;">
         <td style="padding: 12px; border-right: 1px solid #e5e7eb;">
           <div style="font-weight: 600; color: #1f2937; margin-bottom: 4px;">${escapeHtml(product.name)}</div>
-          <div style="font-size: 12px; color: #6b7280; font-family: monospace;">CAS: ${escapeHtml(product.casNumber)}</div>
+          <div style="font-size: 12px; color: #6b7280; font-family: monospace;">CAS: ${escapeHtml(product.casNumber || 'Not provided')}</div>
         </td>
         <td style="padding: 12px; border-right: 1px solid #e5e7eb; text-align: center;">
           <span style="background: #f3f4f6; padding: 4px 8px; border-radius: 4px; font-size: 12px; color: #374151;">
-            ${escapeHtml(categoryLabels[product.category] || product.category)}
+            ${escapeHtml(getProductCategoryLabel(product))}
           </span>
         </td>
         <td style="padding: 12px; text-align: center; color: #1f2937; font-weight: 500;">
@@ -212,8 +218,8 @@ ${products
   .map(
     (p, idx) => `
 ${idx + 1}. ${p.name}
-   CAS: ${p.casNumber}
-   Category: ${categoryLabels[p.category] || p.category}
+   CAS: ${p.casNumber || 'Not provided'}
+   Category: ${getProductCategoryLabel(p)}
    Quantity: ${p.quantity && p.unit ? `${p.quantity} ${p.unit}` : 'Not specified'}
 `
   )

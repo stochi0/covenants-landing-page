@@ -8,6 +8,7 @@ import {
   Hash,
   Loader2,
   Package,
+  Plus,
   Search,
   Type,
   X,
@@ -19,11 +20,13 @@ import { RFQModal } from './rfq-modal'
 import {
   fetchProductCategories,
   formatProductCategoryLabel,
+  getProductsByIds,
   searchProductsPaginated,
   type Product,
   type ProductCategoryFacet,
   type SearchType,
 } from '@/lib/products-data'
+import type { ManualRfqProduct, RfqProduct } from '@/lib/rfq-types'
 
 const PAGE_SIZE = 24
 
@@ -77,7 +80,13 @@ export function ProductSearch() {
   const [hasSearched, setHasSearched] = useState(false)
 
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([])
+  const [manualProducts, setManualProducts] = useState<ManualRfqProduct[]>([])
+  const [manualProductName, setManualProductName] = useState('')
+  const [manualProductCas, setManualProductCas] = useState('')
+  const [rfqProducts, setRfqProducts] = useState<RfqProduct[]>([])
   const [rfqOpen, setRfqOpen] = useState(false)
+  const [isPreparingRfq, setIsPreparingRfq] = useState(false)
+  const selectedProductCount = selectedProducts.length + manualProducts.length
 
   useEffect(() => {
     const timeout = window.setTimeout(() => {
@@ -181,25 +190,72 @@ export function ProductSearch() {
   }, [])
 
   const toggleProductSelection = useCallback((product: Product) => {
-    setSelectedProducts((prev) =>
-      prev.some((item) => item.id === product.id)
-        ? prev.filter((item) => item.id !== product.id)
-        : [...prev, product]
-    )
+    setSelectedProducts((prev) => {
+      const isSelected = prev.some((item) => item.id === product.id)
+      if (isSelected) {
+        setRfqProducts((current) => current.filter((item) => item.id !== product.id))
+        return prev.filter((item) => item.id !== product.id)
+      }
+
+      return [...prev, product]
+    })
   }, [])
 
   const clearSelections = useCallback(() => {
     setSelectedProducts([])
+    setManualProducts([])
+    setRfqProducts([])
   }, [])
 
-  const handleRequestQuote = useCallback(() => {
-    if (selectedProducts.length > 0) {
+  const addManualProduct = useCallback(() => {
+    const name = manualProductName.trim()
+    if (!name) return
+
+    const idSuffix = globalThis.crypto?.randomUUID?.() ?? String(Date.now())
+    setManualProducts((prev) => [
+      ...prev,
+      {
+        id: `manual-${idSuffix}`,
+        name,
+        casNumber: manualProductCas.trim() || undefined,
+        category: null,
+        supplierMatches: [],
+        supplierCount: 0,
+        facilityCount: 0,
+        isManual: true,
+      },
+    ])
+    setManualProductName('')
+    setManualProductCas('')
+  }, [manualProductCas, manualProductName])
+
+  const handleRequestQuote = useCallback(async () => {
+    if (selectedProductCount === 0 || isPreparingRfq) return
+
+    setIsPreparingRfq(true)
+    try {
+      const selectedIds = selectedProducts.map((product) => product.id)
+      const fullProducts = await getProductsByIds(selectedIds)
+      const fullProductById = new Map(fullProducts.map((product) => [product.id, product]))
+      setRfqProducts(
+        [
+          ...selectedProducts.map((product) => fullProductById.get(product.id) ?? {
+            ...product,
+            supplierMatches: [],
+          }),
+          ...manualProducts,
+        ]
+      )
       setRfqOpen(true)
+    } finally {
+      setIsPreparingRfq(false)
     }
-  }, [selectedProducts.length])
+  }, [isPreparingRfq, manualProducts, selectedProductCount, selectedProducts])
 
   const handleRfqSuccess = useCallback(() => {
     setSelectedProducts([])
+    setManualProducts([])
+    setRfqProducts([])
     setRfqOpen(false)
   }, [])
 
@@ -433,12 +489,12 @@ export function ProductSearch() {
               <div className="flex items-center justify-between gap-3 border-b border-[#d7ece8] px-4 py-4 sm:px-5">
                 <p className="text-sm font-semibold text-foreground">Shortlist</p>
                 <Badge className="border-primary/10 bg-primary/10 text-primary">
-                  {selectedProducts.length}
+                  {selectedProductCount}
                 </Badge>
               </div>
 
               <div className="px-4 py-4 sm:px-5">
-                {selectedProducts.length === 0 ? (
+                {selectedProductCount === 0 ? (
                   <div className="flex min-h-[220px] flex-col items-center justify-center rounded-[1.2rem] border border-dashed border-[#d7ece8] bg-white/80 px-6 text-center">
                     <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
                       <FileText className="h-5 w-5" />
@@ -474,12 +530,78 @@ export function ProductSearch() {
                         </div>
                       </div>
                     ))}
+                    {manualProducts.map((product) => (
+                      <div
+                        key={product.id}
+                        className="rounded-[1rem] border border-[#d7ece8] bg-white/85 p-3"
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="min-w-0">
+                            <p className="line-clamp-2 text-sm font-medium leading-6 text-foreground">
+                              {product.name}
+                            </p>
+                            <p className="mt-1 text-xs text-muted-foreground">
+                              {product.casNumber ? `CAS: ${product.casNumber}` : 'Unlisted product'}
+                            </p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setManualProducts((prev) => prev.filter((item) => item.id !== product.id))
+                              setRfqProducts((prev) => prev.filter((item) => item.id !== product.id))
+                            }}
+                            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                          >
+                            <X className="h-4 w-4" />
+                          </button>
+                        </div>
+                        <div className="mt-3">
+                          <Badge className="border-[#d7ece8] bg-[#f3fbfa] px-3 py-1 text-foreground">
+                            Unlisted
+                          </Badge>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
 
               <div className="border-t border-[#d7ece8] px-4 py-4 sm:px-5">
-                {selectedProducts.length > 0 && (
+                <form
+                  className="mb-4 grid gap-2"
+                  onSubmit={(event) => {
+                    event.preventDefault()
+                    addManualProduct()
+                  }}
+                >
+                  <p className="text-sm font-semibold text-foreground">Add unlisted product</p>
+                  <Input
+                    value={manualProductName}
+                    onChange={(event) => setManualProductName(event.target.value)}
+                    placeholder="Product name"
+                    className="h-10 rounded-xl border-[#d7ece8] bg-white"
+                  />
+                  <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-2">
+                    <Input
+                      value={manualProductCas}
+                      onChange={(event) => setManualProductCas(event.target.value)}
+                      placeholder="CAS optional"
+                      className="h-10 rounded-xl border-[#d7ece8] bg-white font-mono"
+                    />
+                    <Button
+                      type="submit"
+                      variant="outline"
+                      size="icon"
+                      disabled={!manualProductName.trim()}
+                      className="h-10 w-10 rounded-xl border-[#d7ece8] bg-white"
+                      aria-label="Add unlisted product"
+                    >
+                      <Plus className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </form>
+
+                {selectedProductCount > 0 && (
                   <button
                     type="button"
                     onClick={clearSelections}
@@ -491,12 +613,12 @@ export function ProductSearch() {
                 <Button
                   type="button"
                   onClick={handleRequestQuote}
-                  disabled={selectedProducts.length === 0}
+                  disabled={selectedProductCount === 0 || isPreparingRfq}
                   className="h-11 w-full rounded-[1rem]"
                 >
-                  Request quote
-                  {selectedProducts.length > 0 && (
-                    <span className="ml-2 opacity-80">({selectedProducts.length})</span>
+                  {isPreparingRfq ? 'Preparing quote' : 'Request quote'}
+                  {selectedProductCount > 0 && (
+                    <span className="ml-2 opacity-80">({selectedProductCount})</span>
                   )}
                   <ArrowRight className="ml-auto h-4 w-4" />
                 </Button>
@@ -509,10 +631,12 @@ export function ProductSearch() {
       <RFQModal
         open={rfqOpen}
         onOpenChange={setRfqOpen}
-        selectedProducts={selectedProducts}
+        selectedProducts={rfqProducts}
         onSuccess={handleRfqSuccess}
         onRemoveProduct={(productId) => {
           setSelectedProducts((prev) => prev.filter((product) => product.id !== productId))
+          setManualProducts((prev) => prev.filter((product) => product.id !== productId))
+          setRfqProducts((prev) => prev.filter((product) => product.id !== productId))
         }}
         onBack={() => {
           setRfqOpen(false)

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -32,8 +32,8 @@ import {
   Loader2,
   Trash2,
 } from 'lucide-react'
-import type { Product } from '@/lib/products-data'
 import { formatProductCategoryLabel } from '@/lib/products-data'
+import type { RfqProduct } from '@/lib/rfq-types'
 
 type Category = 'api' | 'impurity' | 'intermediate' | 'chemical'
 
@@ -61,7 +61,7 @@ function getCategoryVariant(category: string | null): Category | 'outline' {
 interface RFQModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  selectedProducts: Product[]
+  selectedProducts: RfqProduct[]
   onSuccess: () => void
   onRemoveProduct?: (productId: string) => void
   onBack?: () => void
@@ -71,6 +71,10 @@ interface ProductQuantity {
   productId: string
   quantity: string
   unit: string
+}
+
+function isManualProduct(product: RfqProduct) {
+  return 'isManual' in product && product.isManual === true
 }
 
 export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess, onRemoveProduct, onBack }: RFQModalProps) {
@@ -88,10 +92,12 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess, onRe
     message: '',
   })
 
-  // Update quantities when products change
-  if (quantities.length !== selectedProducts.length) {
-    setQuantities(selectedProducts.map((p) => ({ productId: p.id, quantity: '', unit: 'kg' })))
-  }
+  useEffect(() => {
+    setQuantities((prev) => selectedProducts.map((product) => {
+      const existing = prev.find((quantity) => quantity.productId === product.id)
+      return existing ?? { productId: product.id, quantity: '', unit: 'kg' }
+    }))
+  }, [selectedProducts])
 
   const updateQuantity = (productId: string, field: 'quantity' | 'unit', value: string) => {
     setQuantities((prev) =>
@@ -167,6 +173,11 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess, onRe
     onSuccess()
   }
 
+  const hasIncompleteManualProduct = selectedProducts.some((product) => {
+    const quantity = quantities.find((q) => q.productId === product.id)
+    return isManualProduct(product) && !quantity?.quantity.trim()
+  })
+
   return (
     <Dialog open={open} onOpenChange={resetAndClose}>
       <DialogContent className="sm:max-w-2xl p-0 gap-0 overflow-hidden max-h-[90vh] sm:max-h-[85vh] flex flex-col w-[calc(100%-1rem)] sm:w-full">
@@ -233,11 +244,15 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess, onRe
                               </h4>
                               <div className="flex items-center gap-1.5 shrink-0">
                                 <Badge
-                                  variant={getCategoryVariant(product.category)}
+                                  variant={isManualProduct(product) ? 'secondary' : getCategoryVariant(product.category)}
                                   className="text-[10px]"
                                 >
-                                  <span className="hidden sm:inline-flex">{getCategoryIcon(product.category)}</span>
-                                  <span className="sm:ml-1">{formatProductCategoryLabel(product.category)}</span>
+                                  {!isManualProduct(product) && (
+                                    <span className="hidden sm:inline-flex">{getCategoryIcon(product.category)}</span>
+                                  )}
+                                  <span className={isManualProduct(product) ? undefined : 'sm:ml-1'}>
+                                    {isManualProduct(product) ? 'Unlisted' : formatProductCategoryLabel(product.category)}
+                                  </span>
                                 </Badge>
                                 {onRemoveProduct && (
                                   <button
@@ -251,9 +266,15 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess, onRe
                                 )}
                               </div>
                             </div>
-                            <p className="text-xs text-muted-foreground font-mono">
-                              CAS: {product.casNumber}
-                            </p>
+                            {product.casNumber ? (
+                              <p className="text-xs text-muted-foreground font-mono">
+                                CAS: {product.casNumber}
+                              </p>
+                            ) : (
+                              <p className="text-xs text-muted-foreground">
+                                {isManualProduct(product) ? 'Not listed on Capillia' : 'CAS unavailable'}
+                              </p>
+                            )}
                           </div>
 
                           {/* Quantity Input */}
@@ -312,7 +333,11 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess, onRe
                   {selectedProducts.length} product{selectedProducts.length !== 1 ? 's' : ''}
                 </p>
               </div>
-              <Button onClick={() => setStep('contact')} className="group" disabled={selectedProducts.length === 0}>
+              <Button
+                onClick={() => setStep('contact')}
+                className="group"
+                disabled={selectedProducts.length === 0 || hasIncompleteManualProduct}
+              >
                 Continue
                 <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-0.5 transition-transform" />
               </Button>
@@ -435,7 +460,7 @@ export function RFQModal({ open, onOpenChange, selectedProducts, onSuccess, onRe
                         const qty = quantities.find((q) => q.productId === product.id)
                         return (
                           <Badge key={product.id} variant="outline" className="text-[10px] sm:text-xs font-mono">
-                            <span>{product.casNumber}</span>
+                            <span>{product.casNumber || product.name}</span>
                             {qty?.quantity && (
                               <span className="ml-1 opacity-70">
                                 ({qty.quantity}{qty.unit})
